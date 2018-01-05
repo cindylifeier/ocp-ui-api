@@ -1,0 +1,4 @@
+server:
+  port: 8446
+logging:
+  file: /java/OCP_LOGS/ocp-ui-api/ocp-ui-api.log
