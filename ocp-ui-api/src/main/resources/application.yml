@@ -2,3 +2,9 @@ server:
   port: 8446
 logging:
   file: /java/OCP_LOGS/ocp-ui-api/ocp-ui-api.log
+info:
+  component: OCP Ui Api
+ribbon:
+  ReadTimeout: 50000
+  listOfServers: http://localhost:8444
+hystrix.command.default.execution.timeout.enabled: false
