@@ -62,7 +62,7 @@ public class LocationServiceImpl implements LocationService {
                 case 404:
                     String errorMessage = getErrorMessageFromFeignException(fe);
                     log.error("Ocp-Fis client returned a 404 - NOT FOUND status, indicating no locations were found in the configured FHIR server for the given OrganizationId", fe);
-                    throw new LocationNotFoundException(errorMessage + " for the given OrganizationId" + organizationResourceId);
+                    throw new LocationNotFoundException(errorMessage + " for the given OrganizationId: " + organizationResourceId);
                 default:
                     log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
                     throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
@@ -87,7 +87,7 @@ public class LocationServiceImpl implements LocationService {
         catch (FeignException fe) {
             if (fe.status() == 404) {
                 log.error("Ocp-Fis client returned a 404 - NOT FOUND status, indicating no location was found in the configured FHIR server for the given LocationId", fe);
-                throw new LocationNotFoundException("No location was found in the configured FHIR server for the given LocationId:" + locationId);
+                throw new LocationNotFoundException("No location was found in the configured FHIR server for the given LocationId: " + locationId);
             } else {
                 log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
                 throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
@@ -112,7 +112,7 @@ public class LocationServiceImpl implements LocationService {
         catch (FeignException fe) {
             if (fe.status() == 404) {
                 log.error("Ocp-Fis client returned a 404 - NOT FOUND status, indicating no child location was found in the configured FHIR server for the given LocationId", fe);
-                throw new LocationNotFoundException("No child location was found in the configured FHIR server for the given LocationId:" + locationId);
+                throw new LocationNotFoundException("No child location was found in the configured FHIR server for the given LocationId: " + locationId);
             } else {
                 log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
                 throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
