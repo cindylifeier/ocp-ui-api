@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +16,16 @@ public class OcpFisController {
     private LocationService locationService;
 
     @GetMapping("/locations")
-    public Object getAllLocations() {
-        return locationService.getAllLocations();
+    public Object getAllLocations(@RequestParam(value = "page", required = false) Integer page,
+                                  @RequestParam(value = "size", required = false) Integer size) {
+        return locationService.getAllLocations(page, size);
     }
 
     @GetMapping("/organizations/{organizationId}/locations")
-    public Object getLocationsByOrganization(@PathVariable String organizationId) {
-        return locationService.getLocationsByOrganization(organizationId);
+    public Object getLocationsByOrganization(@PathVariable String organizationId,
+                                             @RequestParam(value = "page", required = false) Integer page,
+                                             @RequestParam(value = "size", required = false) Integer size) {
+        return locationService.getLocationsByOrganization(organizationId, page, size);
     }
 
     @GetMapping("/locations/{locationId}")

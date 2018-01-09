@@ -21,20 +21,23 @@ public class LocationServiceImpl implements LocationService {
      * @return
      */
     @Override
-    public Object getAllLocations() {
+    public Object getAllLocations(Integer page, Integer size) {
         log.info("Fetching locations from FHIR Server...");
         try {
-            Object ocpFisClientResponse = ocpFisClient.getAllLocations();
+            Object ocpFisClientResponse = ocpFisClient.getAllLocations(page, size);
             log.info("Got response from FHIR Server...");
             return ocpFisClientResponse;
         }
         catch (FeignException fe) {
-            if (fe.status() == 404) {
-                log.error("Ocp-Fis client returned a 404 - NOT FOUND status, indicating no locations were found in the configured FHIR server", fe);
-                throw new LocationNotFoundException("No locations were found in the configured FHIR server");
-            } else {
-                log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
-                throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
+            int causedByStatus = fe.status();
+            switch (causedByStatus) {
+                case 404:
+                    String errorMessage = getErrorMessageFromFeignException(fe);
+                    log.error("Ocp-Fis client returned a 404 - NOT FOUND status, indicating no locations were found in the configured FHIR server", fe);
+                    throw new LocationNotFoundException(errorMessage);
+                default:
+                    log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
+                    throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
             }
         }
     }
@@ -46,20 +49,23 @@ public class LocationServiceImpl implements LocationService {
      * @return
      */
     @Override
-    public Object getLocationsByOrganization(String organizationResourceId) {
+    public Object getLocationsByOrganization(String organizationResourceId, Integer page, Integer size) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: ", organizationResourceId);
         try {
-            Object ocpFisClientResponse = ocpFisClient.getLocationsByOrganization(organizationResourceId);
+            Object ocpFisClientResponse = ocpFisClient.getLocationsByOrganization(organizationResourceId, page, size);
             log.info("Got response from FHIR Server...");
             return ocpFisClientResponse;
         }
         catch (FeignException fe) {
-            if (fe.status() == 404) {
-                log.error("Ocp-Fis client returned a 404 - NOT FOUND status, indicating no locations were found in the configured FHIR server for the given OrganizationId", fe);
-                throw new LocationNotFoundException("No locations were found in the configured FHIR server for the given OrganizationId" + organizationResourceId);
-            } else {
-                log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
-                throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
+            int causedByStatus = fe.status();
+            switch (causedByStatus) {
+                case 404:
+                    String errorMessage = getErrorMessageFromFeignException(fe);
+                    log.error("Ocp-Fis client returned a 404 - NOT FOUND status, indicating no locations were found in the configured FHIR server for the given OrganizationId", fe);
+                    throw new LocationNotFoundException(errorMessage + " for the given OrganizationId" + organizationResourceId);
+                default:
+                    log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
+                    throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
             }
         }
     }
@@ -113,4 +119,14 @@ public class LocationServiceImpl implements LocationService {
             }
         }
     }
+
+    private String getErrorMessageFromFeignException(FeignException fe) {
+        String detailMessage = fe.getMessage();
+        String array[] = detailMessage.split("message");
+        if (array.length > 1) {
+            String actualMessage = array[1].substring(array[1].indexOf("\":\"") + 3, array[1].indexOf("\",\""));
+            return actualMessage;
+        } else return detailMessage;
+    }
+
 }

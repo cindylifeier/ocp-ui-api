@@ -7,7 +7,7 @@ public interface LocationService {
      *
      * @return
      */
-    Object getAllLocations();
+    Object getAllLocations(Integer page, Integer size);
 
     /**
      * Gets all locations(all levels) that are managed under a given Organization Id
@@ -15,7 +15,7 @@ public interface LocationService {
      * @param organizationResourceId
      * @return
      */
-    Object getLocationsByOrganization(String organizationResourceId);
+    Object getLocationsByOrganization(String organizationResourceId, Integer page, Integer size);
 
     /**
      * Get Location By Id
