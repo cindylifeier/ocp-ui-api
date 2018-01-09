@@ -29,7 +29,7 @@ public class LocationServiceImpl implements LocationService {
             return ocpFisClientResponse;
         }
         catch (FeignException fe) {
-            handleFeignExceptionRelatedToLocationSearch(fe, "Ocp-Fis client returned a 404 - NOT FOUND status, indicating no locations were found in the configured FHIR server");
+            handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server");
             return null;
         }
     }
@@ -49,7 +49,7 @@ public class LocationServiceImpl implements LocationService {
             return ocpFisClientResponse;
         }
         catch (FeignException fe) {
-            handleFeignExceptionRelatedToLocationSearch(fe, "Ocp-Fis client returned a 404 - NOT FOUND status, indicating no locations were found in the configured FHIR server for the given OrganizationId");
+            handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
     }
@@ -69,7 +69,7 @@ public class LocationServiceImpl implements LocationService {
             return ocpFisClientResponse;
         }
         catch (FeignException fe) {
-            handleFeignExceptionRelatedToLocationSearch(fe, "Ocp-Fis client returned a 404 - NOT FOUND status, indicating no child location was found in the configured FHIR server for the given LocationId");
+            handleFeignExceptionRelatedToLocationSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -89,7 +89,7 @@ public class LocationServiceImpl implements LocationService {
             return ocpFisClientResponse;
         }
         catch (FeignException fe) {
-            handleFeignExceptionRelatedToLocationSearch(fe, "Ocp-Fis client returned a 404 - NOT FOUND status, indicating no child location was found in the configured FHIR server for the given LocationId");
+            handleFeignExceptionRelatedToLocationSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -98,8 +98,7 @@ public class LocationServiceImpl implements LocationService {
         String detailMessage = fe.getMessage();
         String array[] = detailMessage.split("message");
         if (array.length > 1) {
-            String actualMessage = array[1].substring(array[1].indexOf("\":\"") + 3, array[1].indexOf("\",\""));
-            return actualMessage;
+            return array[1].substring(array[1].indexOf("\":\"") + 3, array[1].indexOf("\",\""));
         } else return detailMessage;
     }
 
@@ -108,7 +107,8 @@ public class LocationServiceImpl implements LocationService {
         switch (causedByStatus) {
             case 404:
                 String errorMessage = getErrorMessageFromFeignException(fe);
-                log.error(logErrorMessage, fe);
+                String logErrorMessageWithCode = "Ocp-Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
                 throw new LocationNotFoundException(errorMessage);
             default:
                 log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
