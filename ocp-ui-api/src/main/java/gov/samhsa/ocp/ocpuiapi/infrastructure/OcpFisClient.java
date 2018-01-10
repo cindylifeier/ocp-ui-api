@@ -23,4 +23,8 @@ public interface OcpFisClient {
 
     @RequestMapping(value = "/locations/{locationId}/childLocation", method = RequestMethod.GET)
     Object getChildLocation(@PathVariable("locationId") String locationId);
+
+    @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
+    Object getAllPractitioners(@RequestParam(value = "page", required = false) Integer page,
+                               @RequestParam(value = "size", required = false) Integer size);
 }

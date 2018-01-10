@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
 import gov.samhsa.ocp.ocpuiapi.service.LocationService;
+import gov.samhsa.ocp.ocpuiapi.service.PractitionerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,9 @@ public class OcpFisController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private PractitionerService practitionerService;
 
     @GetMapping("/locations")
     public Object getAllLocations(@RequestParam(value = "page", required = false) Integer page,
@@ -36,5 +40,11 @@ public class OcpFisController {
     @GetMapping("/locations/{locationId}/childLocation")
     public Object getChildLocation(@PathVariable String locationId) {
         return locationService.getChildLocation(locationId);
+    }
+
+    @GetMapping("/practitioners")
+    public Object getAllPractitioners(@RequestParam(value = "page", required = false) Integer page,
+                                      @RequestParam(value = "size", required = false) Integer size) {
+        return practitionerService.getAllPractitioners(page, size);
     }
 }
