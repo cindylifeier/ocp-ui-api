@@ -1,8 +1,8 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
 import feign.FeignException;
-import gov.samhsa.ocp.ocpuiapi.infrastructure.OcpFisClient;
-import gov.samhsa.ocp.ocpuiapi.service.exception.client.OcpFisClientInterfaceException;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.exception.client.FisClientInterfaceException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.location.LocationNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class LocationServiceImpl implements LocationService {
 
+    private FisClient fisClient;
+
     @Autowired
-    private OcpFisClient ocpFisClient;
+    public LocationServiceImpl(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     /**
      * Gets all available locations in the configured FHIR server
@@ -24,9 +28,9 @@ public class LocationServiceImpl implements LocationService {
     public Object getAllLocations(Integer page, Integer size) {
         log.info("Fetching locations from FHIR Server...");
         try {
-            Object ocpFisClientResponse = ocpFisClient.getAllLocations(page, size);
+            Object fisClientResponse = fisClient.getAllLocations(page, size);
             log.info("Got response from FHIR Server...");
-            return ocpFisClientResponse;
+            return fisClientResponse;
         }
         catch (FeignException fe) {
             handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server");
@@ -44,9 +48,9 @@ public class LocationServiceImpl implements LocationService {
     public Object getLocationsByOrganization(String organizationResourceId, Integer page, Integer size) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: "+ organizationResourceId);
         try {
-            Object ocpFisClientResponse = ocpFisClient.getLocationsByOrganization(organizationResourceId, page, size);
+            Object fisClientResponse = fisClient.getLocationsByOrganization(organizationResourceId, page, size);
             log.info("Got response from FHIR Server...");
-            return ocpFisClientResponse;
+            return fisClientResponse;
         }
         catch (FeignException fe) {
             handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
@@ -64,9 +68,9 @@ public class LocationServiceImpl implements LocationService {
     public Object getLocation(String locationId) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: "+ locationId);
         try {
-            Object ocpFisClientResponse = ocpFisClient.getLocation(locationId);
+            Object fisClientResponse = fisClient.getLocation(locationId);
             log.info("Got response from FHIR Server...");
-            return ocpFisClientResponse;
+            return fisClientResponse;
         }
         catch (FeignException fe) {
             handleFeignExceptionRelatedToLocationSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
@@ -84,9 +88,9 @@ public class LocationServiceImpl implements LocationService {
     public Object getChildLocation(String locationId) {
         log.info("Fetching child location from FHIR Server for the given OrganizationId: "+ locationId);
         try {
-            Object ocpFisClientResponse = ocpFisClient.getChildLocation(locationId);
+            Object fisClientResponse = fisClient.getChildLocation(locationId);
             log.info("Got response from FHIR Server...");
-            return ocpFisClientResponse;
+            return fisClientResponse;
         }
         catch (FeignException fe) {
             handleFeignExceptionRelatedToLocationSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
@@ -107,12 +111,12 @@ public class LocationServiceImpl implements LocationService {
         switch (causedByStatus) {
             case 404:
                 String errorMessage = getErrorMessageFromFeignException(fe);
-                String logErrorMessageWithCode = "Ocp-Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
+                String logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 throw new LocationNotFoundException(errorMessage);
             default:
-                log.error("Ocp-Fis client returned an unexpected instance of FeignException", fe);
-                throw new OcpFisClientInterfaceException("An unknown error occurred while attempting to communicate with Ocp-Fis Client");
+                log.error("Fis client returned an unexpected instance of FeignException", fe);
+                throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
         }
     }
 
