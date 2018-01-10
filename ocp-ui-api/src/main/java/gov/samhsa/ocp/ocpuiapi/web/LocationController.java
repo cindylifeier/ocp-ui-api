@@ -59,7 +59,7 @@ public class LocationController {
 
     @GetMapping("/locations/{locationId}")
     public LocationDto getLocation(@PathVariable String locationId) {
-        log.info("Fetching locations from FHIR Server for the given OrganizationId: "+ locationId);
+        log.info("Fetching locations from FHIR Server for the given LocationId: "+ locationId);
         try {
             LocationDto fisClientResponse = fisClient.getLocation(locationId);
             log.info("Got response from FHIR Server...");
@@ -73,7 +73,7 @@ public class LocationController {
 
     @GetMapping("/locations/{locationId}/childLocation")
     public LocationDto getChildLocation(@PathVariable String locationId) {
-        log.info("Fetching child location from FHIR Server for the given OrganizationId: "+ locationId);
+        log.info("Fetching child location from FHIR Server for the given LocationId: "+ locationId);
         try {
             LocationDto fisClientResponse = fisClient.getChildLocation(locationId);
             log.info("Got response from FHIR Server...");
