@@ -1,24 +1,29 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
+import java.util.List;
+
 public interface LocationService {
 
     /**
-     * Gets all available locations in the configured FHIR server
      *
+     * @param status
+     * @param page
+     * @param size
      * @return
      */
-    Object getAllLocations(Integer page, Integer size);
+    Object getAllLocations(List<String> status, Integer page, Integer size);
 
     /**
-     * Gets all locations(all levels) that are managed under a given Organization Id
      *
      * @param organizationResourceId
+     * @param status
+     * @param page
+     * @param size
      * @return
      */
-    Object getLocationsByOrganization(String organizationResourceId, Integer page, Integer size);
+    Object getLocationsByOrganization(String organizationResourceId, List<String> status, Integer page, Integer size);
 
     /**
-     * Get Location By Id
      *
      * @param locationId
      * @return
@@ -27,7 +32,6 @@ public interface LocationService {
 
     /**
      * Gets level 1 child location for a given Location Id
-     *
      * @param locationId
      * @return
      */

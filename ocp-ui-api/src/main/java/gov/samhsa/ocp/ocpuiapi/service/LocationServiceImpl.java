@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class LocationServiceImpl implements LocationService {
@@ -19,16 +21,11 @@ public class LocationServiceImpl implements LocationService {
         this.fisClient = fisClient;
     }
 
-    /**
-     * Gets all available locations in the configured FHIR server
-     *
-     * @return
-     */
     @Override
-    public Object getAllLocations(Integer page, Integer size) {
+    public Object getAllLocations(List<String> status, Integer page, Integer size) {
         log.info("Fetching locations from FHIR Server...");
         try {
-            Object fisClientResponse = fisClient.getAllLocations(page, size);
+            Object fisClientResponse = fisClient.getAllLocations(status, page, size);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
@@ -38,17 +35,11 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
-    /**
-     * Gets all locations(all levels) that are managed under a given Organization Id
-     *
-     * @param organizationResourceId
-     * @return
-     */
     @Override
-    public Object getLocationsByOrganization(String organizationResourceId, Integer page, Integer size) {
+    public Object getLocationsByOrganization(String organizationResourceId, List<String> status, Integer page, Integer size) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: "+ organizationResourceId);
         try {
-            Object fisClientResponse = fisClient.getLocationsByOrganization(organizationResourceId, page, size);
+            Object fisClientResponse = fisClient.getLocationsByOrganization(organizationResourceId, status, page, size);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
@@ -58,12 +49,6 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
-    /**
-     * Get Location By Id
-     *
-     * @param locationId
-     * @return
-     */
     @Override
     public Object getLocation(String locationId) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: "+ locationId);
@@ -78,12 +63,6 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
-    /**
-     * Gets level 1 child location for a given Location Id
-     *
-     * @param locationId
-     * @return
-     */
     @Override
     public Object getChildLocation(String locationId) {
         log.info("Fetching child location from FHIR Server for the given OrganizationId: "+ locationId);
