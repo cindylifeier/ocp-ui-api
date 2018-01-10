@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.exception.client.FisClientInterfaceException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.location.LocationNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +24,12 @@ public class LocationController {
     private FisClient fisClient;
 
     @GetMapping("/locations")
-    public Object getAllLocations(@RequestParam(value = "status", required = false)List<String> status,
-                                  @RequestParam(value = "page", required = false) Integer page,
-                                  @RequestParam(value = "size", required = false) Integer size) {
+    public List<LocationDto> getAllLocations(@RequestParam(value = "status", required = false)List<String> status,
+                                             @RequestParam(value = "page", required = false) Integer page,
+                                             @RequestParam(value = "size", required = false) Integer size) {
         log.info("Fetching locations from FHIR Server...");
         try {
-            Object fisClientResponse = fisClient.getAllLocations(status, page, size);
+            List<LocationDto> fisClientResponse = fisClient.getAllLocations(status, page, size);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
@@ -40,13 +41,13 @@ public class LocationController {
     }
 
     @GetMapping("/organizations/{organizationId}/locations")
-    public Object getLocationsByOrganization(@PathVariable String organizationId,
+    public List<LocationDto> getLocationsByOrganization(@PathVariable String organizationId,
                                              @RequestParam(value = "status", required = false)List<String> status,
                                              @RequestParam(value = "page", required = false) Integer page,
                                              @RequestParam(value = "size", required = false) Integer size) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: "+ organizationId);
         try {
-            Object fisClientResponse = fisClient.getLocationsByOrganization(organizationId, status, page, size);
+            List<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, status, page, size);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
@@ -57,10 +58,10 @@ public class LocationController {
     }
 
     @GetMapping("/locations/{locationId}")
-    public Object getLocation(@PathVariable String locationId) {
+    public LocationDto getLocation(@PathVariable String locationId) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: "+ locationId);
         try {
-            Object fisClientResponse = fisClient.getLocation(locationId);
+            LocationDto fisClientResponse = fisClient.getLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
@@ -71,10 +72,10 @@ public class LocationController {
     }
 
     @GetMapping("/locations/{locationId}/childLocation")
-    public Object getChildLocation(@PathVariable String locationId) {
+    public LocationDto getChildLocation(@PathVariable String locationId) {
         log.info("Fetching child location from FHIR Server for the given OrganizationId: "+ locationId);
         try {
-            Object fisClientResponse = fisClient.getChildLocation(locationId);
+            LocationDto fisClientResponse = fisClient.getChildLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
