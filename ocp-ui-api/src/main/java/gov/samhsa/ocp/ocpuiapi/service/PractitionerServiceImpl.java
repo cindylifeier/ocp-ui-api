@@ -29,7 +29,7 @@ public class PractitionerServiceImpl implements PractitionerService{
             return ocpFisClientResponse;
         }
         catch (FeignException fe) {
-            handleFeignExceptionRelatedToLocationSearch(fe, "no practitioners were found in the configured FHIR server");
+            handleFeignExceptionRelatedToPractitionerSearch(fe, "no practitioners were found in the configured FHIR server");
             return null;
         }
     }
@@ -42,7 +42,7 @@ public class PractitionerServiceImpl implements PractitionerService{
         } else return detailMessage;
     }
 
-    private void handleFeignExceptionRelatedToLocationSearch(FeignException fe, String logErrorMessage){
+    private void handleFeignExceptionRelatedToPractitionerSearch(FeignException fe, String logErrorMessage){
         int causedByStatus = fe.status();
         switch (causedByStatus) {
             case 404:
