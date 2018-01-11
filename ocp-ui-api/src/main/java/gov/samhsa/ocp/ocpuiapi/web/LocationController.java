@@ -1,0 +1,88 @@
+package gov.samhsa.ocp.ocpuiapi.web;
+
+import feign.FeignException;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
+import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@Slf4j
+@RequestMapping("ocp-fis")
+public class LocationController {
+
+    @Autowired
+    private FisClient fisClient;
+
+    @GetMapping("/locations")
+    public List<LocationDto> getAllLocations(@RequestParam(value = "status", required = false) List<String> status,
+                                             @RequestParam(value = "page", required = false) Integer page,
+                                             @RequestParam(value = "size", required = false) Integer size) {
+        log.info("Fetching locations from FHIR Server...");
+        try {
+            List<LocationDto> fisClientResponse = fisClient.getAllLocations(status, page, size);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server");
+            return null;
+        }
+
+    }
+
+    @GetMapping("/organizations/{organizationId}/locations")
+    public List<LocationDto> getLocationsByOrganization(@PathVariable String organizationId,
+                                                        @RequestParam(value = "status", required = false) List<String> status,
+                                                        @RequestParam(value = "page", required = false) Integer page,
+                                                        @RequestParam(value = "size", required = false) Integer size) {
+        log.info("Fetching locations from FHIR Server for the given OrganizationId: " + organizationId);
+        try {
+            List<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, status, page, size);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
+            return null;
+        }
+    }
+
+    @GetMapping("/locations/{locationId}")
+    public LocationDto getLocation(@PathVariable String locationId) {
+        log.info("Fetching locations from FHIR Server for the given LocationId: " + locationId);
+        try {
+            LocationDto fisClientResponse = fisClient.getLocation(locationId);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
+            return null;
+        }
+    }
+
+    @GetMapping("/locations/{locationId}/childLocation")
+    public LocationDto getChildLocation(@PathVariable String locationId) {
+        log.info("Fetching child location from FHIR Server for the given LocationId: " + locationId);
+        try {
+            LocationDto fisClientResponse = fisClient.getChildLocation(locationId);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
+            return null;
+        }
+    }
+
+
+}
