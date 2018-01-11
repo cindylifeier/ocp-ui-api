@@ -4,12 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-public class OcpFisClientInterfaceException extends RuntimeException {
-    public OcpFisClientInterfaceException() {
+public class FisClientInterfaceException extends RuntimeException {
+    public FisClientInterfaceException() {
         super();
     }
 
-    public OcpFisClientInterfaceException(String message) {
+    public FisClientInterfaceException(String message) {
         super(message);
     }
 }
