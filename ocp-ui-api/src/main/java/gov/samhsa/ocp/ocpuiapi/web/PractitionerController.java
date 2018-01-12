@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +36,12 @@ public class PractitionerController {
      * @return
      */
     @GetMapping("/practitioners")
-    public List<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
-                                                     @RequestParam(value = "page", required = false) Integer page,
-                                                     @RequestParam(value = "size", required = false) Integer size) {
+    public PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
+                                                        @RequestParam(value = "page", required = false) Integer page,
+                                                        @RequestParam(value = "size", required = false) Integer size) {
         log.info("Fetching practitioners from FHIR server");
         try {
-            List<PractitionerDto> practitioners = fisClient.getAllPractitioners(showInactive, page, size);
+            PageDto<PractitionerDto> practitioners = fisClient.getAllPractitioners(showInactive, page, size);
             log.info("Got response from FHIR server for all practitioners");
             return practitioners;
         } catch (FeignException fe) {
@@ -59,14 +60,14 @@ public class PractitionerController {
      * @return
      */
     @GetMapping("/practitioners/search")
-    public List<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
+    public PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
                                                      @RequestParam(value = "searchValue", required = false) String searchValue,
                                                      @RequestParam(value = "showInactive", required = false) Boolean showInactive,
                                                      @RequestParam(value = "page", required = false) Integer page,
                                                      @RequestParam(value = "size", required = false) Integer size) {
         log.info("Searching practitioners from FHIR server");
         try {
-            List<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, showInactive, page, size);
+            PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, showInactive, page, size);
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
         } catch (FeignException fe) {
