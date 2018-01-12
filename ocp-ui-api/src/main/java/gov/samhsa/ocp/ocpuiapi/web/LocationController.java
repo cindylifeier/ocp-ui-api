@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations wehe found in the configured FHIR server", ResourceType.LOCATION.name());
             return null;
         }
 
@@ -52,7 +53,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId", ResourceType.LOCATION.name());
             return null;
         }
     }
@@ -66,7 +67,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId", ResourceType.LOCATION.name());
             return null;
         }
     }
@@ -80,7 +81,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToLocationSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no child location was found in the configured FHIR server for the given LocationId", ResourceType.LOCATION.name());
             return null;
         }
     }

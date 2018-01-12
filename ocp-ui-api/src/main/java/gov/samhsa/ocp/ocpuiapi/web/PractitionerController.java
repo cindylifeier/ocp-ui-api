@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class PractitionerController {
             log.info("Got response from FHIR server for all practitioners");
             return practitioners;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToPractitionerSearch(fe, "no practitioners were found in the configured FHIR server");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server", ResourceType.PRACTITIONER.name());
             return null;
         }
     }
@@ -71,7 +72,7 @@ public class PractitionerController {
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToPractitionerSearch(fe, "no practitioners were found found in the configured FHIR server for the given searchType and searchValue");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found found in the configured FHIR server for the given searchType and searchValue",  ResourceType.PRACTITIONER.name());
             return null;
         }
     }
