@@ -47,12 +47,12 @@ public interface FisClient {
                                               @RequestParam(value = "size", required = false) Integer size);
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
-    List<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
+    PageDto<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
                                               @RequestParam(value = "page", required = false) Integer page,
                                               @RequestParam(value = "size", required = false) Integer size);
 
     @RequestMapping(value = "/organizations/search", method = RequestMethod.GET)
-    List<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) OrganizationController.SearchType searchType,
+    PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) OrganizationController.SearchType searchType,
                                               @RequestParam(value = "searchValue", required = false) String searchValue,
                                               @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                               @RequestParam(value = "page", required = false) Integer page,
