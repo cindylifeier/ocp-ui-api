@@ -18,6 +18,9 @@ public class PageDto<T> {
     int currentPageSize; //Will always be less than or equal to "size", for example: a last page
     boolean hasNextPage;
     boolean hasPreviousPage;
+    boolean firstPage;
+    boolean lastPage;
     int totalElements;
+    boolean hasElements;
     List<T> elements;
 }
