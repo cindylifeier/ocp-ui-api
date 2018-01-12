@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ public class LocationController {
     private FisClient fisClient;
 
     @GetMapping("/locations")
-    public List<LocationDto> getAllLocations(@RequestParam(value = "status", required = false) List<String> status,
-                                             @RequestParam(value = "page", required = false) Integer page,
-                                             @RequestParam(value = "size", required = false) Integer size) {
+    public PageDto<LocationDto> getAllLocations(@RequestParam(value = "status", required = false) List<String> status,
+                                                @RequestParam(value = "page", required = false) Integer page,
+                                                @RequestParam(value = "size", required = false) Integer size) {
         log.info("Fetching locations from FHIR Server...");
         try {
-            List<LocationDto> fisClientResponse = fisClient.getAllLocations(status, page, size);
+            PageDto<LocationDto> fisClientResponse = fisClient.getAllLocations(status, page, size);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
@@ -40,13 +41,13 @@ public class LocationController {
     }
 
     @GetMapping("/organizations/{organizationId}/locations")
-    public List<LocationDto> getLocationsByOrganization(@PathVariable String organizationId,
+    public PageDto<LocationDto> getLocationsByOrganization(@PathVariable String organizationId,
                                                         @RequestParam(value = "status", required = false) List<String> status,
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "size", required = false) Integer size) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: " + organizationId);
         try {
-            List<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, status, page, size);
+            PageDto<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, status, page, size);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
