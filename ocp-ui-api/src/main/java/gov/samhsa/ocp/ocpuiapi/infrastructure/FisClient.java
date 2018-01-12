@@ -9,23 +9,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name ="ocp-fis", url = "${ribbon.listOfServers}")
+@FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
 
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
-    List<LocationDto> getAllLocations(@RequestParam(value = "status", required = false)List<String> status,
+    List<LocationDto> getAllLocations(@RequestParam(value = "status", required = false) List<String> status,
                                       @RequestParam(value = "page", required = false) Integer page,
                                       @RequestParam(value = "size", required = false) Integer size);
 
     @RequestMapping(value = "/organizations/{organizationId}/locations", method = RequestMethod.GET)
     List<LocationDto> getLocationsByOrganization(@PathVariable("organizationId") String organizationId,
-                                      @RequestParam(value = "status", required = false)List<String> status,
-                                      @RequestParam(value = "page", required = false) Integer page,
-                                      @RequestParam(value = "size", required = false) Integer size);
+                                                 @RequestParam(value = "status", required = false) List<String> status,
+                                                 @RequestParam(value = "page", required = false) Integer page,
+                                                 @RequestParam(value = "size", required = false) Integer size);
 
     @RequestMapping(value = "/locations/{locationId}", method = RequestMethod.GET)
     LocationDto getLocation(@PathVariable("locationId") String locationId);
 
     @RequestMapping(value = "/locations/{locationId}/childLocation", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
+
+
+    @RequestMapping(value = "/patients", method = RequestMethod.GET)
+    public Object getPatients();
+
+    @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
+    public Object getPatientsByValue(@RequestParam(value = "value") String value, @RequestParam(value = "type") String type, @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive);
+
+
 }
