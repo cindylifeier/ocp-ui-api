@@ -2,11 +2,15 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
+import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis/patients")
@@ -27,17 +31,24 @@ public class PatientController {
             log.debug("Call to Feign Client: END");
             return patientDtos;
         } catch (FeignException fe) {
-            log.error("no patient were found in the configured FHIR server");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient  found in the configured FHIR server for the given searchType and searchValue", ResourceType.PATIENT.name());
             return fe;
         }
     }
 
     @GetMapping("/search")
-    public Object searchPatientsByValue(@RequestParam(value = "value") String value, @RequestParam(value = "type") String type, @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive) {
-        log.debug("Call to Feign Client: START");
-        Object patientDtos = fisClient.getPatientsByValue(value, type, showInactive);
-        log.debug("Call to Feign Client: END");
-        return patientDtos;
-
+    public Object searchPatientsByValue(@RequestParam(value = "value") String value,
+                                        @RequestParam(value = "type") String type,
+                                        @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
+                                        @RequestParam(value = "page", required = false) Integer page,
+                                        @RequestParam(value = "size", required = false) Integer size) {
+        try {
+            Object patientDtos = fisClient.getPatientsByValue(value, type, showInactive, page,size);
+            log.debug("Call to Feign Client: END");
+            return patientDtos;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient found in the configured FHIR server for the given searchType and searchValue", ResourceType.PATIENT.name());
+            return fe;
+        }
     }
 }
