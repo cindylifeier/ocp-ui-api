@@ -35,7 +35,6 @@ public class PatientController {
     @GetMapping("/search")
     public Object searchPatientsByValue(@RequestParam(value = "value") String value, @RequestParam(value = "type") String type, @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive) {
         log.debug("Call to Feign Client: START");
-
         Object patientDtos = fisClient.getPatientsByValue(value, type, showInactive);
         log.debug("Call to Feign Client: END");
         return patientDtos;
