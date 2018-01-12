@@ -35,12 +35,12 @@ public interface FisClient {
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
-    List<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
+    PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
                                               @RequestParam(value = "page", required = false) Integer page,
                                               @RequestParam(value = "size", required = false) Integer size);
 
     @RequestMapping(value = "/practitioners/search", method = RequestMethod.GET)
-    List<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) PractitionerController.SearchType searchType,
+    PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) PractitionerController.SearchType searchType,
                                               @RequestParam(value = "searchValue", required = false) String searchValue,
                                               @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                               @RequestParam(value = "page", required = false) Integer page,
