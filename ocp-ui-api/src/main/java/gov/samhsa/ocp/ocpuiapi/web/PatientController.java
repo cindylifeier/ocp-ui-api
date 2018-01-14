@@ -38,7 +38,7 @@ public class PatientController {
 
     @GetMapping("/search")
     public Object searchPatientsByValue(@RequestParam(value = "value") String value,
-                                        @RequestParam(value = "type") String type,
+                                        @RequestParam(value = "type", defaultValue = "name") String type,
                                         @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                                         @RequestParam(value = "page", required = false) Integer page,
                                         @RequestParam(value = "size", required = false) Integer size) {
