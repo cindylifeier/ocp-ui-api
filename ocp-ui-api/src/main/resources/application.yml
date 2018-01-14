@@ -8,3 +8,8 @@ ribbon:
   ReadTimeout: 50000
   listOfServers: http://localhost:8444
 hystrix.command.default.execution.timeout.enabled: false
+
+---
+# updates configuration for docker environment
+spring.profiles: docker
+ribbon.listOfServers: http://ocp-fis.ocp.com:8444
