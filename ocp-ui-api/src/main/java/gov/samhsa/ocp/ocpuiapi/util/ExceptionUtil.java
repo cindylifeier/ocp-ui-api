@@ -17,7 +17,7 @@ public final class ExceptionUtil {
         switch (causedByStatus) {
             case 404:
                 String errorMessage = getErrorMessageFromFeignException(fe);
-                String logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
+                String logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + errorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new PractitionerNotFoundException(errorMessage);
@@ -37,9 +37,11 @@ public final class ExceptionUtil {
     public static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
         String array[] = detailMessage.split("message");
-        if (array.length > 2) {
-            return array[1].substring(array[1].indexOf("\":\"") + 3, array[1].indexOf("\",\""));
-        } else return detailMessage;
+        if (array.length > 1) {
+           return array[1].substring(array[1].indexOf("\":\"") + 3, array[1].indexOf("\",\""));
+        } else {
+            return detailMessage;
+        }
     }
 
 }
