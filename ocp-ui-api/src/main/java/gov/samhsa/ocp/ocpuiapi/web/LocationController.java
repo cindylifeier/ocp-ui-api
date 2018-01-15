@@ -37,7 +37,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations wehe found in the configured FHIR server", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server", ResourceType.LOCATION.name());
             return null;
         }
 
