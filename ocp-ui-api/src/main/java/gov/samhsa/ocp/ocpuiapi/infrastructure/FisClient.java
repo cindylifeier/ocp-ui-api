@@ -17,22 +17,30 @@ import java.util.List;
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
 
+    //LOCATIONS - START
+
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
-    PageDto<LocationDto> getAllLocations(@RequestParam(value = "status", required = false) List<String> status,
-                                         @RequestParam(value = "page", required = false) Integer page,
-                                         @RequestParam(value = "size", required = false) Integer size);
+    PageDto<LocationDto> getAllLocations(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                         @RequestParam(value = "searchKey", required = false) String searchKey,
+                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/organizations/{organizationId}/locations", method = RequestMethod.GET)
     PageDto<LocationDto> getLocationsByOrganization(@PathVariable("organizationId") String organizationId,
-                                                    @RequestParam(value = "status", required = false) List<String> status,
-                                                    @RequestParam(value = "page", required = false) Integer page,
-                                                    @RequestParam(value = "size", required = false) Integer size);
+                                                    @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                    @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                    @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/locations/{locationId}", method = RequestMethod.GET)
     LocationDto getLocation(@PathVariable("locationId") String locationId);
 
     @RequestMapping(value = "/locations/{locationId}/childLocation", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
+
+    //LOCATIONS - END
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
     PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
@@ -60,13 +68,13 @@ public interface FisClient {
 
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
-    public Object getPatients();
+    Object getPatients();
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
-    public Object getPatientsByValue(@RequestParam(value = "value") String value,
-                                     @RequestParam(value = "type") String type,
-                                     @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
-                                     @RequestParam(value = "page", required= false) Integer page,
-                                     @RequestParam(value = "size", required = false) Integer size);
+    Object getPatientsByValue(@RequestParam(value = "value") String value,
+                              @RequestParam(value = "type") String type,
+                              @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
+                              @RequestParam(value = "page", required = false) Integer page,
+                              @RequestParam(value = "size", required = false) Integer size);
 
 }

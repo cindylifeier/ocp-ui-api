@@ -25,17 +25,19 @@ public class LocationController {
     private FisClient fisClient;
 
     @GetMapping("/locations")
-    public PageDto<LocationDto> getAllLocations(@RequestParam(value = "status", required = false) List<String> status,
-                                                @RequestParam(value = "page", required = false) Integer page,
-                                                @RequestParam(value = "size", required = false) Integer size) {
+    public PageDto<LocationDto> getAllLocations(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Fetching locations from FHIR Server...");
         try {
-            PageDto<LocationDto> fisClientResponse = fisClient.getAllLocations(status, page, size);
+            PageDto<LocationDto> fisClientResponse = fisClient.getAllLocations(statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations wehe found in the configured FHIR server", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server", ResourceType.LOCATION.name());
             return null;
         }
 
@@ -43,12 +45,14 @@ public class LocationController {
 
     @GetMapping("/organizations/{organizationId}/locations")
     public PageDto<LocationDto> getLocationsByOrganization(@PathVariable String organizationId,
-                                                        @RequestParam(value = "status", required = false) List<String> status,
-                                                        @RequestParam(value = "page", required = false) Integer page,
-                                                        @RequestParam(value = "size", required = false) Integer size) {
+                                                           @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                           @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                           @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                           @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: " + organizationId);
         try {
-            PageDto<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, status, page, size);
+            PageDto<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
