@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.util;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
+import gov.samhsa.ocp.ocpuiapi.service.exception.client.BadRequestException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.client.FisClientInterfaceException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.location.LocationNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.organization.OrganizationNotFoundException;
@@ -15,9 +16,15 @@ public final class ExceptionUtil {
     public static void handleFeignExceptionRelatedToSearch(FeignException fe, String logErrorMessage, String resourceType) {
         int causedByStatus = fe.status();
         String errorMessage = getErrorMessageFromFeignException(fe);
+        String logErrorMessageWithCode;
         switch (causedByStatus) {
+            case 400:
+                logErrorMessageWithCode = "Fis client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
+                    throw new BadRequestException(errorMessage);
             case 404:
-                String logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
+                logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new PractitionerNotFoundException(errorMessage);
