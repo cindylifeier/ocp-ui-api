@@ -14,10 +14,10 @@ public final class ExceptionUtil {
 
     public static void handleFeignExceptionRelatedToSearch(FeignException fe, String logErrorMessage, String resourceType) {
         int causedByStatus = fe.status();
+        String errorMessage = getErrorMessageFromFeignException(fe);
         switch (causedByStatus) {
             case 404:
-                String errorMessage = getErrorMessageFromFeignException(fe);
-                String logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + errorMessage;
+                String logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new PractitionerNotFoundException(errorMessage);
