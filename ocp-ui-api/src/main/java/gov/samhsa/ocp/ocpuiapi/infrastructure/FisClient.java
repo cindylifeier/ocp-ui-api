@@ -4,6 +4,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.OrganizationController;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -76,5 +77,29 @@ public interface FisClient {
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size);
+
+    //LOOKUP - START
+    @RequestMapping(value = "/lookup/uspsStates", method = RequestMethod.GET)
+    List<ValueSetDto> getUspsStates();
+
+    @RequestMapping(value = "/lookup/locationModes", method = RequestMethod.GET)
+    List<ValueSetDto> getLocationModes();
+
+    @RequestMapping(value = "/lookup/locationStatuses", method = RequestMethod.GET)
+    List<ValueSetDto> getLocationStatuses();
+
+    @RequestMapping(value = "/lookup/addressTypes", method = RequestMethod.GET)
+    List<ValueSetDto> getAddressTypes();
+
+    @RequestMapping(value = "/lookup/addressUses", method = RequestMethod.GET)
+    List<ValueSetDto> getAddressUses();
+
+    @RequestMapping(value = "/lookup/telecomUses", method = RequestMethod.GET)
+    List<ValueSetDto> getTelecomUses();
+
+    @RequestMapping(value = "/lookup/telecomSystems", method = RequestMethod.GET)
+    List<ValueSetDto> getTelecomSystems();
+
+    //LOOKUP - START
 
 }
