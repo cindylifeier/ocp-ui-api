@@ -32,6 +32,41 @@ public class LookUpController {
             return null;
         }
     }
+    /**
+     * Determine identifier to use for a specific purpose
+     * Eg: DL, MR, MD
+     * @return
+     */
+    @GetMapping("/identifierTypes")
+    public List<ValueSetDto> getIdentifierTypes() {
+        log.info("Fetching Identifier Types from FHIR Server...");
+        try {
+            List<ValueSetDto> fisClientResponse = fisClient.getIdentifierTypes();
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLookUpValues(fe, "no lookup values (identifierTypes) were fetched from FHIR server");
+            return null;
+        }
+    }
+
+    /**
+     * Identifies the purpose for this identifier, if known
+     * Eg: Usual, Official, Temp
+     * @return
+     */
+    @GetMapping("/identifierUses")
+    public List<ValueSetDto> getIdentifierUses() {
+        log.info("Fetching Identifier Uses from FHIR Server...");
+        try {
+            List<ValueSetDto> fisClientResponse = fisClient.getIdentifierUses();
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLookUpValues(fe, "no lookup values (identifierUses) were fetched from FHIR server");
+            return null;
+        }
+    }
 
     //LOCATION START
 
@@ -67,6 +102,23 @@ public class LookUpController {
             return fisClientResponse;
         }catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToLookUpValues(fe, "no lookup values (locationStatuses) were fetched from FHIR server");
+            return null;
+        }
+    }
+
+    /**
+     * Physical form of the location
+     * e.g. building, room, vehicle, road.
+     */
+    @GetMapping("/locationTypes")
+    public List<ValueSetDto> getLocationTypes() {
+        log.info("Fetching Location Types from FHIR Server...");
+        try {
+            List<ValueSetDto> fisClientResponse = fisClient.getLocationTypes();
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLookUpValues(fe, "no lookup values (locationTypes) were fetched from FHIR server");
             return null;
         }
     }
