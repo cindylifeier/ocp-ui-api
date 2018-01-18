@@ -32,23 +32,6 @@ public class LookUpController {
             return null;
         }
     }
-    /**
-     * Determine identifier to use for a specific purpose
-     * Eg: DL, MR, MD
-     * @return
-     */
-    @GetMapping("/identifierTypes")
-    public List<ValueSetDto> getIdentifierTypes() {
-        log.info("Fetching Identifier Types from FHIR Server...");
-        try {
-            List<ValueSetDto> fisClientResponse = fisClient.getIdentifierTypes();
-            log.info("Got response from FHIR Server...");
-            return fisClientResponse;
-        }catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToLookUpValues(fe, "no lookup values (identifierTypes) were fetched from FHIR server");
-            return null;
-        }
-    }
 
     /**
      * Identifies the purpose for this identifier, if known
@@ -69,6 +52,23 @@ public class LookUpController {
     }
 
     //LOCATION START
+    /**
+     * Determine identifier to use for a specific purpose
+     * Eg: PRN , EN
+     * @return
+     */
+    @GetMapping("/locationIdentifierTypes")
+    public List<ValueSetDto> getLocationIdentifierTypes() {
+        log.info("Fetching Location modes from FHIR Server...");
+        try {
+            List<ValueSetDto> fisClientResponse = fisClient.getLocationIdentifierTypes();
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToLookUpValues(fe, "no lookup values (locationIdentifierTypes) were fetched from FHIR server");
+            return null;
+        }
+    }
 
     /**
      * Indicates whether a resource instance represents a specific location or a class of locations

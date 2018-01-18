@@ -82,11 +82,11 @@ public interface FisClient {
     @RequestMapping(value = "/lookup/uspsStates", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
 
-    @RequestMapping(value = "/lookup/identifierTypes", method = RequestMethod.GET)
-    List<ValueSetDto> getIdentifierTypes();
-
     @RequestMapping(value = "/lookup/identifierUses", method = RequestMethod.GET)
     List<ValueSetDto> getIdentifierUses();
+
+    @RequestMapping(value = "/lookup/locationIdentifierTypes", method = RequestMethod.GET)
+    List<ValueSetDto> getLocationIdentifierTypes();
 
     @RequestMapping(value = "/lookup/locationModes", method = RequestMethod.GET)
     List<ValueSetDto> getLocationModes();
