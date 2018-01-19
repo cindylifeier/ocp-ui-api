@@ -2,7 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.service;
 
 import java.util.Arrays;
 
-public enum LoopUpDataKeyEnum {
+public enum LookUpKeyEnum {
     //In alphabetical order
     ADDRESSTYPE,
     ADDRESSUSE,
