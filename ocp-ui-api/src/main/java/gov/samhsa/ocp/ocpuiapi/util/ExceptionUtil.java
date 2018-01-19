@@ -2,7 +2,6 @@ package gov.samhsa.ocp.ocpuiapi.util;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
-import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFound;
 import gov.samhsa.ocp.ocpuiapi.service.exception.client.FisClientInterfaceException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.location.LocationNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.organization.OrganizationNotFoundException;
@@ -33,24 +32,6 @@ public final class ExceptionUtil {
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
         }
     }
-
-    public static void handleFeignExceptionRelatedToLookUpValues(FeignException fe, String logErrorMessage){
-        int causedByStatus = fe.status();
-        String errorMessage = getErrorMessageFromFeignException(fe);
-        String logErrorMessageWithCode;
-        switch (causedByStatus) {
-            case 404:
-                logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + errorMessage;
-                log.error(logErrorMessageWithCode, fe);
-                throw new ResourceNotFound(errorMessage);
-
-            default:
-                log.error("Fis client returned an unexpected instance of FeignException", fe);
-                throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
-        }
-    }
-
-
 
     public static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
