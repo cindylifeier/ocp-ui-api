@@ -76,7 +76,7 @@ public class LocationController {
         }
     }
 
-    @GetMapping("/locations/{locationId}/childLocation")
+    @GetMapping("/locations/{locationId}/child-location")
     public LocationDto getChildLocation(@PathVariable String locationId) {
         log.info("Fetching child location from FHIR Server for the given LocationId: " + locationId);
         try {

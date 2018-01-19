@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("ocp-fis/lookup")
+@RequestMapping("ocp-fis/lookups")
 public class LookUpController {
 
     @Autowired

@@ -39,7 +39,7 @@ public interface FisClient {
     @RequestMapping(value = "/locations/{locationId}", method = RequestMethod.GET)
     LocationDto getLocation(@PathVariable("locationId") String locationId);
 
-    @RequestMapping(value = "/locations/{locationId}/childLocation", method = RequestMethod.GET)
+    @RequestMapping(value = "/locations/{locationId}/child-location", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
 
     //LOCATIONS - END
@@ -80,37 +80,37 @@ public interface FisClient {
                               @RequestParam(value = "size", required = false) Integer size);
 
     //LOOKUP - START
-    @RequestMapping(value = "/lookup/uspsStates", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
 
-    @RequestMapping(value = "/lookup/identifierTypes", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/identifier-types", method = RequestMethod.GET)
     List<ValueSetDto> getIdentifierTypes(@RequestParam(value = "resourceType", required = false) String resourceType);
 
-    @RequestMapping(value = "/lookup/identifierSystems", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/identifier-systems", method = RequestMethod.GET)
     List<IdentifierSystemDto> getIdentifierSystems(@RequestParam(value = "identifierType", required = false) String identifierType);
 
-    @RequestMapping(value = "/lookup/identifierUses", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/identifier-uses", method = RequestMethod.GET)
     List<ValueSetDto> getIdentifierUses();
 
-    @RequestMapping(value = "/lookup/locationModes", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/location-modes", method = RequestMethod.GET)
     List<ValueSetDto> getLocationModes();
 
-    @RequestMapping(value = "/lookup/locationStatuses", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/location-statuses", method = RequestMethod.GET)
     List<ValueSetDto> getLocationStatuses();
 
-    @RequestMapping(value = "/lookup/locationTypes", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/location-types", method = RequestMethod.GET)
     List<ValueSetDto> getLocationTypes();
 
-    @RequestMapping(value = "/lookup/addressTypes", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/address-types", method = RequestMethod.GET)
     List<ValueSetDto> getAddressTypes();
 
-    @RequestMapping(value = "/lookup/addressUses", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/address-uses", method = RequestMethod.GET)
     List<ValueSetDto> getAddressUses();
 
-    @RequestMapping(value = "/lookup/telecomUses", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/telecom-uses", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomUses();
 
-    @RequestMapping(value = "/lookup/telecomSystems", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
 
     //LOOKUP - END
