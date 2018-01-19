@@ -2,7 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.service.LookUpKeyEnum;
+import gov.samhsa.ocp.ocpuiapi.service.LookUpTypeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LookUpDataDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,11 @@ public class LookUpController {
     private FisClient fisClient;
 
     @GetMapping()
-    public LookUpDataDto getAllLookUpValues(@RequestParam(value = "lookUpKeyList", required = false) List<String> lookUpKeyList) {
+    public LookUpDataDto getAllLookUpValues(@RequestParam(value = "lookUpTypeList", required = false) List<String> lookUpTypeList) {
         LookUpDataDto lookUpData = new LookUpDataDto();
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.ADDRESSTYPE.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.ADDRESSTYPE.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADDRESSTYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSTYPE.name());
             try {
                 lookUpData.setAddressTypes(fisClient.getAddressTypes());
             }
@@ -36,8 +36,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.ADDRESSUSE.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.ADDRESSUSE.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADDRESSUSE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSUSE.name());
             try {
                 lookUpData.setAddressUses(fisClient.getAddressUses());
             }
@@ -47,8 +47,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.IDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.IDENTIFIERSYSTEM.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.IDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.IDENTIFIERSYSTEM.name());
             try {
                 lookUpData.setIdentifierSystems(fisClient.getIdentifierSystems(null));
             }
@@ -58,8 +58,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.LOCATIONSTATUS.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.LOCATIONSTATUS.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONSTATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONSTATUS.name());
             try {
                 lookUpData.setLocationStatuses(fisClient.getLocationStatuses());
             }
@@ -69,8 +69,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.LOCATIONTYPE.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.LOCATIONTYPE.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONTYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONTYPE.name());
             try {
                 lookUpData.setLocationTypes(fisClient.getLocationTypes());
             }
@@ -80,8 +80,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.TELECOMSYSTEM.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.TELECOMSYSTEM.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TELECOMSYSTEM.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.TELECOMSYSTEM.name());
             try {
                 lookUpData.setTelecomSystems(fisClient.getTelecomSystems());
             }
@@ -91,8 +91,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.TELECOMUSE.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.TELECOMUSE.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TELECOMUSE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.TELECOMUSE.name());
             try {
                 lookUpData.setTelecomUses(fisClient.getTelecomUses());
             }
@@ -102,8 +102,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpKeyList == null || lookUpKeyList.size() == 0 || lookUpKeyList.stream().anyMatch(LookUpKeyEnum.USPSSTATES.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpKeyEnum.USPSSTATES.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USPSSTATES.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.USPSSTATES.name());
             try {
                 lookUpData.setUspsStates(fisClient.getUspsStates());
             }
