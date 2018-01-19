@@ -1,9 +1,11 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.OrganizationController;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -37,7 +39,7 @@ public interface FisClient {
     @RequestMapping(value = "/locations/{locationId}", method = RequestMethod.GET)
     LocationDto getLocation(@PathVariable("locationId") String locationId);
 
-    @RequestMapping(value = "/locations/{locationId}/childLocation", method = RequestMethod.GET)
+    @RequestMapping(value = "/locations/{locationId}/child-location", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
 
     //LOCATIONS - END
@@ -76,5 +78,41 @@ public interface FisClient {
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size);
+
+    //LOOKUP - START
+    @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
+    List<ValueSetDto> getUspsStates();
+
+    @RequestMapping(value = "/lookups/identifier-types", method = RequestMethod.GET)
+    List<ValueSetDto> getIdentifierTypes(@RequestParam(value = "resourceType", required = false) String resourceType);
+
+    @RequestMapping(value = "/lookups/identifier-systems", method = RequestMethod.GET)
+    List<IdentifierSystemDto> getIdentifierSystems(@RequestParam(value = "identifierType", required = false) String identifierType);
+
+    @RequestMapping(value = "/lookups/identifier-uses", method = RequestMethod.GET)
+    List<ValueSetDto> getIdentifierUses();
+
+    @RequestMapping(value = "/lookups/location-modes", method = RequestMethod.GET)
+    List<ValueSetDto> getLocationModes();
+
+    @RequestMapping(value = "/lookups/location-statuses", method = RequestMethod.GET)
+    List<ValueSetDto> getLocationStatuses();
+
+    @RequestMapping(value = "/lookups/location-types", method = RequestMethod.GET)
+    List<ValueSetDto> getLocationTypes();
+
+    @RequestMapping(value = "/lookups/address-types", method = RequestMethod.GET)
+    List<ValueSetDto> getAddressTypes();
+
+    @RequestMapping(value = "/lookups/address-uses", method = RequestMethod.GET)
+    List<ValueSetDto> getAddressUses();
+
+    @RequestMapping(value = "/lookups/telecom-uses", method = RequestMethod.GET)
+    List<ValueSetDto> getTelecomUses();
+
+    @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
+    List<ValueSetDto> getTelecomSystems();
+
+    //LOOKUP - END
 
 }
