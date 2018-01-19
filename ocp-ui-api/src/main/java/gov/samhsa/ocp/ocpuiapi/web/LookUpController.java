@@ -31,7 +31,7 @@ public class LookUpController {
                 lookUpData.setAddressTypes(fisClient.getAddressTypes());
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
         }
 
@@ -41,7 +41,7 @@ public class LookUpController {
                 lookUpData.setAddressUses(fisClient.getAddressUses());
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
         }
 
@@ -51,7 +51,7 @@ public class LookUpController {
                 lookUpData.setIdentifierSystems(fisClient.getIdentifierSystems(null));
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
         }
 
@@ -61,7 +61,7 @@ public class LookUpController {
                 lookUpData.setLocationStatuses(fisClient.getLocationStatuses());
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
         }
 
@@ -71,7 +71,7 @@ public class LookUpController {
                 lookUpData.setLocationTypes(fisClient.getLocationTypes());
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
         }
 
@@ -81,7 +81,7 @@ public class LookUpController {
                 lookUpData.setTelecomSystems(fisClient.getTelecomSystems());
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
         }
 
@@ -91,7 +91,7 @@ public class LookUpController {
                 lookUpData.setTelecomUses(fisClient.getTelecomUses());
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
         }
 
@@ -101,7 +101,7 @@ public class LookUpController {
                 lookUpData.setUspsStates(fisClient.getUspsStates());
             } catch (FeignException fe){
                 //Do nothing
-                log.error("Caution: No look up values found. pLease check ocp-fis logs for error details.");
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
 
         }
