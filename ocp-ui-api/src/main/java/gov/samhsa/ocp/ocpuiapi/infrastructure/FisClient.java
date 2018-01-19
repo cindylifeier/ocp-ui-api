@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
@@ -82,11 +83,14 @@ public interface FisClient {
     @RequestMapping(value = "/lookup/uspsStates", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
 
+    @RequestMapping(value = "/lookup/identifierTypes", method = RequestMethod.GET)
+    List<ValueSetDto> getIdentifierTypes(@RequestParam(value = "resourceType", required = false) String resourceType);
+
+    @RequestMapping(value = "/lookup/identifierSystems", method = RequestMethod.GET)
+    List<IdentifierSystemDto> getIdentifierSystems(@RequestParam(value = "identifierType", required = false) String identifierType);
+
     @RequestMapping(value = "/lookup/identifierUses", method = RequestMethod.GET)
     List<ValueSetDto> getIdentifierUses();
-
-    @RequestMapping(value = "/lookup/locationIdentifierTypes", method = RequestMethod.GET)
-    List<ValueSetDto> getLocationIdentifierTypes();
 
     @RequestMapping(value = "/lookup/locationModes", method = RequestMethod.GET)
     List<ValueSetDto> getLocationModes();
