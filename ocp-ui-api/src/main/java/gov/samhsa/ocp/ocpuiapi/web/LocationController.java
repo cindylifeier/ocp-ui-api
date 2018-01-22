@@ -2,7 +2,6 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CreateLocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
@@ -94,7 +93,7 @@ public class LocationController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createLocation(@PathVariable String organizationId,
                                @RequestParam(value = "parentLocationId", required = false) String parentLocationId,
-                               @Valid @RequestBody CreateLocationDto locationDto) {
+                               @Valid @RequestBody LocationDto locationDto) {
         log.info("About to create a location");
         try {
             fisClient.createLocation(organizationId, parentLocationId, locationDto);

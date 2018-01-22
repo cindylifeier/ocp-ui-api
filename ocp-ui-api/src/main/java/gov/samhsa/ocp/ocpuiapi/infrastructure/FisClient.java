@@ -1,6 +1,5 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
-import gov.samhsa.ocp.ocpuiapi.service.dto.CreateLocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -48,7 +47,7 @@ public interface FisClient {
     @RequestMapping(value = "/organization/{organizationId}/location", method = RequestMethod.POST)
     LocationDto createLocation(@PathVariable("organizationId") String organizationId,
                                @RequestParam(value = "parentLocationId", required = false) String parentLocationId,
-                               @Valid @RequestBody CreateLocationDto locationDto);
+                               @Valid @RequestBody LocationDto locationDto);
 
     //LOCATIONS - END
 
