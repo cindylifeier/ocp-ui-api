@@ -8,6 +8,8 @@ import gov.samhsa.ocp.ocpuiapi.service.exception.location.LocationNotFoundExcept
 import gov.samhsa.ocp.ocpuiapi.service.exception.organization.OrganizationNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.patient.PatientNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.practitioner.PractitionerNotFoundException;
+import gov.samhsa.ocp.ocpuiapi.service.exception.FisClientInterfaceException;
+import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,19 +29,18 @@ public final class ExceptionUtil {
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
-                    throw new PractitionerNotFoundException(errorMessage);
+                    throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
-                    throw new LocationNotFoundException(errorMessage);
+                    throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
-                    throw new OrganizationNotFoundException(errorMessage);
+                    throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.PATIENT.name()))
-                    throw new PatientNotFoundException(errorMessage);
+                    throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
         }
     }
-
 
     public static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
