@@ -2,9 +2,10 @@ package gov.samhsa.ocp.ocpuiapi.util;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
+import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
+import gov.samhsa.ocp.ocpuiapi.service.exception.DuplicateResourceFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.FisClientInterfaceException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFoundException;
-import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,6 +37,28 @@ public final class ExceptionUtil {
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
         }
     }
+
+    public static void handleFeignExceptionRelatedToResourceCreate(FeignException fe, String logErrorMessage, String resourceType) {
+        int causedByStatus = fe.status();
+        String errorMessage = getErrorMessageFromFeignException(fe);
+        String logErrorMessageWithCode;
+        switch (causedByStatus) {
+            case 400:
+                logErrorMessageWithCode = "Fis client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
+                    throw new BadRequestException(errorMessage);
+            case 409:
+                logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
+                    throw new DuplicateResourceFoundException(errorMessage);
+            default:
+                log.error("Fis client returned an unexpected instance of FeignException", fe);
+                throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
+        }
+    }
+
 
     public static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
