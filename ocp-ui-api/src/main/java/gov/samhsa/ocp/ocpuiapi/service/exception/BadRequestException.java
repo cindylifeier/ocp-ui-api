@@ -1,4 +1,4 @@
-package gov.samhsa.ocp.ocpuiapi.service.exception.client;
+package gov.samhsa.ocp.ocpuiapi.service.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

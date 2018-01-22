@@ -2,14 +2,9 @@ package gov.samhsa.ocp.ocpuiapi.util;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
-import gov.samhsa.ocp.ocpuiapi.service.exception.client.BadRequestException;
-import gov.samhsa.ocp.ocpuiapi.service.exception.client.FisClientInterfaceException;
-import gov.samhsa.ocp.ocpuiapi.service.exception.location.LocationNotFoundException;
-import gov.samhsa.ocp.ocpuiapi.service.exception.organization.OrganizationNotFoundException;
-import gov.samhsa.ocp.ocpuiapi.service.exception.patient.PatientNotFoundException;
-import gov.samhsa.ocp.ocpuiapi.service.exception.practitioner.PractitionerNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.FisClientInterfaceException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFoundException;
+import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -46,7 +41,7 @@ public final class ExceptionUtil {
         String detailMessage = fe.getMessage();
         String array[] = detailMessage.split("message");
         if (array.length > 1) {
-           return array[1].substring(array[1].indexOf("\":\"") + 3, array[1].indexOf("\",\""));
+            return array[1].substring(array[1].indexOf("\":\"") + 3, array[1].indexOf("\",\""));
         } else {
             return detailMessage;
         }
