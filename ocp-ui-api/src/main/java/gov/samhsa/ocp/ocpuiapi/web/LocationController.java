@@ -31,15 +31,9 @@ public class LocationController {
                                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                 @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Fetching locations from FHIR Server...");
-        try {
-            PageDto<LocationDto> fisClientResponse = fisClient.getAllLocations(statusList, searchKey, searchValue, pageNumber, pageSize);
-            log.info("Got response from FHIR Server...");
-            return fisClientResponse;
-        }
-        catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server", ResourceType.LOCATION.name());
-            return null;
-        }
+        PageDto<LocationDto> fisClientResponse = fisClient.getAllLocations(statusList, searchKey, searchValue, pageNumber, pageSize);
+        log.info("Got response from FHIR Server...");
+        return fisClientResponse;
 
     }
 
@@ -76,7 +70,7 @@ public class LocationController {
         }
     }
 
-    @GetMapping("/locations/{locationId}/childLocation")
+    @GetMapping("/locations/{locationId}/child-location")
     public LocationDto getChildLocation(@PathVariable String locationId) {
         log.info("Fetching child location from FHIR Server for the given LocationId: " + locationId);
         try {
