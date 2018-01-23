@@ -67,9 +67,9 @@ public class OrganizationController {
      * @return
      */
     @GetMapping("/organizations/search")
-    public PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) OrganizationController.SearchType searchType,
+    public PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) String searchType,
                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
-                                                        @RequestParam(value = "showInactive", required = false) Boolean showInactive,
+                                                        @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "size", required = false) Integer size) {
         log.info("Searching organizations from FHIR server");
