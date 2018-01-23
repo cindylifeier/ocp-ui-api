@@ -113,6 +113,8 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
 
+    @RequestMapping(value="/lookups/practitioner-roles", method=RequestMethod.GET)
+    List<ValueSetDto> getPractitionerRoles();
     //LOOKUP - END
 
 }
