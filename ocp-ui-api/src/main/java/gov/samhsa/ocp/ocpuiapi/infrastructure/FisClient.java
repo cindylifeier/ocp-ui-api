@@ -10,10 +10,12 @@ import gov.samhsa.ocp.ocpuiapi.web.OrganizationController;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
@@ -41,6 +43,11 @@ public interface FisClient {
 
     @RequestMapping(value = "/locations/{locationId}/child-location", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
+
+    @RequestMapping(value = "/organization/{organizationId}/location", method = RequestMethod.POST)
+    LocationDto createLocation(@PathVariable("organizationId") String organizationId,
+                               @RequestParam(value = "parentLocationId", required = false) String parentLocationId,
+                               @Valid @RequestBody LocationDto locationDto);
 
     //LOCATIONS - END
 
