@@ -117,8 +117,5 @@ public class LocationController {
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated", ResourceType.LOCATION.name());
         }
-
     }
-
-
 }
