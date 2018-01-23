@@ -113,6 +113,18 @@ public class LookUpController {
             }
 
         }
+
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PRACTITIONERROLES.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PRACTITIONERROLES.name());
+            try {
+                lookUpData.setPractitionerRoles(fisClient.getPractitionerRoles());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
         return lookUpData;
     }
 }
