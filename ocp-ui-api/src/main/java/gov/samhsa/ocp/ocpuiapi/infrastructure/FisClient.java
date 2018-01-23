@@ -106,8 +106,8 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/location-statuses", method = RequestMethod.GET)
     List<ValueSetDto> getLocationStatuses();
 
-    @RequestMapping(value = "/lookups/location-types", method = RequestMethod.GET)
-    List<ValueSetDto> getLocationTypes();
+    @RequestMapping(value = "/lookups/location-physical-types", method = RequestMethod.GET)
+    List<ValueSetDto> getLocationPhysicalTypes();
 
     @RequestMapping(value = "/lookups/address-types", method = RequestMethod.GET)
     List<ValueSetDto> getAddressTypes();
@@ -120,7 +120,6 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
-
     //LOOKUP - END
 
 }
