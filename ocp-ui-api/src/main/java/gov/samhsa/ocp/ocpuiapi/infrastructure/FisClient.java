@@ -6,7 +6,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
-import gov.samhsa.ocp.ocpuiapi.web.OrganizationController;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,8 +45,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/organization/{organizationId}/location", method = RequestMethod.POST)
     void createLocation(@PathVariable("organizationId") String organizationId,
-                               @RequestParam(value = "parentLocationId", required = false) String parentLocationId,
-                               @Valid @RequestBody LocationDto locationDto);
+                        @Valid @RequestBody LocationDto locationDto);
 
     //LOCATIONS - END
 

@@ -92,11 +92,10 @@ public class LocationController {
     @PostMapping("/organization/{organizationId}/location")
     @ResponseStatus(HttpStatus.CREATED)
     public void createLocation(@PathVariable String organizationId,
-                               @RequestParam(value = "parentLocationId", required = false) String parentLocationId,
-                               @Valid @RequestBody LocationDto locationDto) {
+                                @Valid @RequestBody LocationDto locationDto) {
         log.info("About to create a location");
         try {
-            fisClient.createLocation(organizationId, parentLocationId, locationDto);
+            fisClient.createLocation(organizationId, locationDto);
             log.info("Successfully created the location");
         }
         catch (FeignException fe) {
