@@ -72,7 +72,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONTYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONTYPE.name());
             try {
-                lookUpData.setLocationTypes(fisClient.getLocationTypes());
+                lookUpData.setLocationPhysicalTypes(fisClient.getLocationPhysicalTypes());
             }
             catch (FeignException fe) {
                 //Do nothing
