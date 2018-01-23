@@ -59,6 +59,27 @@ public final class ExceptionUtil {
         }
     }
 
+    public static void handleFeignExceptionRelatedToResourceUpdate(FeignException fe, String logErrorMessage, String resourceType) {
+        int causedByStatus = fe.status();
+        String errorMessage = getErrorMessageFromFeignException(fe);
+        String logErrorMessageWithCode;
+        switch (causedByStatus) {
+            case 400:
+                logErrorMessageWithCode = "Fis client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
+                    throw new BadRequestException(errorMessage);
+            case 409:
+                logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
+                    throw new DuplicateResourceFoundException(errorMessage);
+            default:
+                log.error("Fis client returned an unexpected instance of FeignException", fe);
+                throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
+        }
+    }
+
 
     public static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
