@@ -69,8 +69,8 @@ public class LookUpController {
             }
         }
 
-        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONTYPE.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONTYPE.name());
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONPHYSICALTYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONPHYSICALTYPE.name());
             try {
                 lookUpData.setLocationPhysicalTypes(fisClient.getLocationPhysicalTypes());
             }
