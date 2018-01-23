@@ -45,7 +45,7 @@ public interface FisClient {
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
 
     @RequestMapping(value = "/organization/{organizationId}/location", method = RequestMethod.POST)
-    LocationDto createLocation(@PathVariable("organizationId") String organizationId,
+    void createLocation(@PathVariable("organizationId") String organizationId,
                                @RequestParam(value = "parentLocationId", required = false) String parentLocationId,
                                @Valid @RequestBody LocationDto locationDto);
 
