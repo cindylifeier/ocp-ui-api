@@ -75,6 +75,9 @@ public interface FisClient {
                                                  @RequestParam(value = "page", required = false) Integer page,
                                                  @RequestParam(value = "size", required = false) Integer size);
 
+    @RequestMapping(value = "/organizations", method = RequestMethod.POST)
+    void createOrganization(@Valid @RequestBody OrganizationDto organizationDto);
+
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
     Object getPatients();
