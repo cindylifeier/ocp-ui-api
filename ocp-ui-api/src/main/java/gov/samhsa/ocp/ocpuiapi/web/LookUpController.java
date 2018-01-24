@@ -113,6 +113,73 @@ public class LookUpController {
             }
 
         }
+
+        //Administrative Gender
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADMINISTRATIVEGENDER.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ADMINISTRATIVEGENDER.name());
+            try {
+                lookUpData.setUspsStates(fisClient.getAdministrativeGenders());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
+
+        //US Core Races
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCORERACE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.USCORERACE.name());
+            try {
+                lookUpData.setUspsStates(fisClient.getUSCoreRaces());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
+
+        //US Core Ethnicities
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCOREETHNICITY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.USCOREETHNICITY.name());
+            try {
+                lookUpData.setUspsStates(fisClient.getUSCoreEthnicities());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
+
+        //US Core Birthsexes
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCOREBIRTHSEX.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.USCOREBIRTHSEX.name());
+            try {
+                lookUpData.setUspsStates(fisClient.getUSCoreBirthsexes());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
+
+        //Languages
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LANGUAGE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.LANGUAGE.name());
+            try {
+                lookUpData.setUspsStates(fisClient.getLanguages());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
+
+
         return lookUpData;
     }
 }

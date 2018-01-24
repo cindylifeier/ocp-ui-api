@@ -11,7 +11,12 @@ public enum LookUpTypeEnum {
     LOCATIONPHYSICALTYPE,
     TELECOMSYSTEM,
     TELECOMUSE,
-    USPSSTATES;
+    USPSSTATES,
+    ADMINISTRATIVEGENDER,
+    USCORERACE,
+    USCOREETHNICITY,
+    USCOREBIRTHSEX,
+    LANGUAGE;
 
     public static boolean contains(String s) {
         return Arrays.stream(values()).anyMatch(key -> key.name().equalsIgnoreCase(s));
