@@ -18,9 +18,9 @@ public class LookUpDataDto {
     List<IdentifierSystemDto> locationIdentifierSystems;
     List<ValueSetDto> locationStatuses;
     List<ValueSetDto> locationTypes;
-    List<OrganizationStatusDto> organizationStatuses;
     List<ValueSetDto> locationPhysicalTypes;
     List<IdentifierSystemDto> organizationIdentifierSystems;
+    List<OrganizationStatusDto> organizationStatuses;
     List<IdentifierSystemDto> patientIdentifierSystems;
     List<IdentifierSystemDto> practitionerIdentifierSystems;
     List<ValueSetDto> telecomSystems;

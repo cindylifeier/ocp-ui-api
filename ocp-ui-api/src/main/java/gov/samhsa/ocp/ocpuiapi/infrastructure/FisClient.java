@@ -127,8 +127,8 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
 
-    @RequestMapping(value = "/lookups/organization-status", method = RequestMethod.GET)
-    List<OrganizationStatusDto> getOrganizationActiveStatus();
+    @RequestMapping(value = "/lookups/organization-statuses", method = RequestMethod.GET)
+    List<OrganizationStatusDto> getOrganizationStatuses();
 
     //LOOKUP - END
 
