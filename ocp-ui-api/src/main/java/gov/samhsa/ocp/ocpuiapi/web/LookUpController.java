@@ -168,7 +168,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADMINISTRATIVEGENDER.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ADMINISTRATIVEGENDER.name());
             try {
-                lookUpData.setUspsStates(fisClient.getAdministrativeGenders());
+                lookUpData.setAdministrativeGenders(fisClient.getAdministrativeGenders());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -181,7 +181,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCORERACE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USCORERACE.name());
             try {
-                lookUpData.setUspsStates(fisClient.getUSCoreRaces());
+                lookUpData.setUsCoreRaces(fisClient.getUSCoreRaces());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -194,7 +194,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCOREETHNICITY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USCOREETHNICITY.name());
             try {
-                lookUpData.setUspsStates(fisClient.getUSCoreEthnicities());
+                lookUpData.setUsCoreEthnicities(fisClient.getUSCoreEthnicities());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -207,7 +207,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCOREBIRTHSEX.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USCOREBIRTHSEX.name());
             try {
-                lookUpData.setUspsStates(fisClient.getUSCoreBirthsexes());
+                lookUpData.setUsCoreBirthSex(fisClient.getUSCoreBirthsexes());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -220,7 +220,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LANGUAGE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LANGUAGE.name());
             try {
-                lookUpData.setUspsStates(fisClient.getLanguages());
+                lookUpData.setLanguages(fisClient.getLanguages());
             }
             catch (FeignException fe) {
                 //Do nothing

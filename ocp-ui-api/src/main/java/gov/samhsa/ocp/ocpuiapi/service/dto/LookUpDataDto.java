@@ -24,4 +24,10 @@ public class LookUpDataDto {
     List<ValueSetDto> telecomSystems;
     List<ValueSetDto> telecomUses;
     List<ValueSetDto> uspsStates;
+    List<ValueSetDto> administrativeGenders;
+    List<ValueSetDto> usCoreRaces;
+    List<ValueSetDto> usCoreEthnicities;
+    List<ValueSetDto> usCoreBirthSex;
+    List<ValueSetDto> languages;
+
 }
