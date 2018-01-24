@@ -4,6 +4,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
@@ -87,6 +88,12 @@ public interface FisClient {
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size);
 
+    @RequestMapping(value = "/patients", method = RequestMethod.POST)
+    void createPatient(@Valid @RequestBody PatientDto patientDto);
+
+    @RequestMapping(value = "/patients", method = RequestMethod.PUT)
+    void updatePatient(@Valid @RequestBody PatientDto patientDto);
+
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
@@ -120,6 +127,20 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
-    //LOOKUP - END
+
+    @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
+    List<ValueSetDto> getAdministrativeGenders();
+
+    @RequestMapping(value = "/lookups/us-core-races", method = RequestMethod.GET)
+    List<ValueSetDto> getUSCoreRaces();
+
+    @RequestMapping(value = "/lookups/us-core-ethnicities", method = RequestMethod.GET)
+    List<ValueSetDto> getUSCoreEthnicities();
+
+    @RequestMapping(value = "/lookups/us-core-birthsexes", method = RequestMethod.GET)
+    List<ValueSetDto> getUSCoreBirthsexes();
+
+    @RequestMapping(value = "/lookups/languages", method = RequestMethod.GET)
+    List<ValueSetDto> getLanguages();
 
 }
