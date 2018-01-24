@@ -100,7 +100,7 @@ public interface FisClient {
     List<ValueSetDto> getIdentifierTypes(@RequestParam(value = "resourceType", required = false) String resourceType);
 
     @RequestMapping(value = "/lookups/identifier-systems", method = RequestMethod.GET)
-    List<IdentifierSystemDto> getIdentifierSystems(@RequestParam(value = "identifierType", required = false) String identifierType);
+    List<IdentifierSystemDto> getIdentifierSystems(@RequestParam(value = "identifierTypeList", required = false) List<String> identifierTypeList);
 
     @RequestMapping(value = "/lookups/identifier-uses", method = RequestMethod.GET)
     List<ValueSetDto> getIdentifierUses();

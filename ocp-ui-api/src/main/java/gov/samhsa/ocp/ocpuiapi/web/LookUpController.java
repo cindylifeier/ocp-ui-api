@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -21,10 +22,16 @@ public class LookUpController {
     @Autowired
     private FisClient fisClient;
 
+    final List<String> allowedlocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
+    final List<String> allowedOrganizationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
+    final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR","DR","SB");
+    final List<String> allowedPractitionerIdentifierTypes = Arrays.asList("PRN", "TAX", "MD", "SB");
+
     @GetMapping()
     public LookUpDataDto getAllLookUpValues(@RequestParam(value = "lookUpTypeList", required = false) List<String> lookUpTypeList) {
         LookUpDataDto lookUpData = new LookUpDataDto();
 
+        //Adddress type
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADDRESSTYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSTYPE.name());
             try {
@@ -36,6 +43,7 @@ public class LookUpController {
             }
         }
 
+        //Address use
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADDRESSUSE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSUSE.name());
             try {
@@ -47,10 +55,11 @@ public class LookUpController {
             }
         }
 
-        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.IDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpTypeEnum.IDENTIFIERSYSTEM.name());
+        //Location identifier system
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name());
             try {
-                lookUpData.setIdentifierSystems(fisClient.getIdentifierSystems(null));
+                lookUpData.setLocationIdentifierSystems(fisClient.getIdentifierSystems(allowedlocationIdentifierTypes));
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -58,6 +67,7 @@ public class LookUpController {
             }
         }
 
+        //Location status
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONSTATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONSTATUS.name());
             try {
@@ -69,6 +79,7 @@ public class LookUpController {
             }
         }
 
+        //Location Physical Type
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONPHYSICALTYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONPHYSICALTYPE.name());
             try {
@@ -80,6 +91,43 @@ public class LookUpController {
             }
         }
 
+        //Org identifier system
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ORGANIZATIONIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ORGANIZATIONIDENTIFIERSYSTEM.name());
+            try {
+                lookUpData.setOrganizationIdentifierSystems(fisClient.getIdentifierSystems(allowedOrganizationIdentifierTypes));
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+        }
+
+        //Patient identifier system
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name());
+            try {
+                lookUpData.setPatientIdentifierSystems(fisClient.getIdentifierSystems(allowedPatientIdentifierTypes));
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+        }
+
+        //Practitioner identifier system
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PRACTITIONERIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PRACTITIONERIDENTIFIERSYSTEM.name());
+            try {
+                lookUpData.setPractitionerIdentifierSystems(fisClient.getIdentifierSystems(allowedPractitionerIdentifierTypes));
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+        }
+
+        //Telecom Systems
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TELECOMSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.TELECOMSYSTEM.name());
             try {
@@ -91,6 +139,7 @@ public class LookUpController {
             }
         }
 
+        //Telecom Use
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TELECOMUSE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.TELECOMUSE.name());
             try {
@@ -102,6 +151,7 @@ public class LookUpController {
             }
         }
 
+        //Us States
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USPSSTATES.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USPSSTATES.name());
             try {
