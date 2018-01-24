@@ -151,7 +151,7 @@ public class LookUpController {
             }
         }
 
-        //Us States
+        //US States
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USPSSTATES.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USPSSTATES.name());
             try {
