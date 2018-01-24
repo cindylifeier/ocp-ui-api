@@ -47,6 +47,11 @@ public interface FisClient {
     void createLocation(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody LocationDto locationDto);
 
+    @RequestMapping(value = "/organization/{organizationId}/location/{locationId}", method = RequestMethod.PUT)
+    void updateLocation(@PathVariable("organizationId") String organizationId,
+                        @PathVariable("locationId") String locationId,
+                        @Valid @RequestBody LocationDto locationDto);
+
     //LOCATIONS - END
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
