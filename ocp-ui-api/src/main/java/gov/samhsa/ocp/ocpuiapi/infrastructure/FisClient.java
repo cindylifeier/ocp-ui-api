@@ -52,6 +52,9 @@ public interface FisClient {
                         @PathVariable("locationId") String locationId,
                         @Valid @RequestBody LocationDto locationDto);
 
+    @RequestMapping(value = "/location/{locationId}/inactive", method = RequestMethod.PUT)
+    void inactivateLocation(@PathVariable("locationId") String locationId);
+
     //LOCATIONS - END
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
