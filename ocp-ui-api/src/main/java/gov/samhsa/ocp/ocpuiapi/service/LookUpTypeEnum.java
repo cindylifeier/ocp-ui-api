@@ -6,7 +6,7 @@ public enum LookUpTypeEnum {
     //In alphabetical order
     ADDRESSTYPE,
     ADDRESSUSE,
-    IDENTIFIERSYSTEM,
+    LOCATIONIDENTIFIERSYSTEM,
     LOCATIONSTATUS,
     LOCATIONTYPE,
     PRACTITIONERROLES,

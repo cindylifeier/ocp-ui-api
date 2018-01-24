@@ -67,6 +67,9 @@ public interface FisClient {
                                                  @RequestParam(value = "page", required = false) Integer page,
                                                  @RequestParam(value = "size", required = false) Integer size);
 
+    @RequestMapping(value="/practitioners",method=RequestMethod.POST)
+    void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto);
+
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
     PageDto<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                  @RequestParam(value = "page", required = false) Integer page,

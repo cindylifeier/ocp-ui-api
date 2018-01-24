@@ -8,11 +8,16 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,5 +81,17 @@ public class PractitionerController {
             return null;
         }
     }
+
+    @PostMapping("/practitioners")
+    @ResponseStatus(HttpStatus.CREATED)
+    void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto) {
+        try {
+
+            fisClient.createPractitioner(practitionerDto);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, " that the practitioner was not created", ResourceType.PRACTITIONER.name());
+        }
+    }
+
 
 }
