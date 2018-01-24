@@ -18,7 +18,7 @@ public class LookUpDataDto {
     List<IdentifierSystemDto> identifierSystems;
     List<ValueSetDto> locationStatuses;
     List<ValueSetDto> locationTypes;
-    boolean[] organizationStatuses;
+    List<OrganizationStatusDto> organizationStatuses;
     List<ValueSetDto> telecomSystems;
     List<ValueSetDto> telecomUses;
     List<ValueSetDto> uspsStates;
