@@ -69,6 +69,11 @@ public final class ExceptionUtil {
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new BadRequestException(errorMessage);
+            case 404:
+                logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
+                    throw new ResourceNotFoundException(errorMessage);
             case 409:
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
