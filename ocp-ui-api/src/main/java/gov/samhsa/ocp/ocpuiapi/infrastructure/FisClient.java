@@ -6,7 +6,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
-import gov.samhsa.ocp.ocpuiapi.web.OrganizationController;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,6 +68,12 @@ public interface FisClient {
 
     @RequestMapping(value="/practitioners",method=RequestMethod.POST)
     void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto);
+
+    @RequestMapping(value="/practitioners/{practitionerId}",method=RequestMethod.PUT)
+    void updatePractitioner(@PathVariable("practitionerId")String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto);
+
+    @RequestMapping(value="/practitioners/{practitionerId}",method=RequestMethod.GET)
+    PractitionerDto getPractitioner(@PathVariable("practitionerId")String practitionerId);
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
     PageDto<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
