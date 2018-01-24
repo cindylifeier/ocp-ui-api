@@ -15,9 +15,12 @@ public class LookUpDataDto {
     //In alphabetical order
     List<ValueSetDto> addressTypes;
     List<ValueSetDto> addressUses;
-    List<IdentifierSystemDto> identifierSystems;
+    List<IdentifierSystemDto> locationIdentifierSystems;
     List<ValueSetDto> locationStatuses;
-    List<ValueSetDto> locationTypes;
+    List<ValueSetDto> locationPhysicalTypes;
+    List<IdentifierSystemDto> organizationIdentifierSystems;
+    List<IdentifierSystemDto> patientIdentifierSystems;
+    List<IdentifierSystemDto> practitionerIdentifierSystems;
     List<ValueSetDto> telecomSystems;
     List<ValueSetDto> telecomUses;
     List<ValueSetDto> uspsStates;
