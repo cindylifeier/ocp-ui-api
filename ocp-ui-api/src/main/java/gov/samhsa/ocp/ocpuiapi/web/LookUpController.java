@@ -103,6 +103,18 @@ public class LookUpController {
             }
         }
 
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ORGANIZATIONSTATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ORGANIZATIONSTATUS.name());
+            try {
+                lookUpData.setOrganizationStatuses(fisClient.getOrganizationStatuses());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
+
         //Patient identifier system
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name());
@@ -163,6 +175,7 @@ public class LookUpController {
             }
 
         }
+
         return lookUpData;
     }
 }

@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
@@ -128,6 +129,10 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
+
+    @RequestMapping(value = "/lookups/organization-statuses", method = RequestMethod.GET)
+    List<OrganizationStatusDto> getOrganizationStatuses();
+
     //LOOKUP - END
 
 }
