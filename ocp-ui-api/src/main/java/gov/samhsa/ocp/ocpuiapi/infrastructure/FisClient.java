@@ -66,14 +66,14 @@ public interface FisClient {
                                                  @RequestParam(value = "page", required = false) Integer page,
                                                  @RequestParam(value = "size", required = false) Integer size);
 
-    @RequestMapping(value="/practitioners",method=RequestMethod.POST)
+    @RequestMapping(value = "/practitioners", method = RequestMethod.POST)
     void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto);
 
-    @RequestMapping(value="/practitioners/{practitionerId}",method=RequestMethod.PUT)
-    void updatePractitioner(@PathVariable("practitionerId")String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto);
+    @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.PUT)
+    void updatePractitioner(@PathVariable("practitionerId") String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto);
 
-    @RequestMapping(value="/practitioners/{practitionerId}",method=RequestMethod.GET)
-    PractitionerDto getPractitioner(@PathVariable("practitionerId")String practitionerId);
+    @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.GET)
+    PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
     PageDto<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
@@ -135,7 +135,7 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
 
-    @RequestMapping(value="/lookups/practitioner-roles", method=RequestMethod.GET)
+    @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
     //LOOKUP - END
 

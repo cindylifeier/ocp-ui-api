@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -38,6 +36,7 @@ public class PractitionerController {
     /**
      * Example: http://localhost:8446/ocp-fis/practitioners/
      * http://localhost:8446/ocp-fis/practitioners?showInActive=true&page=1&size=10
+     *
      * @param showInactive
      * @param page
      * @param size
@@ -60,6 +59,7 @@ public class PractitionerController {
 
     /**
      * Example: http://localhost:8446/ocp-fis/practitioners/search?searchType=name&searchValue=smith&showInactive=true&page=1&size=10
+     *
      * @param searchType
      * @param searchValue
      * @param showInactive
@@ -69,17 +69,17 @@ public class PractitionerController {
      */
     @GetMapping("/practitioners/search")
     public PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
-                                                     @RequestParam(value = "searchValue", required = false) String searchValue,
-                                                     @RequestParam(value = "showInactive", required = false) Boolean showInactive,
-                                                     @RequestParam(value = "page", required = false) Integer page,
-                                                     @RequestParam(value = "size", required = false) Integer size) {
+                                                        @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                        @RequestParam(value = "showInactive", required = false) Boolean showInactive,
+                                                        @RequestParam(value = "page", required = false) Integer page,
+                                                        @RequestParam(value = "size", required = false) Integer size) {
         log.info("Searching practitioners from FHIR server");
         try {
             PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, showInactive, page, size);
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found found in the configured FHIR server for the given searchType and searchValue",  ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found found in the configured FHIR server for the given searchType and searchValue", ResourceType.PRACTITIONER.name());
             return null;
         }
     }
@@ -97,21 +97,21 @@ public class PractitionerController {
 
     @PutMapping("/practitioners/{practitionerId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePractitioner(@PathVariable String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto){
-        try{
-            fisClient.updatePractitioner(practitionerId,practitionerDto);
+    public void updatePractitioner(@PathVariable String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto) {
+        try {
+            fisClient.updatePractitioner(practitionerId, practitionerDto);
 
-        }catch (FeignException fe){
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the practitioner was not updated", ResourceType.PRACTITIONER.name());
         }
     }
 
     @GetMapping("/practitioners/{practitionerId}")
-    public PractitionerDto getPractitioner(@PathVariable String practitionerId){
-        try{
+    public PractitionerDto getPractitioner(@PathVariable String practitionerId) {
+        try {
             return fisClient.getPractitioner(practitionerId);
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"NO practitioner was not found",ResourceType.PRACTITIONER.name());
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "NO practitioner was not found", ResourceType.PRACTITIONER.name());
             return null;
         }
     }
