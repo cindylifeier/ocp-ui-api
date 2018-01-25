@@ -25,11 +25,11 @@ public class LookUpDataDto {
     List<OrganizationStatusDto> organizationStatuses;
     List<IdentifierSystemDto> patientIdentifierSystems;
     List<IdentifierSystemDto> practitionerIdentifierSystems;
+    List<ValueSetDto> practitionerRoles;
     List<ValueSetDto> telecomSystems;
     List<ValueSetDto> telecomUses;
     List<ValueSetDto> usCoreBirthSex;
     List<ValueSetDto> usCoreEthnicities;
     List<ValueSetDto> usCoreRaces;
     List<ValueSetDto> uspsStates;
-
 }
