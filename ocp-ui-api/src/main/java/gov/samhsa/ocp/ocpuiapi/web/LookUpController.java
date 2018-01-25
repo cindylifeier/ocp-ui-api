@@ -19,13 +19,12 @@ import java.util.List;
 @RequestMapping("ocp-fis/lookups")
 public class LookUpController {
 
-    @Autowired
-    private FisClient fisClient;
-
     final List<String> allowedlocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
     final List<String> allowedOrganizationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
-    final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR","DR","SB");
+    final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR", "DR", "SB");
     final List<String> allowedPractitionerIdentifierTypes = Arrays.asList("PRN", "TAX", "MD", "SB");
+    @Autowired
+    private FisClient fisClient;
 
     @GetMapping()
     public LookUpDataDto getAllLookUpValues(@RequestParam(value = "lookUpTypeList", required = false) List<String> lookUpTypeList) {
@@ -36,8 +35,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSTYPE.name());
             try {
                 lookUpData.setAddressTypes(fisClient.getAddressTypes());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -48,8 +46,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSUSE.name());
             try {
                 lookUpData.setAddressUses(fisClient.getAddressUses());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -60,8 +57,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name());
             try {
                 lookUpData.setLocationIdentifierSystems(fisClient.getIdentifierSystems(allowedlocationIdentifierTypes));
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -72,8 +68,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONSTATUS.name());
             try {
                 lookUpData.setLocationStatuses(fisClient.getLocationStatuses());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -84,8 +79,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONPHYSICALTYPE.name());
             try {
                 lookUpData.setLocationPhysicalTypes(fisClient.getLocationPhysicalTypes());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -96,11 +90,21 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.ORGANIZATIONIDENTIFIERSYSTEM.name());
             try {
                 lookUpData.setOrganizationIdentifierSystems(fisClient.getIdentifierSystems(allowedOrganizationIdentifierTypes));
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
+        }
+
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ORGANIZATIONSTATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ORGANIZATIONSTATUS.name());
+            try {
+                lookUpData.setOrganizationStatuses(fisClient.getOrganizationStatuses());
+            } catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
         }
 
         //Patient identifier system
@@ -108,8 +112,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name());
             try {
                 lookUpData.setPatientIdentifierSystems(fisClient.getIdentifierSystems(allowedPatientIdentifierTypes));
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -120,8 +123,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.PRACTITIONERIDENTIFIERSYSTEM.name());
             try {
                 lookUpData.setPractitionerIdentifierSystems(fisClient.getIdentifierSystems(allowedPractitionerIdentifierTypes));
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -132,8 +134,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.TELECOMSYSTEM.name());
             try {
                 lookUpData.setTelecomSystems(fisClient.getTelecomSystems());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -144,8 +145,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.TELECOMUSE.name());
             try {
                 lookUpData.setTelecomUses(fisClient.getTelecomUses());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -156,8 +156,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.USPSSTATES.name());
             try {
                 lookUpData.setUspsStates(fisClient.getUspsStates());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }
@@ -168,8 +167,7 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.PRACTITIONERROLES.name());
             try {
                 lookUpData.setPractitionerRoles(fisClient.getPractitionerRoles());
-            }
-            catch (FeignException fe) {
+            } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
             }

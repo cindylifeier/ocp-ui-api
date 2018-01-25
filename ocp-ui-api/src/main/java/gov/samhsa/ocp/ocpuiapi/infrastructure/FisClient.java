@@ -1,18 +1,9 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
-import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.*;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -51,6 +42,9 @@ public interface FisClient {
     void updateLocation(@PathVariable("organizationId") String organizationId,
                         @PathVariable("locationId") String locationId,
                         @Valid @RequestBody LocationDto locationDto);
+
+    @RequestMapping(value = "/location/{locationId}/inactive", method = RequestMethod.PUT)
+    void inactivateLocation(@PathVariable("locationId") String locationId);
 
     //LOCATIONS - END
 
@@ -134,6 +128,10 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/telecom-systems", method = RequestMethod.GET)
     List<ValueSetDto> getTelecomSystems();
+
+    @RequestMapping(value = "/lookups/organization-statuses", method = RequestMethod.GET)
+    List<OrganizationStatusDto> getOrganizationStatuses();
+
 
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
