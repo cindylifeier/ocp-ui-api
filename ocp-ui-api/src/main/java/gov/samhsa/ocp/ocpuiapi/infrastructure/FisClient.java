@@ -1,19 +1,9 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
-import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.*;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -69,6 +59,15 @@ public interface FisClient {
                                                  @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                  @RequestParam(value = "page", required = false) Integer page,
                                                  @RequestParam(value = "size", required = false) Integer size);
+
+    @RequestMapping(value = "/practitioners", method = RequestMethod.POST)
+    void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto);
+
+    @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.PUT)
+    void updatePractitioner(@PathVariable("practitionerId") String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto);
+
+    @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.GET)
+    PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
 
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
     PageDto<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
@@ -138,6 +137,9 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/organization-statuses", method = RequestMethod.GET)
     List<OrganizationStatusDto> getOrganizationStatuses();
 
+
+    @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
+    List<ValueSetDto> getPractitionerRoles();
     //LOOKUP - END
 
 }
