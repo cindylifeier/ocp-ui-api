@@ -1,6 +1,13 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
-import gov.samhsa.ocp.ocpuiapi.service.dto.*;
+import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -97,6 +104,15 @@ public interface FisClient {
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size);
 
+    @RequestMapping(value = "/patients", method = RequestMethod.POST)
+    void createPatient(@Valid @RequestBody PatientDto patientDto);
+
+    @RequestMapping(value = "/patients", method = RequestMethod.PUT)
+    void updatePatient(@Valid @RequestBody PatientDto patientDto);
+
+    @RequestMapping(value = "/patients/{patientId}", method = RequestMethod.GET)
+    PatientDto getPatientById(@PathVariable("patientId") String patientId);
+
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
@@ -138,5 +154,20 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
     //LOOKUP - END
+
+    @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
+    List<ValueSetDto> getAdministrativeGenders();
+
+    @RequestMapping(value = "/lookups/us-core-races", method = RequestMethod.GET)
+    List<ValueSetDto> getUSCoreRaces();
+
+    @RequestMapping(value = "/lookups/us-core-ethnicities", method = RequestMethod.GET)
+    List<ValueSetDto> getUSCoreEthnicities();
+
+    @RequestMapping(value = "/lookups/us-core-birthsexes", method = RequestMethod.GET)
+    List<ValueSetDto> getUSCoreBirthsexes();
+
+    @RequestMapping(value = "/lookups/languages", method = RequestMethod.GET)
+    List<ValueSetDto> getLanguages();
 
 }

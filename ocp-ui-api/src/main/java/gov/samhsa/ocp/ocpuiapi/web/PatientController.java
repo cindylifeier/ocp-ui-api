@@ -2,15 +2,22 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("ocp-fis/patients")
@@ -51,4 +58,40 @@ public class PatientController {
             return fe;
         }
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createPatient(@Valid @RequestBody PatientDto patientDto) {
+        try {
+            fisClient.createPatient(patientDto);
+            log.debug("Successfully created a patient");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Patient could not be created in FHIR server", ResourceType.PATIENT.name());
+        }
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void updatePatient(@Valid @RequestBody PatientDto patientDto) {
+        try {
+            fisClient.updatePatient(patientDto);
+            log.debug("Successfully updated a patient");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Patient could not be updated in FHIR server", ResourceType.PATIENT.name());
+        }
+    }
+
+    @GetMapping("/{patientId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getPatientById(@PathVariable String patientId) {
+        try {
+            log.debug("Successfully retrieved a patient with the given patientId : " + patientId);
+            return fisClient.getPatientById(patientId);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Patient could not be retrieved for given patientId : " + patientId, ResourceType.PATIENT.name());
+            return fe;
+        }
+    }
+
+
 }
