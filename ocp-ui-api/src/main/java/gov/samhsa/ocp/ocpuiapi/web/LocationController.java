@@ -118,4 +118,17 @@ public class LocationController {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated", ResourceType.LOCATION.name());
         }
     }
+
+    @PutMapping("/location/{locationId}/inactive")
+    @ResponseStatus(HttpStatus.OK)
+    public void inactivateLocation(@PathVariable String locationId) {
+        log.info("About to Inactivating the location: " + locationId);
+        try {
+            fisClient.inactivateLocation(locationId);
+            log.info("Successfully inactivated the location: " + locationId);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the location was not inactivated", ResourceType.LOCATION.name());
+        }
+    }
 }

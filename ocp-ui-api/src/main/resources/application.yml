@@ -3,7 +3,7 @@ server:
 logging:
   file: /java/OCP_LOGS/ocp-ui-api/ocp-ui-api.log
 info:
-  component: OCP Ui Api
+  component: OCP UI API
 ribbon:
   ReadTimeout: 50000
   listOfServers: http://localhost:8444
