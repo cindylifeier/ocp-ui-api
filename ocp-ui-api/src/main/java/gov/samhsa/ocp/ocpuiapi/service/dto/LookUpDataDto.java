@@ -26,4 +26,5 @@ public class LookUpDataDto {
     List<ValueSetDto> telecomSystems;
     List<ValueSetDto> telecomUses;
     List<ValueSetDto> uspsStates;
+    List<ValueSetDto> practitionerRoles;
 }
