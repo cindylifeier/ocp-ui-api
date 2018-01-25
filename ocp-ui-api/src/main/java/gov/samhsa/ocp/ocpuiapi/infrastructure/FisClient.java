@@ -88,6 +88,9 @@ public interface FisClient {
     @RequestMapping(value = "/organizations/{organizationId}", method = RequestMethod.PUT)
     void updateOrganization(@PathVariable("organizationId") String organizationId, @Valid @RequestBody OrganizationDto organizationDto);
 
+    @RequestMapping(value = "/organizations/{organizationId}/inactive", method = RequestMethod.PUT)
+    void inactivateOrganization(@PathVariable("organizationId") String organizationId);
+
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
     Object getPatients();
 
