@@ -8,6 +8,7 @@ import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,7 +77,19 @@ public class PatientController {
             fisClient.updatePatient(patientDto);
             log.debug("Successfully updated a patient");
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Patient could not be updated in FHIR server", ResourceType.PATIENT.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Patient could not be updated in FHIR server", ResourceType.PATIENT.name());
+        }
+    }
+
+    @GetMapping("/{patientId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getPatientById(@PathVariable String patientId) {
+        try {
+            log.debug("Successfully retrieved a patient with the given patientId : " + patientId);
+            return fisClient.getPatientById(patientId);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Patient could not be retrieved for given patientId : " + patientId, ResourceType.PATIENT.name());
+            return fe;
         }
     }
 
