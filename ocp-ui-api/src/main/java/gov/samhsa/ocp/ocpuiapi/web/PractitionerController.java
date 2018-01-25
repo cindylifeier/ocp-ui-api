@@ -79,7 +79,7 @@ public class PractitionerController {
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found found in the configured FHIR server for the given searchType and searchValue", ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server for the given searchType and searchValue", ResourceType.PRACTITIONER.name());
             return null;
         }
     }
@@ -111,7 +111,7 @@ public class PractitionerController {
         try {
             return fisClient.getPractitioner(practitionerId);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "NO practitioner was not found", ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found", ResourceType.PRACTITIONER.name());
             return null;
         }
     }
