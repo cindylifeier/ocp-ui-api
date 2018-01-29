@@ -112,5 +112,17 @@ public class OrganizationController {
         }
     }
 
+    @PutMapping("/organizations/{organizationId}/inactive")
+    @ResponseStatus(HttpStatus.OK)
+    public void inactivateOrganization(@PathVariable String organizationId) {
+        log.info("About to Inactivating the organization: " + organizationId);
+        try {
+            fisClient.inactivateOrganization(organizationId);
+            log.info("Successfully inactivated the organization: " + organizationId);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the organization was not inactivated", ResourceType.ORGANIZATION.name());
+        }
+    }
 
 }
