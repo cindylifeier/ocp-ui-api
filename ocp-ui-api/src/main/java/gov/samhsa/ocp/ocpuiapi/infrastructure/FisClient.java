@@ -114,7 +114,7 @@ public interface FisClient {
     void updatePatient(@Valid @RequestBody PatientDto patientDto);
 
     @RequestMapping(value = "/patients/{patientId}", method = RequestMethod.GET)
-    PatientDto getPatientById(@PathVariable("patientId") String patientId);
+    Object getPatientById(@PathVariable("patientId") String patientId);
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
