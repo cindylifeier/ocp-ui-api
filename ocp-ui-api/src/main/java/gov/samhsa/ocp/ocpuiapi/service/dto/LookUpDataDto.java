@@ -16,6 +16,8 @@ public class LookUpDataDto {
     List<ValueSetDto> addressTypes;
     List<ValueSetDto> addressUses;
     List<ValueSetDto> administrativeGenders;
+    List<ValueSetDto> healthCareServiceCategories;
+    List<ValueSetDto> healthCareServiceTypes;
     List<ValueSetDto> languages;
     List<IdentifierSystemDto> locationIdentifierSystems;
     List<ValueSetDto> locationStatuses;

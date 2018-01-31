@@ -156,7 +156,6 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
-    //LOOKUP - END
 
     @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
     List<ValueSetDto> getAdministrativeGenders();
@@ -173,4 +172,11 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/languages", method = RequestMethod.GET)
     List<ValueSetDto> getLanguages();
 
+    @RequestMapping(value = "/lookups/healthcareservice-categories", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthCareServiceCategories();
+
+    @RequestMapping(value = "/lookups/healthcareservice-types", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthCareServiceTypes();
+
+    //LOOKUP - END
 }

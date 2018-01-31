@@ -239,6 +239,31 @@ public class LookUpController {
 
         }
 
+        //Health care service categories
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name());
+            try {
+                lookUpData.setHealthCareServiceCategories(fisClient.getHealthCareServiceCategories());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
+
+        //Health care service types
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICETYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICETYPE.name());
+            try {
+                lookUpData.setHealthCareServiceTypes(fisClient.getHealthCareServiceTypes());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+
+        }
 
         return lookUpData;
     }
