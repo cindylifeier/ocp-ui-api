@@ -239,6 +239,39 @@ public class LookUpController {
 
         }
 
+        //Care Team Category
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMCATEGORY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.CARETEAMCATEGORY.name());
+            try {
+                lookUpData.setCareTeamCategories(fisClient.getCareTeamCategories());
+            }
+            catch (FeignException fe) {
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+        }
+
+        //Participant Type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PARTICIPANTTYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PARTICIPANTTYPE.name());
+            try {
+                lookUpData.setParticipantTypes(fisClient.getParticipantTypes());
+            }
+            catch (FeignException fe) {
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+        }
+
+        //Care Team Status
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMSTATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.CARETEAMSTATUS.name());
+            try {
+                lookUpData.setCareTeamStatuses(fisClient.getCareTeamStatuses());
+            }
+            catch (FeignException fe) {
+                log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+        }
+
 
         return lookUpData;
     }
