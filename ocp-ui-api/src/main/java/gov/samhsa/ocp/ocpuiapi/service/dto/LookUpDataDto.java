@@ -32,4 +32,7 @@ public class LookUpDataDto {
     List<ValueSetDto> usCoreEthnicities;
     List<ValueSetDto> usCoreRaces;
     List<ValueSetDto> uspsStates;
+    List<ValueSetDto> careTeamCategories;
+    List<ValueSetDto> participantTypes;
+    List<ValueSetDto> careTeamStatuses;
 }
