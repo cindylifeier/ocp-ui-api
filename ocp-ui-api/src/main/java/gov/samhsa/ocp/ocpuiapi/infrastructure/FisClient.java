@@ -173,4 +173,13 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/languages", method = RequestMethod.GET)
     List<ValueSetDto> getLanguages();
 
+    @RequestMapping(value = "/lookups/care-team-categories", method = RequestMethod.GET)
+    List<ValueSetDto> getCareTeamCategories();
+
+    @RequestMapping(value = "/lookups/participant-types", method = RequestMethod.GET)
+    List<ValueSetDto> getParticipantTypes();
+
+    @RequestMapping(value = "/lookups/care-team-statuses", method = RequestMethod.GET)
+    List<ValueSetDto> getCareTeamStatuses();
+
 }
