@@ -182,6 +182,12 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/languages", method = RequestMethod.GET)
     List<ValueSetDto> getLanguages();
 
+    @RequestMapping(value = "/lookups/healthcareservice-categories", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthCareServiceCategories();
+
+    @RequestMapping(value = "/lookups/healthcareservice-types", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthCareServiceTypes();
+
     @RequestMapping(value = "/lookups/care-team-categories", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamCategories();
 
@@ -194,5 +200,6 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/participant-roles", method = RequestMethod.GET)
     List<ValueSetDto> getParticipantRoles();
 
+    //LOOKUP - END
 
 }
