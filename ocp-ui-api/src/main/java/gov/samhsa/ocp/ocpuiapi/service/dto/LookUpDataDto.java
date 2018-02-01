@@ -35,4 +35,5 @@ public class LookUpDataDto {
     List<ValueSetDto> careTeamCategories;
     List<ValueSetDto> participantTypes;
     List<ValueSetDto> careTeamStatuses;
+    List<ValueSetDto> participantRoles;
 }

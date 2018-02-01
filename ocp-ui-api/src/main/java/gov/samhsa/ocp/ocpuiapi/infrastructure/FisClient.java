@@ -182,4 +182,8 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/care-team-statuses", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamStatuses();
 
+    @RequestMapping(value = "/lookups/participant-roles", method = RequestMethod.GET)
+    List<ValueSetDto> getParticipantRoles();
+
+
 }

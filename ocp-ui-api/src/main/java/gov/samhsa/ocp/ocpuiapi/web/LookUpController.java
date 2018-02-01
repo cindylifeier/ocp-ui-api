@@ -19,6 +19,7 @@ import java.util.List;
 @RequestMapping("ocp-fis/lookups")
 public class LookUpController {
 
+    public static final String NO_LOOKUPS_FOUND_MESSAGE = "Caution: No look up values found. Please check ocp-fis logs for error details.";
     final List<String> allowedlocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
     final List<String> allowedOrganizationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
     final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR", "DR", "SB");
@@ -269,6 +270,17 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
+            }
+        }
+
+        //Participant Role
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PARTICIPANTROLE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PARTICIPANTROLE.name());
+            try {
+                lookUpData.setParticipantRoles(fisClient.getParticipantRoles());
+            }
+            catch (FeignException fe) {
+                log.error(NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
