@@ -114,7 +114,7 @@ public interface FisClient {
     void updatePatient(@Valid @RequestBody PatientDto patientDto);
 
     @RequestMapping(value = "/patients/{patientId}", method = RequestMethod.GET)
-    PatientDto getPatientById(@PathVariable("patientId") String patientId);
+    Object getPatientById(@PathVariable("patientId") String patientId);
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
@@ -156,6 +156,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
+    //LOOKUP - END
 
     @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
     List<ValueSetDto> getAdministrativeGenders();
@@ -178,5 +179,18 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/healthcareservice-types", method = RequestMethod.GET)
     List<ValueSetDto> getHealthCareServiceTypes();
 
+    @RequestMapping(value = "/lookups/care-team-categories", method = RequestMethod.GET)
+    List<ValueSetDto> getCareTeamCategories();
+
+    @RequestMapping(value = "/lookups/participant-types", method = RequestMethod.GET)
+    List<ValueSetDto> getParticipantTypes();
+
+    @RequestMapping(value = "/lookups/care-team-statuses", method = RequestMethod.GET)
+    List<ValueSetDto> getCareTeamStatuses();
+
+    @RequestMapping(value = "/lookups/participant-roles", method = RequestMethod.GET)
+    List<ValueSetDto> getParticipantRoles();
+
     //LOOKUP - END
+
 }
