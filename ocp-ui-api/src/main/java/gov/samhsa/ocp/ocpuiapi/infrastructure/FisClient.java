@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -115,6 +117,13 @@ public interface FisClient {
 
     @RequestMapping(value = "/patients/{patientId}", method = RequestMethod.GET)
     Object getPatientById(@PathVariable("patientId") String patientId);
+
+    @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
+    public PageDto<ParticipantDto> getAllParticipants(@RequestParam(value = "member") String member,
+                                                      @RequestParam(value = "value") String value,
+                                                      @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
+                                                      @RequestParam(value = "page") Integer page,
+                                                      @RequestParam(value = "size") Integer size);
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
