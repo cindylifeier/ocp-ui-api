@@ -20,7 +20,7 @@ import java.util.List;
 public class LookUpController {
 
     public static final String NO_LOOKUPS_FOUND_MESSAGE = "Caution: No look up values found. Please check ocp-fis logs for error details.";
-    final List<String> allowedlocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
+    final List<String> allowedLocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
     final List<String> allowedOrganizationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
     final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR", "DR", "SB");
     final List<String> allowedPractitionerIdentifierTypes = Arrays.asList("PRN", "TAX", "MD", "SB");
@@ -57,7 +57,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name());
             try {
-                lookUpData.setLocationIdentifierSystems(fisClient.getIdentifierSystems(allowedlocationIdentifierTypes));
+                lookUpData.setLocationIdentifierSystems(fisClient.getIdentifierSystems(allowedLocationIdentifierTypes));
             } catch (FeignException fe) {
                 //Do nothing
                 log.error("Caution: No look up values found. Please check ocp-fis logs for error details.");
