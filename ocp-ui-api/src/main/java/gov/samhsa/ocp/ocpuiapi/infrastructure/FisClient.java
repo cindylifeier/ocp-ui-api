@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -127,6 +128,10 @@ public interface FisClient {
                                                             @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                             @RequestParam(value = "page") Integer page,
                                                             @RequestParam(value = "size") Integer size);
+
+    //CareTeam
+    @RequestMapping(value = "/careteams", method = RequestMethod.POST)
+    void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto);
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
