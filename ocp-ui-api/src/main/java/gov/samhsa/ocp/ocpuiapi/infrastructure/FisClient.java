@@ -11,11 +11,14 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -119,11 +122,18 @@ public interface FisClient {
     Object getPatientById(@PathVariable("patientId") String patientId);
 
     @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
-    public PageDto<ParticipantDto> getAllParticipants(@RequestParam(value = "member") String member,
+    PageDto<ParticipantDto> getAllParticipants(@RequestParam(value = "member") String member,
                                                       @RequestParam(value = "value") String value,
                                                       @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                       @RequestParam(value = "page") Integer page,
                                                       @RequestParam(value = "size") Integer size);
+    //HealthCareService - START
+    @RequestMapping(value = "/health-care-services/{healthCareServiceId}/assign", method = RequestMethod.PUT)
+    public void assignLocationToHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId,
+                                                  @RequestParam(value = "organizationId") String organizationId,
+                                                  @RequestParam(value = "locationIdList") List<String> locationIdList);
+
+    //HealthCareService - End
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
@@ -162,10 +172,8 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/organization-statuses", method = RequestMethod.GET)
     List<OrganizationStatusDto> getOrganizationStatuses();
 
-
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
-    //LOOKUP - END
 
     @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
     List<ValueSetDto> getAdministrativeGenders();
