@@ -133,6 +133,9 @@ public interface FisClient {
     @RequestMapping(value = "/careteams", method = RequestMethod.POST)
     void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto);
 
+    @RequestMapping(value = "/careteams/{careTeamId}", method = RequestMethod.PUT)
+    void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
+
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
