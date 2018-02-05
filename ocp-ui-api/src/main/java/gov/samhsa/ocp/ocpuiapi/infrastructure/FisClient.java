@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.service.dto.HealthCareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -54,6 +55,27 @@ public interface FisClient {
     void inactivateLocation(@PathVariable("locationId") String locationId);
 
     //LOCATIONS - END
+
+    //HEALTH CARE SERVICE - START
+
+    @RequestMapping(value = "/health-care-services", method = RequestMethod.GET)
+    PageDto<HealthCareServiceDto> getAllHealthCareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                  @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                  @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                  @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping(value = "/organizations/{organizationId}/health-care-services", method = RequestMethod.GET)
+    PageDto<HealthCareServiceDto> getAllHealthCareServicesByOrganization(@PathVariable("organizationId") String organizationId,
+                                                    @RequestParam(value = "locationId", required = false) String locationId,
+                                                    @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                    @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                    @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+
+    //HEALTH CARE SERVICE - END
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
     PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
@@ -156,7 +178,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
-    //LOOKUP - END
+
 
     @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
     List<ValueSetDto> getAdministrativeGenders();
