@@ -123,6 +123,26 @@ public final class ExceptionUtil {
         }
     }
 
+    public static void handleFeignExceptionRelatedAssigningLocToHealthCareService(FeignException fe, String logErrorMessage){
+        int causedByStatus = fe.status();
+        String errorMessage = getErrorMessageFromFeignException(fe);
+        String logErrorMessageWithCode;
+        switch (causedByStatus) {
+            case 400:
+                logErrorMessageWithCode = "Fis client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new BadRequestException(errorMessage);
+            case 404:
+                logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new ResourceNotFoundException(errorMessage);
+            default:
+                log.error("Fis client returned an unexpected instance of FeignException", fe);
+                throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
+        }
+    }
+
+
 
 
     public static String getErrorMessageFromFeignException(FeignException fe) {
