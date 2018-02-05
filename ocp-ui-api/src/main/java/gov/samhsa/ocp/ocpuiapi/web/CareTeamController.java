@@ -8,6 +8,7 @@ import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,6 +48,16 @@ public class CareTeamController {
 
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Care Team could not be updated in FHIR server", ResourceType.CARE_TEAM.name());
+        }
+    }
+
+    @GetMapping("/{careTeamId}")
+    public CareTeamDto getCareTeamByDto(@PathVariable String careTeamId) {
+        try {
+            return fisClient.getCareTeamById(careTeamId);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server", ResourceType.CARE_TEAM.name());
+            return null;
         }
     }
 }
