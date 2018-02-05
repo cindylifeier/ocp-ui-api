@@ -32,6 +32,8 @@ public final class ExceptionUtil {
                     throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.PATIENT.name()))
                     throw new ResourceNotFoundException(errorMessage);
+                else if (resourceType.equalsIgnoreCase(ResourceType.CARE_TEAM.name()))
+                    throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
