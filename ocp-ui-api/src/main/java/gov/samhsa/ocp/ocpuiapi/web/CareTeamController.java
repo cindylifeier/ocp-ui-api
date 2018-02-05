@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("ocp-fis/careTeams")
+@RequestMapping("ocp-fis/care-teams")
 @Slf4j
 public class CareTeamController {
 
