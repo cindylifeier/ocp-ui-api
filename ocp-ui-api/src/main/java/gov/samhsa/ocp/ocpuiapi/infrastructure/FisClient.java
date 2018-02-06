@@ -156,13 +156,13 @@ public interface FisClient {
     //HealthCareService - End
 
     //CareTeam
-    @RequestMapping(value = "/careTeams", method = RequestMethod.POST)
+    @RequestMapping(value = "/care-teams", method = RequestMethod.POST)
     void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto);
 
-    @RequestMapping(value = "/careTeams/{careTeamId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
     void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
 
-    @RequestMapping(value="/careTeams/search",method=RequestMethod.GET)
+    @RequestMapping(value="/care-teams/search",method=RequestMethod.GET)
     PageDto<CareTeamDto> searchCareTeams(@RequestParam(value="statusList",required = false) List<String> statusList,
                                          @RequestParam(value="searchType",required = false) String searchType,
                                          @RequestParam(value="searchValue",required = false) String searchValue,
