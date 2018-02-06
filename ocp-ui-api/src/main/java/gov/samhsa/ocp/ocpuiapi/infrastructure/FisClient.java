@@ -148,6 +148,15 @@ public interface FisClient {
                                                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value="/organizations/{organizationId}/locations/{locationId}/health-care-services",method = RequestMethod.GET)
+    PageDto<HealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable("organizationId") String organizationId,
+                                                                     @PathVariable("locationId") String locationId,
+                                                                     @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                     @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                     @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
 
     @RequestMapping(value = "/health-care-services/{healthCareServiceId}/assign", method = RequestMethod.PUT)
     void assignLocationToHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId,
