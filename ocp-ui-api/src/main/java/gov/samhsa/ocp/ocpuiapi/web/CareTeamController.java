@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis/care-teams")
@@ -51,26 +50,35 @@ public class CareTeamController {
             log.debug("Successfully updated a CareTeam");
 
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Care Team could not be updated in FHIR server", ResourceType.CARE_TEAM.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Care Team could not be updated in FHIR server", ResourceType.CARE_TEAM.name());
         }
     }
 
     @GetMapping("/search")
-    public PageDto<CareTeamDto> searchCareTeams(@RequestParam(value="statusList",required = false) List<String> statusList,
-                                                @RequestParam(value="searchType",required = false) String searchType,
-                                                @RequestParam(value="searchValue",required = false) String searchValue,
-                                                @RequestParam(value="pageNumber",required = false) Integer pageNumber,
-                                                @RequestParam(value="pageSize",required = false) Integer pageSize){
+    public PageDto<CareTeamDto> searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                @RequestParam(value = "searchType", required = false) String searchType,
+                                                @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Care Teams from FHIR server");
-        try{
-            PageDto<CareTeamDto> careTeams=fisClient.searchCareTeams(statusList,searchType,searchValue,pageNumber,pageSize);
+        try {
+            PageDto<CareTeamDto> careTeams = fisClient.searchCareTeams(statusList, searchType, searchValue, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Care Team Search");
             return careTeams;
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"No care Teams were found in configured FHIR server for the given searchType and searchValue", ResourceType.CARE_TEAM.name());
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No care Teams were found in configured FHIR server for the given searchType and searchValue", ResourceType.CARE_TEAM.name());
             return null;
         }
 
     }
 
+    @GetMapping("/{careTeamId}")
+    public CareTeamDto getCareTeamByDto(@PathVariable String careTeamId) {
+        try {
+            return fisClient.getCareTeamById(careTeamId);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server", ResourceType.CARE_TEAM.name());
+            return null;
+        }
+    }
 }

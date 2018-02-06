@@ -129,6 +129,7 @@ public interface FisClient {
                                                             @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                             @RequestParam(value = "page") Integer page,
                                                             @RequestParam(value = "size") Integer size);
+
     //HealthCareService - START
 
     @RequestMapping(value = "/health-care-services", method = RequestMethod.GET)
@@ -162,12 +163,15 @@ public interface FisClient {
     @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
     void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
 
-    @RequestMapping(value="/care-teams/search",method=RequestMethod.GET)
-    PageDto<CareTeamDto> searchCareTeams(@RequestParam(value="statusList",required = false) List<String> statusList,
-                                         @RequestParam(value="searchType",required = false) String searchType,
-                                         @RequestParam(value="searchValue",required = false) String searchValue,
-                                         @RequestParam(value="pageNumber",required = false) Integer pageNumber,
-                                         @RequestParam(value="pageSize",required = false) Integer pageSize);
+    @RequestMapping(value = "/care-teams/search", method = RequestMethod.GET)
+    PageDto<CareTeamDto> searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                         @RequestParam(value = "searchType", required = false) String searchType,
+                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping("/care-teams/{careTeamId}")
+    CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
