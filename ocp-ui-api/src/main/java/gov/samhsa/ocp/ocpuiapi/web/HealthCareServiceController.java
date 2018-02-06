@@ -59,6 +59,26 @@ public class HealthCareServiceController {
         }
     }
 
+    @GetMapping("/organizations/{organizationId}/locations/{locationId}/health-care-services")
+    public PageDto<HealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable String organizationId,
+                                                                            @PathVariable String locationId,
+                                                                            @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                            @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                            @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        log.info("Fetching health care services from FHIR Server for the given locationId: " + locationId);
+        try {
+            PageDto<HealthCareServiceDto> fisClientResponse = fisClient.getAllHealthCareServicesByLocation(organizationId, locationId, statusList, searchKey, searchValue, pageNumber, pageSize);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No health care services were found in the configured FHIR server for the given LocationId", ResourceType.HEALTHCARE_SERVICE.name());
+            return null;
+        }
+    }
+
     @PutMapping("/health-care-services/{healthCareServiceId}/assign")
     @ResponseStatus(HttpStatus.OK)
     public void assignLocationToHealthCareService(@PathVariable String healthCareServiceId,
