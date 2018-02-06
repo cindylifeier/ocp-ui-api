@@ -6,18 +6,20 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -126,6 +128,7 @@ public interface FisClient {
                                                             @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                             @RequestParam(value = "page") Integer page,
                                                             @RequestParam(value = "size") Integer size);
+
     //HealthCareService - START
     @RequestMapping(value = "/health-care-services/{healthCareServiceId}/assign", method = RequestMethod.PUT)
     public void assignLocationToHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId,
@@ -135,13 +138,20 @@ public interface FisClient {
     //HealthCareService - End
 
     //CareTeam
-    @RequestMapping(value = "/careteams", method = RequestMethod.POST)
+    @RequestMapping(value = "/care-teams", method = RequestMethod.POST)
     void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto);
 
-    @RequestMapping(value = "/careteams/{careTeamId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
     void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
 
-    @RequestMapping("/careteams/{careTeamId}")
+    @RequestMapping(value = "/care-teams/search", method = RequestMethod.GET)
+    PageDto<CareTeamDto> searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                         @RequestParam(value = "searchType", required = false) String searchType,
+                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping("/care-teams/{careTeamId}")
     CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
 
     //LOOKUP - START
