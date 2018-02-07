@@ -131,7 +131,7 @@ public interface FisClient {
                                                             @RequestParam(value = "page") Integer page,
                                                             @RequestParam(value = "size") Integer size);
 
-    //HealthCareService - START
+    //HealthcareService - START
 
     @RequestMapping(value = "/health-care-services", method = RequestMethod.GET)
     PageDto<HealthCareServiceDto> getAllHealthCareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -240,11 +240,17 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/languages", method = RequestMethod.GET)
     List<ValueSetDto> getLanguages();
 
-    @RequestMapping(value = "/lookups/healthcareservice-categories", method = RequestMethod.GET)
-    List<ValueSetDto> getHealthCareServiceCategories();
+    @RequestMapping(value = "/lookups/healthcare-service-categories", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceCategories();
 
-    @RequestMapping(value = "/lookups/healthcareservice-types", method = RequestMethod.GET)
-    List<ValueSetDto> getHealthCareServiceTypes();
+    @RequestMapping(value = "/lookups/healthcare-service-types", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceTypes();
+
+    @RequestMapping(value = "/lookups/healthcare-service-specialities", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceSpecialities();
+
+    @RequestMapping(value = "/lookups/healthcare-service-referral-methods", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceReferralMethods();
 
     @RequestMapping(value = "/lookups/care-team-categories", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamCategories();
