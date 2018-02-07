@@ -245,11 +245,11 @@ public class LookUpController {
             }
         }
 
-        //Health care service categories
+        //Healthcare service categories
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name());
             try {
-                lookUpData.setHealthCareServiceCategories(fisClient.getHealthCareServiceCategories());
+                lookUpData.setHealthcareServiceCategories(fisClient.getHealthcareServiceCategories());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -257,17 +257,42 @@ public class LookUpController {
             }
         }
 
-        //Health care service types
+        //Healthcare service types
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICETYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICETYPE.name());
             try {
-                lookUpData.setHealthCareServiceTypes(fisClient.getHealthCareServiceTypes());
+                lookUpData.setHealthcareServiceTypes(fisClient.getHealthcareServiceTypes());
             }
             catch (FeignException fe) {
                 //Do nothing
                 log.error("(" + LookUpTypeEnum.HEALTHCARESERVICETYPE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
+
+        //Healthcare service specialities
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICESPECIALITY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICESPECIALITY.name());
+            try {
+                lookUpData.setHealthcareServiceSpecialities(fisClient.getHealthcareServiceSpecialities());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICESPECIALITY.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Healthcare service ReferralMethods
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICEREFERRALMETHOD.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICEREFERRALMETHOD.name());
+            try {
+                lookUpData.setHealthcareServiceReferralMethods(fisClient.getHealthcareServiceReferralMethods());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICEREFERRALMETHOD.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
 
         //Care Team Category
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMCATEGORY.name()::equalsIgnoreCase)) {
