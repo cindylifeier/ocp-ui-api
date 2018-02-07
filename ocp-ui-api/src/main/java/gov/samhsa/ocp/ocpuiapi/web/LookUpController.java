@@ -338,6 +338,17 @@ public class LookUpController {
             }
         }
 
+        //Care Team Reason
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMREASON.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.CARETEAMREASON.name());
+            try {
+                lookUpData.setCareTeamReasons(fisClient.getCareTeamReasons());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.CARETEAMREASON.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }
