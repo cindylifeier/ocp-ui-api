@@ -34,6 +34,8 @@ public final class ExceptionUtil {
                     throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.CARE_TEAM.name()))
                     throw new ResourceNotFoundException(errorMessage);
+                else if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                    throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
@@ -54,6 +56,8 @@ public final class ExceptionUtil {
                     throw new BadRequestException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new BadRequestException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                    throw new BadRequestException(errorMessage);
             case 409:
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -62,6 +66,8 @@ public final class ExceptionUtil {
                 if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
+                    throw new DuplicateResourceFoundException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
@@ -83,6 +89,8 @@ public final class ExceptionUtil {
                     throw new BadRequestException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new BadRequestException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                    throw new BadRequestException(errorMessage);
             case 404:
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -92,6 +100,8 @@ public final class ExceptionUtil {
                     throw new ResourceNotFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new ResourceNotFoundException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                    throw new ResourceNotFoundException(errorMessage);
             case 409:
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -100,6 +110,8 @@ public final class ExceptionUtil {
                 if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new ResourceNotFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
+                    throw new ResourceNotFoundException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);

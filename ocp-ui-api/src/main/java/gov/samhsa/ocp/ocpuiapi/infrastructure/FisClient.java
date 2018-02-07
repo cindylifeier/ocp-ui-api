@@ -130,7 +130,7 @@ public interface FisClient {
                                                             @RequestParam(value = "page") Integer page,
                                                             @RequestParam(value = "size") Integer size);
 
-    //HealthCareService - START
+    //HealthcareService - START
 
     @RequestMapping(value = "/health-care-services", method = RequestMethod.GET)
     PageDto<HealthCareServiceDto> getAllHealthCareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -148,13 +148,21 @@ public interface FisClient {
                                                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value = "/health-care-services/{healthCareServiceId}", method = RequestMethod.GET)
+    HealthCareServiceDto getHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId);
+
 
     @RequestMapping(value = "/health-care-services/{healthCareServiceId}/assign", method = RequestMethod.PUT)
     void assignLocationToHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId,
                                                   @RequestParam(value = "organizationId") String organizationId,
                                                   @RequestParam(value = "locationIdList") List<String> locationIdList);
 
-    //HealthCareService - End
+    @RequestMapping(value = "/organization/{organizationId}/health-care-service", method = RequestMethod.POST)
+    void createHealthCareService(@PathVariable("organizationId") String organizationId,
+                        @Valid @RequestBody HealthCareServiceDto healthCareServiceDto);
+
+
+    //HealthcareService - End
 
     //CareTeam
     @RequestMapping(value = "/care-teams", method = RequestMethod.POST)
