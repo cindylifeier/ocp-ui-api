@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthCareServiceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthCareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -55,6 +56,26 @@ public class HealthCareServiceController {
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no health care services were found in the configured FHIR server for the given OrganizationId", ResourceType.ORGANIZATION.name());
+            return null;
+        }
+    }
+
+    @GetMapping("/organizations/{organizationId}/locations/{locationId}/health-care-services")
+    public PageDto<LocationHealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable String organizationId,
+                                                                            @PathVariable String locationId,
+                                                                            @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                            @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                            @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        log.info("Fetching health care services from FHIR Server for the given locationId: " + locationId);
+        try {
+            PageDto<LocationHealthCareServiceDto> fisClientResponse = fisClient.getAllHealthCareServicesByLocation(organizationId, locationId, statusList, searchKey, searchValue, pageNumber, pageSize);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No health care services were found in the configured FHIR server for the given LocationId", ResourceType.HEALTHCARE_SERVICE.name());
             return null;
         }
     }
