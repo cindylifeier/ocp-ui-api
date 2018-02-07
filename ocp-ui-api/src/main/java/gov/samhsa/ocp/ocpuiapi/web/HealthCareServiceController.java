@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthCareServiceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthCareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -60,7 +61,7 @@ public class HealthCareServiceController {
     }
 
     @GetMapping("/organizations/{organizationId}/locations/{locationId}/health-care-services")
-    public PageDto<HealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable String organizationId,
+    public PageDto<LocationHealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable String organizationId,
                                                                             @PathVariable String locationId,
                                                                             @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                             @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -69,7 +70,7 @@ public class HealthCareServiceController {
                                                                             @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Fetching health care services from FHIR Server for the given locationId: " + locationId);
         try {
-            PageDto<HealthCareServiceDto> fisClientResponse = fisClient.getAllHealthCareServicesByLocation(organizationId, locationId, statusList, searchKey, searchValue, pageNumber, pageSize);
+            PageDto<LocationHealthCareServiceDto> fisClientResponse = fisClient.getAllHealthCareServicesByLocation(organizationId, locationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
