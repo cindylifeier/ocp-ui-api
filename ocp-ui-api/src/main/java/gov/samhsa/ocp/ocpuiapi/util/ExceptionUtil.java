@@ -137,7 +137,7 @@ public final class ExceptionUtil {
         }
     }
 
-    public static void handleFeignExceptionRelatedAssigningLocToHealthCareService(FeignException fe, String logErrorMessage){
+    public static void handleFeignExceptionRelatedAssigningLocToHealthcareService(FeignException fe, String logErrorMessage){
         int causedByStatus = fe.status();
         String errorMessage = getErrorMessageFromFeignException(fe);
         String logErrorMessageWithCode;

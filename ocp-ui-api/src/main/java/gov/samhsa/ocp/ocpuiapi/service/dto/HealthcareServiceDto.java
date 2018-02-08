@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HealthCareServiceDto extends NameLogicalIdIdentifiersDto{
+public class HealthcareServiceDto extends NameLogicalIdIdentifiersDto{
     private String organizationId;
     private String organizationName;
     private boolean active;
