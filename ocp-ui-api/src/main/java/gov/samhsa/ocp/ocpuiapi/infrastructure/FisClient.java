@@ -1,10 +1,10 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.HealthCareServiceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthCareServiceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
@@ -133,15 +133,15 @@ public interface FisClient {
 
     //HealthcareService - START
 
-    @RequestMapping(value = "/health-care-services", method = RequestMethod.GET)
-    PageDto<HealthCareServiceDto> getAllHealthCareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
+    @RequestMapping(value = "/healthcare-services", method = RequestMethod.GET)
+    PageDto<HealthcareServiceDto> getAllHealthcareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                                            @RequestParam(value = "searchKey", required = false) String searchKey,
                                                            @RequestParam(value = "searchValue", required = false) String searchValue,
                                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value = "/organizations/{organizationId}/health-care-services", method = RequestMethod.GET)
-    PageDto<HealthCareServiceDto> getAllHealthCareServicesByOrganization(@PathVariable("organizationId") String organizationId,
+    @RequestMapping(value = "/organizations/{organizationId}/healthcare-services", method = RequestMethod.GET)
+    PageDto<HealthcareServiceDto> getAllHealthcareServicesByOrganization(@PathVariable("organizationId") String organizationId,
                                                                          @RequestParam(value = "assignedToLocationId", required = false) String assignedToLocationId,
                                                                          @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                          @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -149,11 +149,11 @@ public interface FisClient {
                                                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value = "/health-care-services/{healthCareServiceId}", method = RequestMethod.GET)
-    HealthCareServiceDto getHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId);
+    @RequestMapping(value = "/healthcare-services/{healthcareServiceId}", method = RequestMethod.GET)
+    HealthcareServiceDto getHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId);
 
-    @RequestMapping(value="/organizations/{organizationId}/locations/{locationId}/health-care-services",method = RequestMethod.GET)
-    PageDto<LocationHealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable("organizationId") String organizationId,
+    @RequestMapping(value="/organizations/{organizationId}/locations/{locationId}/healthcare-services",method = RequestMethod.GET)
+    PageDto<LocationHealthcareServiceDto> getAllHealthcareServicesByLocation(@PathVariable("organizationId") String organizationId,
                                                                                                   @PathVariable("locationId") String locationId,
                                                                                                   @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                                                   @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -162,14 +162,14 @@ public interface FisClient {
                                                                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
 
-    @RequestMapping(value = "/health-care-services/{healthCareServiceId}/assign", method = RequestMethod.PUT)
-    void assignLocationToHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId,
+    @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/assign", method = RequestMethod.PUT)
+    void assignLocationToHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
                                                   @RequestParam(value = "organizationId") String organizationId,
                                                   @RequestParam(value = "locationIdList") List<String> locationIdList);
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-service", method = RequestMethod.POST)
-    void createHealthCareService(@PathVariable("organizationId") String organizationId,
-                        @Valid @RequestBody HealthCareServiceDto healthCareServiceDto);
+    void createHealthcareService(@PathVariable("organizationId") String organizationId,
+                        @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
 
 
     //HealthcareService - End

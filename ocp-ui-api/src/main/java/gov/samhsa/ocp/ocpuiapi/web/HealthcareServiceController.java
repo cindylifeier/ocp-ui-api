@@ -2,8 +2,8 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.service.dto.HealthCareServiceDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthCareServiceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -27,67 +27,67 @@ import java.util.List;
 @Slf4j
 @RequestMapping("ocp-fis")
 
-public class HealthCareServiceController {
+public class HealthcareServiceController {
     @Autowired
     private FisClient fisClient;
 
-    @GetMapping("/health-care-services")
-    public PageDto<HealthCareServiceDto> getAllHealthCareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
+    @GetMapping("/healthcare-services")
+    public PageDto<HealthcareServiceDto> getAllHealthcareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                   @RequestParam(value = "searchKey", required = false) String searchKey,
                                                                   @RequestParam(value = "searchValue", required = false) String searchValue,
                                                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        log.info("Fetching health care services from FHIR Server...");
-        PageDto<HealthCareServiceDto> fisClientResponse = fisClient.getAllHealthCareServices(statusList, searchKey, searchValue, pageNumber, pageSize);
+        log.info("Fetching healthcare services from FHIR Server...");
+        PageDto<HealthcareServiceDto> fisClientResponse = fisClient.getAllHealthcareServices(statusList, searchKey, searchValue, pageNumber, pageSize);
         log.info("Got response from FHIR Server...");
         return fisClientResponse;
     }
 
-    @GetMapping("/organizations/{organizationId}/health-care-services")
-    public PageDto<HealthCareServiceDto> getAllHealthCareServicesByOrganization(@PathVariable String organizationId,
+    @GetMapping("/organizations/{organizationId}/healthcare-services")
+    public PageDto<HealthcareServiceDto> getAllHealthcareServicesByOrganization(@PathVariable String organizationId,
                                                                                 @RequestParam(value = "assignedToLocationId", required = false) String assignedToLocationId,
                                                                                 @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                                 @RequestParam(value = "searchKey", required = false) String searchKey,
                                                                                 @RequestParam(value = "searchValue", required = false) String searchValue,
                                                                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                                 @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        log.info("Fetching health care services from FHIR Server for the given OrganizationId: " + organizationId);
+        log.info("Fetching healthcare services from FHIR Server for the given OrganizationId: " + organizationId);
         try {
-            PageDto<HealthCareServiceDto> fisClientResponse = fisClient.getAllHealthCareServicesByOrganization(organizationId, assignedToLocationId, statusList, searchKey, searchValue, pageNumber, pageSize);
+            PageDto<HealthcareServiceDto> fisClientResponse = fisClient.getAllHealthcareServicesByOrganization(organizationId, assignedToLocationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no health care services were found in the configured FHIR server for the given OrganizationId", ResourceType.ORGANIZATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no healthcare services were found in the configured FHIR server for the given OrganizationId", ResourceType.ORGANIZATION.name());
             return null;
         }
     }
 
-    @GetMapping("/organizations/{organizationId}/locations/{locationId}/health-care-services")
-    public PageDto<LocationHealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable String organizationId,
+    @GetMapping("/organizations/{organizationId}/locations/{locationId}/healthcare-services")
+    public PageDto<LocationHealthcareServiceDto> getAllHealthcareServicesByLocation(@PathVariable String organizationId,
                                                                             @PathVariable String locationId,
                                                                             @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                             @RequestParam(value = "searchKey", required = false) String searchKey,
                                                                             @RequestParam(value = "searchValue", required = false) String searchValue,
                                                                             @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                             @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        log.info("Fetching health care services from FHIR Server for the given locationId: " + locationId);
+        log.info("Fetching healthcare services from FHIR Server for the given locationId: " + locationId);
         try {
-            PageDto<LocationHealthCareServiceDto> fisClientResponse = fisClient.getAllHealthCareServicesByLocation(organizationId, locationId, statusList, searchKey, searchValue, pageNumber, pageSize);
+            PageDto<LocationHealthcareServiceDto> fisClientResponse = fisClient.getAllHealthcareServicesByLocation(organizationId, locationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No health care services were found in the configured FHIR server for the given LocationId", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No healthcare services were found in the configured FHIR server for the given LocationId", ResourceType.HEALTHCARE_SERVICE.name());
             return null;
         }
     }
 
-    @GetMapping("/health-care-services/{healthCareServiceId}")
-    public HealthCareServiceDto getHealthCareService(@PathVariable String healthCareServiceId) {
-        log.info("Fetching locations from FHIR Server for the given healthCareServiceId: " + healthCareServiceId);
+    @GetMapping("/healthcare-services/{healthcareServiceId}")
+    public HealthcareServiceDto getHealthcareService(@PathVariable String healthcareServiceId) {
+        log.info("Fetching locations from FHIR Server for the given healthcareServiceId: " + healthcareServiceId);
         try {
-            HealthCareServiceDto fisClientResponse = fisClient.getHealthCareService(healthCareServiceId);
+            HealthcareServiceDto fisClientResponse = fisClient.getHealthcareService(healthcareServiceId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
@@ -98,32 +98,32 @@ public class HealthCareServiceController {
     }
 
 
-    @PutMapping("/health-care-services/{healthCareServiceId}/assign")
+    @PutMapping("/healthcare-services/{healthcareServiceId}/assign")
     @ResponseStatus(HttpStatus.OK)
-    public void assignLocationToHealthCareService(@PathVariable String healthCareServiceId,
+    public void assignLocationToHealthcareService(@PathVariable String healthcareServiceId,
                                                   @RequestParam(value = "organizationId") String organizationId,
                                                   @RequestParam(value = "locationIdList") List<String> locationIdList) {
-        log.info("About to assign locations to the health care service...");
+        log.info("About to assign locations to the healthcare service...");
         try {
-            fisClient.assignLocationToHealthCareService(healthCareServiceId, organizationId, locationIdList);
+            fisClient.assignLocationToHealthcareService(healthcareServiceId, organizationId, locationIdList);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedAssigningLocToHealthCareService(fe, " the location(s) were not assigned to the health care service.");
+            ExceptionUtil.handleFeignExceptionRelatedAssigningLocToHealthcareService(fe, " the location(s) were not assigned to the healthcare service.");
         }
-        log.info("Successfully assigned all locations to the health care service.");
+        log.info("Successfully assigned all locations to the healthcare service.");
     }
 
     @PostMapping("/organization/{organizationId}/healthcare-service")
     @ResponseStatus(HttpStatus.CREATED)
     public void createLocation(@PathVariable String organizationId,
-                               @Valid @RequestBody HealthCareServiceDto healthCareServiceDto) {
+                               @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
         log.info("About to create a Healthcare Service");
         try {
-            fisClient.createHealthCareService(organizationId, healthCareServiceDto);
+            fisClient.createHealthcareService(organizationId, healthcareServiceDto);
             log.info("Successfully created the healthcare service");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the health care service was not created", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the healthcare service was not created", ResourceType.HEALTHCARE_SERVICE.name());
         }
     }
 
