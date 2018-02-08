@@ -113,7 +113,7 @@ public class HealthCareServiceController {
         log.info("Successfully assigned all locations to the health care service.");
     }
 
-    @PostMapping("/organization/{organizationId}/health-care-service")
+    @PostMapping("/organization/{organizationId}/healthcare-service")
     @ResponseStatus(HttpStatus.CREATED)
     public void createLocation(@PathVariable String organizationId,
                                @Valid @RequestBody HealthCareServiceDto healthCareServiceDto) {

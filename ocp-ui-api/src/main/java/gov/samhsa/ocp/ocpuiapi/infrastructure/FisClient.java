@@ -167,7 +167,7 @@ public interface FisClient {
                                                   @RequestParam(value = "organizationId") String organizationId,
                                                   @RequestParam(value = "locationIdList") List<String> locationIdList);
 
-    @RequestMapping(value = "/organization/{organizationId}/health-care-service", method = RequestMethod.POST)
+    @RequestMapping(value = "/organization/{organizationId}/healthcare-service", method = RequestMethod.POST)
     void createHealthCareService(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody HealthCareServiceDto healthCareServiceDto);
 
