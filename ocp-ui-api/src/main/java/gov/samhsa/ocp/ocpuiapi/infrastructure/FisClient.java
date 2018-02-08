@@ -4,6 +4,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthCareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthCareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
@@ -130,7 +131,7 @@ public interface FisClient {
                                                             @RequestParam(value = "page") Integer page,
                                                             @RequestParam(value = "size") Integer size);
 
-    //HealthCareService - START
+    //HealthcareService - START
 
     @RequestMapping(value = "/health-care-services", method = RequestMethod.GET)
     PageDto<HealthCareServiceDto> getAllHealthCareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -147,6 +148,15 @@ public interface FisClient {
                                                                          @RequestParam(value = "searchValue", required = false) String searchValue,
                                                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping(value="/organizations/{organizationId}/locations/{locationId}/health-care-services",method = RequestMethod.GET)
+    PageDto<LocationHealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable("organizationId") String organizationId,
+                                                                                                  @PathVariable("locationId") String locationId,
+                                                                                                  @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                                                  @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                                                  @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                                                  @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
 
     @RequestMapping(value = "/health-care-services/{healthCareServiceId}/assign", method = RequestMethod.PUT)
@@ -230,11 +240,17 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/languages", method = RequestMethod.GET)
     List<ValueSetDto> getLanguages();
 
-    @RequestMapping(value = "/lookups/healthcareservice-categories", method = RequestMethod.GET)
-    List<ValueSetDto> getHealthCareServiceCategories();
+    @RequestMapping(value = "/lookups/healthcare-service-categories", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceCategories();
 
-    @RequestMapping(value = "/lookups/healthcareservice-types", method = RequestMethod.GET)
-    List<ValueSetDto> getHealthCareServiceTypes();
+    @RequestMapping(value = "/lookups/healthcare-service-types", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceTypes();
+
+    @RequestMapping(value = "/lookups/healthcare-service-specialities", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceSpecialities();
+
+    @RequestMapping(value = "/lookups/healthcare-service-referral-methods", method = RequestMethod.GET)
+    List<ValueSetDto> getHealthcareServiceReferralMethods();
 
     @RequestMapping(value = "/lookups/care-team-categories", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamCategories();
