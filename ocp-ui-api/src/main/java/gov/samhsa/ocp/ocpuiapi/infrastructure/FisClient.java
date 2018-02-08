@@ -149,6 +149,9 @@ public interface FisClient {
                                                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value = "/health-care-services/{healthCareServiceId}", method = RequestMethod.GET)
+    HealthCareServiceDto getHealthCareService(@PathVariable("healthCareServiceId") String healthCareServiceId);
+
     @RequestMapping(value="/organizations/{organizationId}/locations/{locationId}/health-care-services",method = RequestMethod.GET)
     PageDto<LocationHealthCareServiceDto> getAllHealthCareServicesByLocation(@PathVariable("organizationId") String organizationId,
                                                                                                   @PathVariable("locationId") String locationId,
@@ -164,7 +167,12 @@ public interface FisClient {
                                                   @RequestParam(value = "organizationId") String organizationId,
                                                   @RequestParam(value = "locationIdList") List<String> locationIdList);
 
-    //HealthCareService - End
+    @RequestMapping(value = "/organization/{organizationId}/healthcare-service", method = RequestMethod.POST)
+    void createHealthCareService(@PathVariable("organizationId") String organizationId,
+                        @Valid @RequestBody HealthCareServiceDto healthCareServiceDto);
+
+
+    //HealthcareService - End
 
     //CareTeam
     @RequestMapping(value = "/care-teams", method = RequestMethod.POST)
