@@ -4,7 +4,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.LocationHealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
@@ -153,7 +152,7 @@ public interface FisClient {
     HealthcareServiceDto getHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId);
 
     @RequestMapping(value="/organizations/{organizationId}/locations/{locationId}/healthcare-services",method = RequestMethod.GET)
-    PageDto<LocationHealthcareServiceDto> getAllHealthcareServicesByLocation(@PathVariable("organizationId") String organizationId,
+    PageDto<HealthcareServiceDto> getAllHealthcareServicesByLocation(@PathVariable("organizationId") String organizationId,
                                                                                                   @PathVariable("locationId") String locationId,
                                                                                                   @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                                                   @RequestParam(value = "searchKey", required = false) String searchKey,
