@@ -8,7 +8,10 @@ ribbon:
   ReadTimeout: 50000
   listOfServers: http://localhost:8444
 hystrix.command.default.execution.timeout.enabled: false
-
+security:
+  oauth2:
+    client:
+      client-id: ocp-ui-api
 ---
 # updates configuration for docker environment
 spring.profiles: docker
