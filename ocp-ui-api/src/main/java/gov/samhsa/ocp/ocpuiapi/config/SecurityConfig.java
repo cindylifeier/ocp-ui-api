@@ -28,6 +28,7 @@ public class SecurityConfig {
                     http.requiresChannel().anyRequest().requiresSecure();
                 }
                 http.authorizeRequests()
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/lookups/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.read')")
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
                         .antMatchers(HttpMethod.POST, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
