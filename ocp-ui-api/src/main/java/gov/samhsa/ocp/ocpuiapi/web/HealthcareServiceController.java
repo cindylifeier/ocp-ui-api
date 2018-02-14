@@ -131,7 +131,7 @@ public class HealthcareServiceController {
     public void updateHealthcareService(@PathVariable String organizationId,
                                @PathVariable String healthcareServiceId,
                                @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
-        log.info("About to create a Healthcare Service");
+        log.info("About to update a Healthcare Service");
         try {
             fisClient.updateHealthcareService(organizationId, healthcareServiceId, healthcareServiceDto);
             log.info("Successfully updated the healthcare service");
