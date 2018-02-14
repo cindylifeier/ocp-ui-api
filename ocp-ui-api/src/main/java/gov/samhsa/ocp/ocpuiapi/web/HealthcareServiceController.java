@@ -114,7 +114,7 @@ public class HealthcareServiceController {
 
     @PostMapping("/organization/{organizationId}/healthcare-service")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createLocation(@PathVariable String organizationId,
+    public void createHealthcareService(@PathVariable String organizationId,
                                @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
         log.info("About to create a Healthcare Service");
         try {
@@ -123,6 +123,21 @@ public class HealthcareServiceController {
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the healthcare service was not created", ResourceType.HEALTHCARE_SERVICE.name());
+        }
+    }
+
+    @PutMapping("/organization/{organizationId}/healthcare-service/{healthcareServiceId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateHealthcareService(@PathVariable String organizationId,
+                               @PathVariable String healthcareServiceId,
+                               @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
+        log.info("About to update a Healthcare Service");
+        try {
+            fisClient.updateHealthcareService(organizationId, healthcareServiceId, healthcareServiceDto);
+            log.info("Successfully updated the healthcare service");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the healthcare service was not updated", ResourceType.HEALTHCARE_SERVICE.name());
         }
     }
 

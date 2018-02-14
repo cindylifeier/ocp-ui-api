@@ -170,6 +170,10 @@ public interface FisClient {
     void createHealthcareService(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
 
+    @RequestMapping(value = "/organization/{organizationId}/healthcare-service/{healthcareServiceId}", method = RequestMethod.PUT)
+    void updateHealthcareService(@PathVariable("organizationId") String organizationId,
+                                 @PathVariable("healthcareServiceId") String healthcareServiceId,
+                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
 
     //HealthcareService - End
 
