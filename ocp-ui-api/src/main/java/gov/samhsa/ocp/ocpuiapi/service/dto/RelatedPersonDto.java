@@ -37,6 +37,8 @@ public class RelatedPersonDto {
     //telecom
     private String telecomCode;
 
+    private String telecomUse;
+
     private String telecomValue;
 
     //gender
