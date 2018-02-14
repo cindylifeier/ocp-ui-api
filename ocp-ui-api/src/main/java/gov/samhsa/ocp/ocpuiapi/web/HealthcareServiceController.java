@@ -99,32 +99,32 @@ public class HealthcareServiceController {
 
     @PutMapping("/healthcare-services/{healthcareServiceId}/assign")
     @ResponseStatus(HttpStatus.OK)
-    public void assignLocationToHealthcareService(@PathVariable String healthcareServiceId,
+    public void assignLocationsToHealthcareService(@PathVariable String healthcareServiceId,
                                                   @RequestParam(value = "organizationId") String organizationId,
                                                   @RequestParam(value = "locationIdList") List<String> locationIdList) {
-        log.info("About to assign locations to the healthcare service...");
+        log.info("About to assign location(s) to the healthcare service...");
         try {
-            fisClient.assignLocationToHealthcareService(healthcareServiceId, organizationId, locationIdList);
+            fisClient.assignLocationsToHealthcareService(healthcareServiceId, organizationId, locationIdList);
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedAssigningLocToHealthcareService(fe, " the location(s) were not assigned to the healthcare service.");
         }
-        log.info("Successfully assigned all locations to the healthcare service.");
+        log.info("Successfully assigned all location(s) to the healthcare service.");
     }
 
     @PutMapping("/healthcare-services/{healthcareServiceId}/unassign")
     @ResponseStatus(HttpStatus.OK)
-    public void unassignLocationToHealthcareService(@PathVariable String healthcareServiceId,
+    public void unassignsLocationFromHealthcareService(@PathVariable String healthcareServiceId,
                                                     @RequestParam(value = "organizationId") String organizationId,
                                                     @RequestParam(value = "locationIdList") List<String> locationIdList) {
-        log.info("About to unassign locations from the healthcare service...");
+        log.info("About to unassign location(s) from the healthcare service...");
         try {
-            fisClient.unassignLocationToHealthcareService(healthcareServiceId, organizationId, locationIdList);
+            fisClient.unassignsLocationFromHealthcareService(healthcareServiceId, organizationId, locationIdList);
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " the location(s) were not unassigned from the healthcare service.", ResourceType.HEALTHCARE_SERVICE.name());
         }
-        log.info("Successfully unassigned all locations from the healthcare service.");
+        log.info("Successfully unassigned all location(s) from the healthcare service.");
     }
 
     @PostMapping("/organization/{organizationId}/healthcare-service")
