@@ -125,10 +125,10 @@ public interface FisClient {
 
     @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
     PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "member") String member,
-                                                            @RequestParam(value = "value") String value,
-                                                            @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
-                                                            @RequestParam(value = "page") Integer page,
-                                                            @RequestParam(value = "size") Integer size);
+                                                     @RequestParam(value = "value") String value,
+                                                     @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
+                                                     @RequestParam(value = "page") Integer page,
+                                                     @RequestParam(value = "size") Integer size);
 
     //HealthcareService - START
 
@@ -151,34 +151,37 @@ public interface FisClient {
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}", method = RequestMethod.GET)
     HealthcareServiceDto getHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId);
 
-    @RequestMapping(value="/organizations/{organizationId}/locations/{locationId}/healthcare-services",method = RequestMethod.GET)
+    @RequestMapping(value = "/organizations/{organizationId}/locations/{locationId}/healthcare-services", method = RequestMethod.GET)
     PageDto<HealthcareServiceDto> getAllHealthcareServicesByLocation(@PathVariable("organizationId") String organizationId,
-                                                                                                  @PathVariable("locationId") String locationId,
-                                                                                                  @RequestParam(value = "statusList", required = false) List<String> statusList,
-                                                                                                  @RequestParam(value = "searchKey", required = false) String searchKey,
-                                                                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
-                                                                                                  @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                                                                                  @RequestParam(value = "pageSize", required = false) Integer pageSize);
+                                                                     @PathVariable("locationId") String locationId,
+                                                                     @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                     @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                     @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
 
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/assign", method = RequestMethod.PUT)
     void assignLocationToHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
-                                                  @RequestParam(value = "organizationId") String organizationId,
-                                                  @RequestParam(value = "locationIdList") List<String> locationIdList);
-
-    @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/unassign", method = RequestMethod.PUT)
-    void unassignLocationToHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
                                            @RequestParam(value = "organizationId") String organizationId,
                                            @RequestParam(value = "locationIdList") List<String> locationIdList);
 
+    @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/unassign", method = RequestMethod.PUT)
+    void unassignLocationToHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
+                                             @RequestParam(value = "organizationId") String organizationId,
+                                             @RequestParam(value = "locationIdList") List<String> locationIdList);
+
     @RequestMapping(value = "/organization/{organizationId}/healthcare-service", method = RequestMethod.POST)
     void createHealthcareService(@PathVariable("organizationId") String organizationId,
-                        @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
+                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-service/{healthcareServiceId}", method = RequestMethod.PUT)
     void updateHealthcareService(@PathVariable("organizationId") String organizationId,
                                  @PathVariable("healthcareServiceId") String healthcareServiceId,
                                  @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
+
+    @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/inactive", method = RequestMethod.PUT)
+    void inactivateHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId);
 
     //HealthcareService - End
 

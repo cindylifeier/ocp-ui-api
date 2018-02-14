@@ -115,8 +115,8 @@ public class HealthcareServiceController {
     @PutMapping("/healthcare-services/{healthcareServiceId}/unassign")
     @ResponseStatus(HttpStatus.OK)
     public void unassignLocationToHealthcareService(@PathVariable String healthcareServiceId,
-                                                  @RequestParam(value = "organizationId") String organizationId,
-                                                  @RequestParam(value = "locationIdList") List<String> locationIdList) {
+                                                    @RequestParam(value = "organizationId") String organizationId,
+                                                    @RequestParam(value = "locationIdList") List<String> locationIdList) {
         log.info("About to unassign locations from the healthcare service...");
         try {
             fisClient.unassignLocationToHealthcareService(healthcareServiceId, organizationId, locationIdList);
@@ -130,7 +130,7 @@ public class HealthcareServiceController {
     @PostMapping("/organization/{organizationId}/healthcare-service")
     @ResponseStatus(HttpStatus.CREATED)
     public void createHealthcareService(@PathVariable String organizationId,
-                               @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
+                                        @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
         log.info("About to create a Healthcare Service");
         try {
             fisClient.createHealthcareService(organizationId, healthcareServiceDto);
@@ -144,17 +144,28 @@ public class HealthcareServiceController {
     @PutMapping("/organization/{organizationId}/healthcare-service/{healthcareServiceId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateHealthcareService(@PathVariable String organizationId,
-                               @PathVariable String healthcareServiceId,
-                               @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
-        log.info("About to update the Healthcare Service");
+                                        @PathVariable String healthcareServiceId,
+                                        @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
+        log.info("About to update the Healthcare Service ID: " + healthcareServiceId);
         try {
             fisClient.updateHealthcareService(organizationId, healthcareServiceId, healthcareServiceDto);
-            log.info("Successfully updated the healthcare service");
+            log.info("Successfully updated the healthcare service ID:" + healthcareServiceId);
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the healthcare service was not updated", ResourceType.HEALTHCARE_SERVICE.name());
         }
     }
 
-
+    @PutMapping("/healthcare-services/{healthcareServiceId}/inactive")
+    @ResponseStatus(HttpStatus.OK)
+    public void inactivateHealthcareService(@PathVariable String healthcareServiceId) {
+        log.info("About to inactivate the Healthcare Service ID: " + healthcareServiceId);
+        try {
+            fisClient.inactivateHealthcareService(healthcareServiceId);
+            log.info("Successfully inactivated the healthcare service ID:" + healthcareServiceId);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the healthcare service was not inactivated", ResourceType.HEALTHCARE_SERVICE.name());
+        }
+    }
 }
