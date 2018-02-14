@@ -162,12 +162,12 @@ public interface FisClient {
 
 
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/assign", method = RequestMethod.PUT)
-    void assignLocationToHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
+    void assignLocationsToHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
                                            @RequestParam(value = "organizationId") String organizationId,
                                            @RequestParam(value = "locationIdList") List<String> locationIdList);
 
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/unassign", method = RequestMethod.PUT)
-    void unassignLocationToHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
+    void unassignsLocationFromHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
                                              @RequestParam(value = "organizationId") String organizationId,
                                              @RequestParam(value = "locationIdList") List<String> locationIdList);
 
