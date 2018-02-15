@@ -10,6 +10,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -202,6 +203,23 @@ public interface FisClient {
     @RequestMapping("/care-teams/{careTeamId}")
     CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
 
+    //RelatedPerson
+    @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
+    void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
+
+    @RequestMapping(value = "/related-persons/{relatedPersonId}", method = RequestMethod.PUT)
+    void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto);
+
+    @RequestMapping(value = "/related-persons/search", method = RequestMethod.GET)
+    PageDto<RelatedPersonDto> searchRelatedPersons(@RequestParam(value = "searchKey") String searchKey,
+                                                   @RequestParam(value = "searchValue") String searchValue,
+                                                   @RequestParam(value = "showInActive") Boolean showInActive,
+                                                   @RequestParam(value = "pageNumber") Integer pageNumber,
+                                                   @RequestParam(value = "pageSize") Integer pageSize);
+
+    @RequestMapping(value = "/related-persons/{relatedPersonId}")
+    RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
+
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
@@ -283,9 +301,11 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/care-team-reasons", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamReasons();
 
-
     @RequestMapping(value = "/lookups/participant-roles", method = RequestMethod.GET)
     List<ValueSetDto> getParticipantRoles();
+
+    @RequestMapping(value = "/lookups/related-person-patient-relationship-types", method = RequestMethod.GET)
+    List<ValueSetDto> getRelatedPersonPatientRelationshipTypes();
 
     //LOOKUP - END
 
