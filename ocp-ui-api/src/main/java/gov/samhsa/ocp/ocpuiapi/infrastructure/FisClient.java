@@ -211,7 +211,7 @@ public interface FisClient {
     void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto);
 
     @RequestMapping(value = "/related-persons/search", method = RequestMethod.GET)
-    PageDto<RelatedPersonDto> searchRelatedPersons(@RequestParam(value = "searchType") String searchType,
+    PageDto<RelatedPersonDto> searchRelatedPersons(@RequestParam(value = "searchKey") String searchKey,
                                                    @RequestParam(value = "searchValue") String searchValue,
                                                    @RequestParam(value = "showInActive") Boolean showInActive,
                                                    @RequestParam(value = "pageNumber") Integer pageNumber,

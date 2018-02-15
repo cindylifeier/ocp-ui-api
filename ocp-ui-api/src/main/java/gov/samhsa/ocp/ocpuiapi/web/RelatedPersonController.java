@@ -39,12 +39,12 @@ public class RelatedPersonController {
     }
 
     @GetMapping("/search")
-    public PageDto<RelatedPersonDto> getRelatedPersons(@RequestParam(value = "searchType") String searchType,
+    public PageDto<RelatedPersonDto> getRelatedPersons(@RequestParam(value = "searchKey") String searchKey,
                                                        @RequestParam(value = "searchValue") String searchValue,
                                                        @RequestParam(value = "showInActive", required = false) Boolean showInActive,
                                                        @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                        @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        return fisClient.searchRelatedPersons(searchType, searchValue, showInActive, pageNumber, pageSize);
+        return fisClient.searchRelatedPersons(searchKey, searchValue, showInActive, pageNumber, pageSize);
     }
 
     @GetMapping("/{relatedPersonId}")
