@@ -349,6 +349,17 @@ public class LookUpController {
             }
         }
 
+        //RelatedPerson PatientRelationshipType
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.RELATEDPERSONPATIENTRELATIONSHIPTYPES.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.RELATEDPERSONPATIENTRELATIONSHIPTYPES.name());
+            try {
+                lookUpData.setRelatedPersonPatientRelationshipTypes(fisClient.getRelatedPersonPatientRelationshipTypes());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.RELATEDPERSONPATIENTRELATIONSHIPTYPES.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }

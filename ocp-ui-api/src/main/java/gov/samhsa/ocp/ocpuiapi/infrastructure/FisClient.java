@@ -301,9 +301,11 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/care-team-reasons", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamReasons();
 
-
     @RequestMapping(value = "/lookups/participant-roles", method = RequestMethod.GET)
     List<ValueSetDto> getParticipantRoles();
+
+    @RequestMapping(value = "/lookups/related-person-patient-relationship-types", method = RequestMethod.GET)
+    List<ValueSetDto> getRelatedPersonPatientRelationshipTypes();
 
     //LOOKUP - END
 
