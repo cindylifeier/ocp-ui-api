@@ -12,6 +12,13 @@ security:
   oauth2:
     client:
       client-id: ocp-ui-api
+ocp:
+  ocp-ui-api:
+    oauth:
+      authorization-server-endpoint: http://localhost/uaa
+      oauth-clients:
+        - client-id: ocp-ui
+          client-secret: changeit
 ---
 # updates configuration for docker environment
 spring.profiles: docker
