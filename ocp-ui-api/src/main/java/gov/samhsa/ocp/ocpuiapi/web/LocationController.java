@@ -97,7 +97,7 @@ public class LocationController {
         log.info("About to create a location");
         try {
             fisClient.createLocation(organizationId, locationDto);
-            log.info("Successfully created the location");
+            log.info("Successfully created a location");
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the location was not created", ResourceType.LOCATION.name());
@@ -109,10 +109,10 @@ public class LocationController {
     public void updateLocation(@PathVariable String organizationId,
                                @PathVariable String locationId,
                                @Valid @RequestBody LocationDto locationDto) {
-        log.info("About to update the location");
+        log.info("About to update the location ID: " + locationId);
         try {
             fisClient.updateLocation(organizationId, locationId, locationDto);
-            log.info("Successfully updated the location");
+            log.info("Successfully updated the location ID: " + locationId);
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated", ResourceType.LOCATION.name());
