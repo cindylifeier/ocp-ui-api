@@ -29,13 +29,13 @@ public class ActivityDefinitionController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createLocation(@PathVariable String organizationId,
                                @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto) {
-        log.info("About to create a location");
+        log.info("About to create a activity definition");
         try {
             fisClient.createActivityDefinition(organizationId, activityDefinitionDto);
-            log.info("Successfully created a location");
+            log.info("Successfully created a activity definition");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the location was not created", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created", ResourceType.ACTIVITY_DEFINITION.name());
         }
     }
 
