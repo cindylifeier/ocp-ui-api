@@ -287,6 +287,21 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/participant-roles", method = RequestMethod.GET)
     List<ValueSetDto> getParticipantRoles();
 
+    @RequestMapping(value="/lookups/publication-status",method=RequestMethod.GET)
+    List<ValueSetDto> getPublicationStatus();
+
+    @RequestMapping(value="/lookups/definition-topic",method = RequestMethod.GET)
+    List<ValueSetDto> getDefinitionTopic();
+
+    @RequestMapping(value="lookups/resource-type",method=RequestMethod.GET)
+    List<ValueSetDto> getResourceType();
+
+    @RequestMapping(value="lookups/action-participant-role",method=RequestMethod.GET)
+    List<ValueSetDto> getActionParticipantRole();
+
+    @RequestMapping(value="lookups/action-participant-type",method=RequestMethod.GET)
+    List<ValueSetDto> getActionParticipantType();
+
     //LOOKUP - END
 
 }
