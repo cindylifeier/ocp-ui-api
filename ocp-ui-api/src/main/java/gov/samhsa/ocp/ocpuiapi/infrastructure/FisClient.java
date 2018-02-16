@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
@@ -201,6 +202,11 @@ public interface FisClient {
 
     @RequestMapping("/care-teams/{careTeamId}")
     CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
+
+    //Activity Definition
+    @RequestMapping(value = "/organization/{organizationId}/activity-definitions", method = RequestMethod.POST)
+    void createActivityDefinition(@PathVariable("organizationId") String organizationId,
+                        @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
