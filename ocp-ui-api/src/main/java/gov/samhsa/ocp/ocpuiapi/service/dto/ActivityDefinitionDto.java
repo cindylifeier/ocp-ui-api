@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,8 @@ public class ActivityDefinitionDto {
     private String title;
     private ValueSetDto status;
 
-    private LocalDate date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/YYYY")
+    private String date;
     private String publisherReference;
     private String description;
 
