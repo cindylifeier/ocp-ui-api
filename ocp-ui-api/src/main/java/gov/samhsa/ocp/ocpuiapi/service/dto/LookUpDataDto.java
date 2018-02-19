@@ -42,4 +42,8 @@ public class LookUpDataDto {
     List<ValueSetDto> participantRoles;
     List<ValueSetDto> careTeamReasons;
     List<ValueSetDto> publicationStatus;
+    List<ValueSetDto> definitionTopic;
+    List<ValueSetDto> resourceType;
+    List<ValueSetDto> actionParticipantType;
+    List<ValueSetDto> actionParticipantRole;
 }
