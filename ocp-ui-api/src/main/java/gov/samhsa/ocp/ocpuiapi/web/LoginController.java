@@ -11,7 +11,7 @@ import javax.validation.Valid;
 
 
 @RestController
-public class LoginRestController {
+public class LoginController {
 
     @Autowired
     private LoginService loginService;
