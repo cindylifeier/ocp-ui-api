@@ -126,7 +126,8 @@ public interface FisClient {
     Object getPatientById(@PathVariable("patientId") String patientId);
 
     @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
-    PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "member") String member,
+    PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
+                                                     @RequestParam(value = "member") String member,
                                                      @RequestParam(value = "value") String value,
                                                      @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                      @RequestParam(value = "page") Integer page,
