@@ -126,7 +126,8 @@ public interface FisClient {
     Object getPatientById(@PathVariable("patientId") String patientId);
 
     @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
-    PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "member") String member,
+    PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
+                                                     @RequestParam(value = "member") String member,
                                                      @RequestParam(value = "value") String value,
                                                      @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                      @RequestParam(value = "page") Integer page,
@@ -205,6 +206,14 @@ public interface FisClient {
     CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
 
     //Activity Definition
+
+    @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.GET)
+    Object getAllActivityDefinitionsByOrganization(@PathVariable("organizationId") String organizationId,
+                                                                         @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
     @RequestMapping(value = "/organization/{organizationId}/activity-definitions", method = RequestMethod.POST)
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
