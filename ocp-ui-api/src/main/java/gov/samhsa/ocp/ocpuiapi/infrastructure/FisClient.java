@@ -218,11 +218,13 @@ public interface FisClient {
     void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto);
 
     @RequestMapping(value = "/related-persons/search", method = RequestMethod.GET)
-    PageDto<RelatedPersonDto> searchRelatedPersons(@RequestParam(value = "searchKey") String searchKey,
-                                                   @RequestParam(value = "searchValue") String searchValue,
-                                                   @RequestParam(value = "showInActive") Boolean showInActive,
-                                                   @RequestParam(value = "pageNumber") Integer pageNumber,
-                                                   @RequestParam(value = "pageSize") Integer pageSize);
+    PageDto<RelatedPersonDto> searchRelatedPersons(
+                                                   @RequestParam(value = "patientId") String patientId,
+                                                   @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                   @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                   @RequestParam(value = "showInActive", required = false) Boolean showInActive,
+                                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}")
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
