@@ -205,6 +205,14 @@ public interface FisClient {
     CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
 
     //Activity Definition
+
+    @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.GET)
+    Object getAllActivityDefinitionsByOrganization(@PathVariable("organizationId") String organizationId,
+                                                                         @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
     @RequestMapping(value = "/organization/{organizationId}/activity-definitions", method = RequestMethod.POST)
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
