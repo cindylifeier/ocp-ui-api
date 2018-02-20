@@ -331,6 +331,9 @@ public interface FisClient {
     @RequestMapping(value="lookups/action-participant-type",method=RequestMethod.GET)
     List<ValueSetDto> getActionParticipantType();
 
+    @RequestMapping(value = "lookups/activity-definition-related-artifact-types", method = RequestMethod.GET)
+    List<ValueSetDto> getActivityDefinitionRelatedArtifactTypes();
+
     //LOOKUP - END
 
 }

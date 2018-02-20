@@ -47,4 +47,5 @@ public class LookUpDataDto {
     List<ValueSetDto> actionParticipantType;
     List<ValueSetDto> actionParticipantRole;
     List<ValueSetDto> relatedPersonPatientRelationshipTypes;
+    List<ValueSetDto> activityDefinitionRelatedArtifactTypes;
 }
