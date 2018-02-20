@@ -360,6 +360,62 @@ public class LookUpController {
             }
         }
 
+        //Publication Status
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PUBLICATION_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PUBLICATION_STATUS.name());
+            try {
+                lookUpData.setPublicationStatus(fisClient.getPublicationStatus());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.PUBLICATION_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+
+        //Definition Topic
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.DEFINITION_TOPIC.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.DEFINITION_TOPIC.name());
+            try {
+                lookUpData.setDefinitionTopic(fisClient.getDefinitionTopic());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.DEFINITION_TOPIC.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Resource Type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.RESOURCE_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.RESOURCE_TYPE.name());
+            try {
+                lookUpData.setResourceType(fisClient.getResourceType());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.RESOURCE_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Action participant role
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ACTION_PARTICIPANT_ROLE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ACTION_PARTICIPANT_ROLE.name());
+            try {
+                lookUpData.setActionParticipantRole(fisClient.getActionParticipantRole());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.ACTION_PARTICIPANT_ROLE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Action participant type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ACTION_PARTICIPANT_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.ACTION_PARTICIPANT_TYPE.name());
+            try {
+                lookUpData.setActionParticipantType(fisClient.getActionParticipantType());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.ACTION_PARTICIPANT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }

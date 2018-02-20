@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
@@ -125,7 +126,8 @@ public interface FisClient {
     Object getPatientById(@PathVariable("patientId") String patientId);
 
     @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
-    PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "member") String member,
+    PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
+                                                     @RequestParam(value = "member") String member,
                                                      @RequestParam(value = "value") String value,
                                                      @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                      @RequestParam(value = "page") Integer page,
@@ -203,6 +205,19 @@ public interface FisClient {
     @RequestMapping("/care-teams/{careTeamId}")
     CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
 
+    //Activity Definition
+
+    @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.GET)
+    Object getAllActivityDefinitionsByOrganization(@PathVariable("organizationId") String organizationId,
+                                                                         @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping(value = "/organization/{organizationId}/activity-definitions", method = RequestMethod.POST)
+    void createActivityDefinition(@PathVariable("organizationId") String organizationId,
+                        @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+
     //RelatedPerson
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
     void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
@@ -211,11 +226,13 @@ public interface FisClient {
     void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto);
 
     @RequestMapping(value = "/related-persons/search", method = RequestMethod.GET)
-    PageDto<RelatedPersonDto> searchRelatedPersons(@RequestParam(value = "searchKey") String searchKey,
-                                                   @RequestParam(value = "searchValue") String searchValue,
-                                                   @RequestParam(value = "showInActive") Boolean showInActive,
-                                                   @RequestParam(value = "pageNumber") Integer pageNumber,
-                                                   @RequestParam(value = "pageSize") Integer pageSize);
+    PageDto<RelatedPersonDto> searchRelatedPersons(
+                                                   @RequestParam(value = "patientId") String patientId,
+                                                   @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                   @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                   @RequestParam(value = "showInActive", required = false) Boolean showInActive,
+                                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}")
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
@@ -301,11 +318,27 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/care-team-reasons", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamReasons();
 
+
     @RequestMapping(value = "/lookups/participant-roles", method = RequestMethod.GET)
     List<ValueSetDto> getParticipantRoles();
 
     @RequestMapping(value = "/lookups/related-person-patient-relationship-types", method = RequestMethod.GET)
     List<ValueSetDto> getRelatedPersonPatientRelationshipTypes();
+
+    @RequestMapping(value="/lookups/publication-status",method=RequestMethod.GET)
+    List<ValueSetDto> getPublicationStatus();
+
+    @RequestMapping(value="/lookups/definition-topic",method = RequestMethod.GET)
+    List<ValueSetDto> getDefinitionTopic();
+
+    @RequestMapping(value="lookups/resource-type",method=RequestMethod.GET)
+    List<ValueSetDto> getResourceType();
+
+    @RequestMapping(value="lookups/action-participant-role",method=RequestMethod.GET)
+    List<ValueSetDto> getActionParticipantRole();
+
+    @RequestMapping(value="lookups/action-participant-type",method=RequestMethod.GET)
+    List<ValueSetDto> getActionParticipantType();
 
     //LOOKUP - END
 
