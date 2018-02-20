@@ -207,7 +207,7 @@ public interface FisClient {
     //Activity Definition
 
     @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.GET)
-    PageDto<ActivityDefinitionDto> getAllActivityDefinitionsByOrganization(@PathVariable("organizationId") String organizationId,
+    Object getAllActivityDefinitionsByOrganization(@PathVariable("organizationId") String organizationId,
                                                                          @RequestParam(value = "searchKey", required = false) String searchKey,
                                                                          @RequestParam(value = "searchValue", required = false) String searchValue,
                                                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,

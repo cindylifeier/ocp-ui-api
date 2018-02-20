@@ -29,14 +29,14 @@ public class ActivityDefinitionController {
     private FisClient fisClient;
 
     @GetMapping("/organizations/{organizationId}/activity-definitions")
-    public PageDto<ActivityDefinitionDto> getAllActivityDefinitionsByOrganization(@PathVariable String organizationId,
+    public Object getAllActivityDefinitionsByOrganization(@PathVariable String organizationId,
                                                                                 @RequestParam(value = "searchKey", required = false) String searchKey,
                                                                                 @RequestParam(value = "searchValue", required = false) String searchValue,
                                                                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                                                 @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Fetching activity definitions from FHIR Server for the given OrganizationId: " + organizationId);
         try {
-            PageDto<ActivityDefinitionDto> fisClientResponse = fisClient.getAllActivityDefinitionsByOrganization(organizationId, searchKey, searchValue, pageNumber, pageSize);
+            Object fisClientResponse = fisClient.getAllActivityDefinitionsByOrganization(organizationId, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
         }
