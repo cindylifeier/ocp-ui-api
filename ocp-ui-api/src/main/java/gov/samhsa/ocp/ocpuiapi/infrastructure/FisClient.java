@@ -12,6 +12,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -217,6 +218,11 @@ public interface FisClient {
     @RequestMapping(value = "/organization/{organizationId}/activity-definitions", method = RequestMethod.POST)
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+
+
+    //Task
+    @RequestMapping(value="/tasks",method=RequestMethod.POST)
+    void createTask(@Valid @RequestBody TaskDto taskDto);
 
     //RelatedPerson
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)

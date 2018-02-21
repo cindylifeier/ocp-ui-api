@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.util;
 
+import com.sun.org.apache.bcel.internal.generic.DUP;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
@@ -60,6 +61,8 @@ public final class ExceptionUtil {
                     throw new BadRequestException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
                     throw new BadRequestException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                    throw new BadRequestException(errorMessage);
             case 409:
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -72,6 +75,8 @@ public final class ExceptionUtil {
                 if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
+                    throw new DuplicateResourceFoundException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);

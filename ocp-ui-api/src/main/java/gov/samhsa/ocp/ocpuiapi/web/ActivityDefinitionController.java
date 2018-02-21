@@ -49,7 +49,7 @@ public class ActivityDefinitionController {
 
     @PostMapping("/organization/{organizationId}/activity-definitions")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createLocation(@PathVariable String organizationId,
+    public void createActivityDefinition(@PathVariable String organizationId,
                                @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto) {
         log.info("About to create a activity definition");
         try {
