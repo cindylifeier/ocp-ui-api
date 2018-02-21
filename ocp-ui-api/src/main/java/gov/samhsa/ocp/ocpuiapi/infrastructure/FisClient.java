@@ -12,6 +12,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -218,6 +219,11 @@ public interface FisClient {
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
+
+    //Task
+    @RequestMapping(value="/tasks",method=RequestMethod.POST)
+    void createTask(@Valid @RequestBody TaskDto taskDto);
+
     //RelatedPerson
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
     void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
@@ -331,15 +337,26 @@ public interface FisClient {
     @RequestMapping(value="/lookups/definition-topic",method = RequestMethod.GET)
     List<ValueSetDto> getDefinitionTopic();
 
-    @RequestMapping(value="lookups/resource-type",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/resource-type",method=RequestMethod.GET)
     List<ValueSetDto> getResourceType();
 
-    @RequestMapping(value="lookups/action-participant-role",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/action-participant-role",method=RequestMethod.GET)
     List<ValueSetDto> getActionParticipantRole();
 
-    @RequestMapping(value="lookups/action-participant-type",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/action-participant-type",method=RequestMethod.GET)
     List<ValueSetDto> getActionParticipantType();
 
+    @RequestMapping(value="/lookups/task-status",method=RequestMethod.GET)
+    List<ValueSetDto> getTaskStatus();
+
+    @RequestMapping(value="/lookups/request-priority",method=RequestMethod.GET)
+    List<ValueSetDto> getRequestPriority();
+
+    @RequestMapping(value="/lookups/task-performer-type",method=RequestMethod.GET)
+    List<ValueSetDto> getTaskPerformerType();
+
+    @RequestMapping(value="/lookups/request-intent",method=RequestMethod.GET)
+    List<ValueSetDto> getRequestIntent();
     //LOOKUP - END
 
 }

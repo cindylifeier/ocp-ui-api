@@ -47,4 +47,8 @@ public class LookUpDataDto {
     List<ValueSetDto> actionParticipantType;
     List<ValueSetDto> actionParticipantRole;
     List<ValueSetDto> relatedPersonPatientRelationshipTypes;
+    List<ValueSetDto> taskStatus;
+    List<ValueSetDto> requestPriority;
+    List<ValueSetDto> taskPerformerType;
+    List<ValueSetDto> requestIntent;
 }

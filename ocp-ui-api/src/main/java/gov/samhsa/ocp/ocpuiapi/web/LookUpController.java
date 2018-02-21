@@ -416,6 +416,50 @@ public class LookUpController {
             }
         }
 
+        //Task Status
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TASK_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.TASK_STATUS.name());
+            try {
+                lookUpData.setTaskStatus(fisClient.getTaskStatus());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.TASK_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Request priority
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.REQUEST_PRIORITY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.REQUEST_PRIORITY.name());
+            try {
+                lookUpData.setRequestPriority(fisClient.getRequestPriority());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.REQUEST_PRIORITY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Task Performer Type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TASK_PERFORMER_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.TASK_PERFORMER_TYPE.name());
+            try {
+                lookUpData.setTaskPerformerType(fisClient.getTaskPerformerType());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.TASK_PERFORMER_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Request Intent
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.REQUEST_INTENT.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.REQUEST_INTENT.name());
+            try {
+                lookUpData.setRequestIntent(fisClient.getRequestIntent());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.REQUEST_INTENT.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }
