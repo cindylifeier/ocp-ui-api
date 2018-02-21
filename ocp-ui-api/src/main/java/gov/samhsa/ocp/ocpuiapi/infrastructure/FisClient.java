@@ -337,15 +337,26 @@ public interface FisClient {
     @RequestMapping(value="/lookups/definition-topic",method = RequestMethod.GET)
     List<ValueSetDto> getDefinitionTopic();
 
-    @RequestMapping(value="lookups/resource-type",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/resource-type",method=RequestMethod.GET)
     List<ValueSetDto> getResourceType();
 
-    @RequestMapping(value="lookups/action-participant-role",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/action-participant-role",method=RequestMethod.GET)
     List<ValueSetDto> getActionParticipantRole();
 
-    @RequestMapping(value="lookups/action-participant-type",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/action-participant-type",method=RequestMethod.GET)
     List<ValueSetDto> getActionParticipantType();
 
+    @RequestMapping(value="/lookups/task-status",method=RequestMethod.GET)
+    List<ValueSetDto> getTaskStatus();
+
+    @RequestMapping(value="/lookups/request-priority",method=RequestMethod.GET)
+    List<ValueSetDto> getRequestPriority();
+
+    @RequestMapping(value="/lookups/task-performer-type",method=RequestMethod.GET)
+    List<ValueSetDto> getTaskPerformerType();
+
+    @RequestMapping(value="/lookups/request-intent",method=RequestMethod.GET)
+    List<ValueSetDto> getRequestIntent();
     //LOOKUP - END
 
 }
