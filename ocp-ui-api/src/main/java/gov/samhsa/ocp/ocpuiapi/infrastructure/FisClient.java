@@ -224,6 +224,14 @@ public interface FisClient {
     @RequestMapping(value="/tasks",method=RequestMethod.POST)
     void createTask(@Valid @RequestBody TaskDto taskDto);
 
+    @RequestMapping(value = "/tasks/search", method = RequestMethod.GET)
+    Object searchTasks(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                         @RequestParam(value = "searchType", required = false) String searchType,
+                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+
     //RelatedPerson
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
     void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
