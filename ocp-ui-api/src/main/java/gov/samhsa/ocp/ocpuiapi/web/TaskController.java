@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -37,4 +38,17 @@ public class TaskController {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created", ResourceType.TASK.name());
         }
     }
+
+    @PutMapping("/tasks/{taskId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateTask(@PathVariable String taskId,@Valid @RequestBody TaskDto taskDto){
+        try{
+            fisClient.updateTask(taskId,taskDto);
+            log.debug("Successfully updated a task");
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Task could not be updated in the FHIR server",ResourceType.TASK.name());
+        }
+    }
+
+
 }
