@@ -15,7 +15,7 @@ security:
 ocp:
   ocp-ui-api:
     oauth:
-      authorization-server-endpoint: http://localhost/uaa
+      authorization-server-endpoint: http://localhost:8080/uaa
       oauth-clients:
         - client-id: ocp-ui
           client-secret: changeit
