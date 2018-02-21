@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.util;
 
 import com.sun.org.apache.bcel.internal.generic.DUP;
+import com.sun.org.apache.regexp.internal.RE;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
@@ -100,6 +101,8 @@ public final class ExceptionUtil {
                     throw new BadRequestException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new BadRequestException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                    throw new BadRequestException(errorMessage);
             case 404:
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -111,6 +114,8 @@ public final class ExceptionUtil {
                     throw new ResourceNotFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new ResourceNotFoundException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                    throw new ResourceNotFoundException(errorMessage);
             case 409:
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -121,6 +126,8 @@ public final class ExceptionUtil {
                 if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new ResourceNotFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                    throw new ResourceNotFoundException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
