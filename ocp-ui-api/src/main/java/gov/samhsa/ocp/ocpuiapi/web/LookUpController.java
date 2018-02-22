@@ -293,6 +293,17 @@ public class LookUpController {
             }
         }
 
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICESTATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICESTATUS.name());
+            try {
+                lookUpData.setHealthcareServiceStatuses(fisClient.getHealthcareServiceStatuses());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICESTATUS.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
 
         //Care Team Category
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMCATEGORY.name()::equalsIgnoreCase)) {
