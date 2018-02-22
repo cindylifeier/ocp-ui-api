@@ -288,10 +288,8 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/organization-statuses", method = RequestMethod.GET)
     List<OrganizationStatusDto> getOrganizationStatuses();
 
-
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
-    //LOOKUP - END
 
     @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
     List<ValueSetDto> getAdministrativeGenders();
@@ -319,6 +317,9 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/healthcare-service-referral-methods", method = RequestMethod.GET)
     List<ValueSetDto> getHealthcareServiceReferralMethods();
+
+    @RequestMapping(value = "/lookups/healthcare-service-statuses", method = RequestMethod.GET)
+    List<OrganizationStatusDto> getHealthcareServiceStatuses();
 
     @RequestMapping(value = "/lookups/care-team-categories", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamCategories();
