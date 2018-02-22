@@ -37,6 +37,8 @@ public final class ExceptionUtil {
                     throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new ResourceNotFoundException(errorMessage);
+                else if (resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
+                    throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new ResourceNotFoundException(errorMessage);
             default:
