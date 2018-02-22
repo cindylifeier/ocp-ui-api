@@ -239,7 +239,7 @@ public interface FisClient {
     @RequestMapping(value="/tasks/{taskId}/deactivate",method=RequestMethod.PUT)
     void deactivateTask(@PathVariable("taskId") String taskId);
 
-    @RequestMapping(value="/tasks/{taskId}",method=RequestMethod.GET)
+    @RequestMapping(value="/tasks/{taskId}")
     TaskDto getTaskById(@PathVariable("taskId") String taskId);
 
     //RelatedPerson
