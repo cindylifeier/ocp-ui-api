@@ -1,7 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.util;
 
 import com.sun.org.apache.bcel.internal.generic.DUP;
-import com.sun.org.apache.regexp.internal.RE;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
@@ -40,7 +39,9 @@ public final class ExceptionUtil {
                     throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                else if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                else if (resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
+                    throw new ResourceNotFoundException(errorMessage);
+                else if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
