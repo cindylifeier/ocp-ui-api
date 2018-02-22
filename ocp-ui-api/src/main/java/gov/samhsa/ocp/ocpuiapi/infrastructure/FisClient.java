@@ -15,6 +15,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
+import javafx.concurrent.Task;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -237,6 +238,9 @@ public interface FisClient {
 
     @RequestMapping(value="/tasks/{taskId}/deactivate",method=RequestMethod.PUT)
     void deactivateTask(@PathVariable("taskId") String taskId);
+
+    @RequestMapping(value="/tasks/{taskId}",method=RequestMethod.GET)
+    TaskDto getTaskById(@PathVariable("taskId") String taskId);
 
     //RelatedPerson
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)

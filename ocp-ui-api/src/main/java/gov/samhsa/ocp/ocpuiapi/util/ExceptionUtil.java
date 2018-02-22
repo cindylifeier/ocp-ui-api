@@ -23,6 +23,8 @@ public final class ExceptionUtil {
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new BadRequestException(errorMessage);
+                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                    throw new BadRequestException(errorMessage);
             case 404:
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -37,6 +39,8 @@ public final class ExceptionUtil {
                 else if (resourceType.equalsIgnoreCase(ResourceType.CARE_TEAM.name()))
                     throw new ResourceNotFoundException(errorMessage);
                 else if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                    throw new ResourceNotFoundException(errorMessage);
+                else if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);

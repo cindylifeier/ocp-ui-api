@@ -80,4 +80,14 @@ public class TaskController {
         }
     }
 
+    @GetMapping("/tasks/{taskId}")
+    public TaskDto getTaskById(@PathVariable String taskId){
+        try{
+            return fisClient.getTaskById(taskId);
+        }catch (FeignException fe){
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"Task could not be found",ResourceType.TASK.name());
+            return null;
+        }
+    }
+
 }
