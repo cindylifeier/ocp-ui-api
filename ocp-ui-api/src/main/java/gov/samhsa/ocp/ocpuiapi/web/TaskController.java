@@ -50,5 +50,16 @@ public class TaskController {
         }
     }
 
+    @PutMapping("/tasks/{taskId}/deactivate")
+    @ResponseStatus(HttpStatus.OK)
+    public void deactivateTask(@PathVariable String taskId){
+        try{
+            fisClient.deactivateTask(taskId);
+            log.debug("Successfully cancelled the task.");
+        }catch (FeignException fe){
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe,"Task could not be deactivated in the FHIR server",ResourceType.TASK.name());
+        }
+    }
+
 
 }

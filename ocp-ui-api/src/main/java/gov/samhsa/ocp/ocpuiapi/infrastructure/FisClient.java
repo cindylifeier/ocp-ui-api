@@ -227,6 +227,9 @@ public interface FisClient {
     @RequestMapping(value="/tasks/{taskId}",method=RequestMethod.PUT)
     void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
 
+    @RequestMapping(value="/tasks/{taskId}/deactivate",method=RequestMethod.PUT)
+    void deactivateTask(@PathVariable("taskId") String taskId);
+
     //RelatedPerson
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
     void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
