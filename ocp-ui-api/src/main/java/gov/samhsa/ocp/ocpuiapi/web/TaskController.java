@@ -2,7 +2,6 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,7 @@ public class TaskController {
             log.info("Successfully created a task.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created", ResourceType.TASK.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created");
         }
     }
 
@@ -53,7 +52,7 @@ public class TaskController {
             log.info("Got Response from FHIR server for Tasks Search");
             return tasks;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Tasks were found in configured FHIR server for the given searchType and searchValue", ResourceType.TASK.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Tasks were found in configured FHIR server for the given searchType and searchValue");
             return null;
         }
     }
@@ -65,7 +64,7 @@ public class TaskController {
             fisClient.updateTask(taskId,taskDto);
             log.debug("Successfully updated a task");
         }catch(FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Task could not be updated in the FHIR server",ResourceType.TASK.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Task could not be updated in the FHIR server");
         }
     }
 
@@ -76,7 +75,7 @@ public class TaskController {
             fisClient.deactivateTask(taskId);
             log.debug("Successfully cancelled the task.");
         }catch (FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe,"Task could not be deactivated in the FHIR server",ResourceType.TASK.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe,"Task could not be deactivated in the FHIR server");
         }
     }
 
@@ -85,7 +84,7 @@ public class TaskController {
         try{
             return fisClient.getTaskById(taskId);
         }catch (FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"Task could not be found",ResourceType.TASK.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"Task could not be found");
             return null;
         }
     }

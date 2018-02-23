@@ -4,7 +4,6 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ public class CareTeamController {
             log.debug("Successfully created a CareTeam");
 
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Care Team could not be created in FHIR server", ResourceType.CARE_TEAM.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Care Team could not be created in FHIR server");
         }
     }
 
@@ -50,7 +49,7 @@ public class CareTeamController {
             log.debug("Successfully updated a CareTeam");
 
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Care Team could not be updated in FHIR server", ResourceType.CARE_TEAM.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Care Team could not be updated in FHIR server");
         }
     }
 
@@ -66,7 +65,7 @@ public class CareTeamController {
             log.info("Got Response from FHIR server for Care Team Search");
             return careTeams;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No care Teams were found in configured FHIR server for the given searchType and searchValue", ResourceType.CARE_TEAM.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No care Teams were found in configured FHIR server for the given searchType and searchValue");
             return null;
         }
 
@@ -77,7 +76,7 @@ public class CareTeamController {
         try {
             return fisClient.getCareTeamById(careTeamId);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server", ResourceType.CARE_TEAM.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server");
             return null;
         }
     }

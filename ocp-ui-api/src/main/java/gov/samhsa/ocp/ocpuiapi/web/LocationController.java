@@ -4,7 +4,6 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
     }
@@ -71,7 +70,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -85,7 +84,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no child location was found in the configured FHIR server for the given LocationId", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -100,7 +99,7 @@ public class LocationController {
             log.info("Successfully created a location");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the location was not created", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the location was not created");
         }
     }
 
@@ -115,7 +114,7 @@ public class LocationController {
             log.info("Successfully updated the location ID: " + locationId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated");
         }
     }
 
@@ -128,7 +127,7 @@ public class LocationController {
             log.info("Successfully inactivated the location: " + locationId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the location was not inactivated", ResourceType.LOCATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the location was not inactivated");
         }
     }
 }

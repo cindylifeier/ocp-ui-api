@@ -4,7 +4,6 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class HealthcareServiceController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no healthcare services were found in the configured FHIR server for the given OrganizationId", ResourceType.ORGANIZATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no healthcare services were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
     }
@@ -77,7 +76,7 @@ public class HealthcareServiceController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No healthcare services were found in the configured FHIR server for the given LocationId", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No healthcare services were found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -91,7 +90,7 @@ public class HealthcareServiceController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -107,7 +106,7 @@ public class HealthcareServiceController {
             fisClient.assignLocationsToHealthcareService(healthcareServiceId, organizationId, locationIdList);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedAssigningLocToHealthcareService(fe, " the location(s) were not assigned to the healthcare service.");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, " the location(s) were not assigned to the healthcare service.");
         }
         log.info("Successfully assigned all location(s) to the healthcare service.");
     }
@@ -122,7 +121,7 @@ public class HealthcareServiceController {
             fisClient.unassignsLocationFromHealthcareService(healthcareServiceId, organizationId, locationIdList);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " the location(s) were not unassigned from the healthcare service.", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " the location(s) were not unassigned from the healthcare service.");
         }
         log.info("Successfully unassigned all location(s) from the healthcare service.");
     }
@@ -137,7 +136,7 @@ public class HealthcareServiceController {
             log.info("Successfully created the healthcare service");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the healthcare service was not created", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the healthcare service was not created");
         }
     }
 
@@ -152,7 +151,7 @@ public class HealthcareServiceController {
             log.info("Successfully updated the healthcare service ID:" + healthcareServiceId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the healthcare service was not updated", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the healthcare service was not updated");
         }
     }
 
@@ -165,7 +164,7 @@ public class HealthcareServiceController {
             log.info("Successfully inactivated the healthcare service ID:" + healthcareServiceId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the healthcare service was not inactivated", ResourceType.HEALTHCARE_SERVICE.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the healthcare service was not inactivated");
         }
     }
 }
