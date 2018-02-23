@@ -1,9 +1,11 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
+import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.config.OauthProperties;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.UaaClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CredentialDto;
 import gov.samhsa.ocp.ocpuiapi.service.exception.OauthClientConfigMissingException;
+import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +29,14 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Object login(CredentialDto credentialDto) {
-        Map<String, String> formParams = buildPasswordGrantFormParams(credentialDto);
-        return uaaClient.getTokenUsingPasswordGrant(formParams);
+        Object loginResponse = null;
+        try {
+            Map<String, String> formParams = buildPasswordGrantFormParams(credentialDto);
+            loginResponse = uaaClient.getTokenUsingPasswordGrant(formParams);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionFailToLogin(fe, "User authentication failure by using username: ".concat(credentialDto.getUsername()));
+        }
+        return loginResponse;
     }
 
     private Map<String, String> buildPasswordGrantFormParams(CredentialDto credentialDto) {
