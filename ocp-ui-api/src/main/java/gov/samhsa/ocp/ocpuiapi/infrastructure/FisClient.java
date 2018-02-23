@@ -6,14 +6,16 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationStatusDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.StatusBooleanValuesDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
+import javafx.concurrent.Task;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -218,6 +220,28 @@ public interface FisClient {
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
+
+    //Task
+    @RequestMapping(value="/tasks",method=RequestMethod.POST)
+    void createTask(@Valid @RequestBody TaskDto taskDto);
+
+    @RequestMapping(value = "/tasks/search", method = RequestMethod.GET)
+    Object searchTasks(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                         @RequestParam(value = "searchType", required = false) String searchType,
+                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+
+    @RequestMapping(value="/tasks/{taskId}",method=RequestMethod.PUT)
+    void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
+
+    @RequestMapping(value="/tasks/{taskId}/deactivate",method=RequestMethod.PUT)
+    void deactivateTask(@PathVariable("taskId") String taskId);
+
+    @RequestMapping(value="/tasks/{taskId}")
+    TaskDto getTaskById(@PathVariable("taskId") String taskId);
+
     //RelatedPerson
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
     void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
@@ -272,8 +296,7 @@ public interface FisClient {
     List<ValueSetDto> getTelecomSystems();
 
     @RequestMapping(value = "/lookups/organization-statuses", method = RequestMethod.GET)
-    List<OrganizationStatusDto> getOrganizationStatuses();
-
+    List<StatusBooleanValuesDto> getOrganizationStatuses();
 
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
@@ -306,6 +329,9 @@ public interface FisClient {
     @RequestMapping(value = "/lookups/healthcare-service-referral-methods", method = RequestMethod.GET)
     List<ValueSetDto> getHealthcareServiceReferralMethods();
 
+    @RequestMapping(value = "/lookups/healthcare-service-statuses", method = RequestMethod.GET)
+    List<StatusBooleanValuesDto> getHealthcareServiceStatuses();
+
     @RequestMapping(value = "/lookups/care-team-categories", method = RequestMethod.GET)
     List<ValueSetDto> getCareTeamCategories();
 
@@ -331,18 +357,29 @@ public interface FisClient {
     @RequestMapping(value="/lookups/definition-topic",method = RequestMethod.GET)
     List<ValueSetDto> getDefinitionTopic();
 
-    @RequestMapping(value="lookups/resource-type",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/resource-type",method=RequestMethod.GET)
     List<ValueSetDto> getResourceType();
 
-    @RequestMapping(value="lookups/action-participant-role",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/action-participant-role",method=RequestMethod.GET)
     List<ValueSetDto> getActionParticipantRole();
 
-    @RequestMapping(value="lookups/action-participant-type",method=RequestMethod.GET)
+    @RequestMapping(value="/lookups/action-participant-type",method=RequestMethod.GET)
     List<ValueSetDto> getActionParticipantType();
+
+    @RequestMapping(value="/lookups/task-status",method=RequestMethod.GET)
+    List<ValueSetDto> getTaskStatus();
+
+    @RequestMapping(value="/lookups/request-priority",method=RequestMethod.GET)
+    List<ValueSetDto> getRequestPriority();
+
+    @RequestMapping(value="/lookups/task-performer-type",method=RequestMethod.GET)
+    List<ValueSetDto> getTaskPerformerType();
+
+    @RequestMapping(value="/lookups/request-intent",method=RequestMethod.GET)
+    List<ValueSetDto> getRequestIntent();
 
     @RequestMapping(value = "lookups/activity-definition-related-artifact-types", method = RequestMethod.GET)
     List<ValueSetDto> getActivityDefinitionRelatedArtifactTypes();
-
     //LOOKUP - END
 
 }

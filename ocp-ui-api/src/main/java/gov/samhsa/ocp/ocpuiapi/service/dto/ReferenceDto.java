@@ -1,6 +1,5 @@
 package gov.samhsa.ocp.ocpuiapi.service.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+public class ReferenceDto {
+    private String reference;
 
-public class OrganizationStatusDto {
-    boolean code;
-    String display;
+    private String display;
 }
