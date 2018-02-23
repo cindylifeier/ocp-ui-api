@@ -1,12 +1,13 @@
 package gov.samhsa.ocp.ocpuiapi.util;
 
-import com.sun.org.apache.bcel.internal.generic.DUP;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.DuplicateResourceFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.FisClientInterfaceException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFoundException;
+import gov.samhsa.ocp.ocpuiapi.service.exception.UaaClientException;
+import gov.samhsa.ocp.ocpuiapi.service.exception.UserAuthenticationFailure;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -22,7 +23,7 @@ public final class ExceptionUtil {
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new BadRequestException(errorMessage);
             case 404:
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
@@ -59,30 +60,30 @@ public final class ExceptionUtil {
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new BadRequestException(errorMessage);
             case 409:
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.ACTIVITY_DEFINITION.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
@@ -100,39 +101,39 @@ public final class ExceptionUtil {
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new BadRequestException(errorMessage);
             case 404:
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new ResourceNotFoundException(errorMessage);
             case 409:
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
@@ -152,7 +153,7 @@ public final class ExceptionUtil {
                     throw new ResourceNotFoundException(errorMessage);
                 if (resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
                     throw new ResourceNotFoundException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
+                if (resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
                     throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
@@ -160,7 +161,7 @@ public final class ExceptionUtil {
         }
     }
 
-    public static void handleFeignExceptionRelatedAssigningLocToHealthcareService(FeignException fe, String logErrorMessage){
+    public static void handleFeignExceptionRelatedAssigningLocToHealthcareService(FeignException fe, String logErrorMessage) {
         int causedByStatus = fe.status();
         String errorMessage = getErrorMessageFromFeignException(fe);
         String logErrorMessageWithCode;
@@ -179,7 +180,24 @@ public final class ExceptionUtil {
         }
     }
 
-
+    public static void handleFeignExceptionFailToLogin(FeignException fe, String logErrorMessage) {
+        int causedByStatus = fe.status();
+        String errorMessage = getErrorMessageFromFeignException(fe);
+        String logErrorMessageWithCode;
+        switch (causedByStatus) {
+            case 400:
+                logErrorMessageWithCode = "Fis client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new BadRequestException(errorMessage);
+            case 401:
+                logErrorMessageWithCode = "Uaa client returned a 401 - UNAUTHORIZED status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new UserAuthenticationFailure(errorMessage);
+            default:
+                log.error("Uaa client returned an unexpected instance of FeignException", fe);
+                throw new UaaClientException("An unknown error occurred while attempting to communicate with Uaa Client");
+        }
+    }
 
 
     public static String getErrorMessageFromFeignException(FeignException fe) {
