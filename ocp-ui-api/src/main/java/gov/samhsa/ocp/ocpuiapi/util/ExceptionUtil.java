@@ -127,13 +127,13 @@ public final class ExceptionUtil {
                 if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
                     throw new DuplicateResourceFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.PRACTITIONER.name()))
-                    throw new ResourceNotFoundException(errorMessage);
+                    throw new DuplicateResourceFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.ORGANIZATION.name()))
-                    throw new ResourceNotFoundException(errorMessage);
+                    throw new DuplicateResourceFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.HEALTHCARE_SERVICE.name()))
-                    throw new ResourceNotFoundException(errorMessage);
+                    throw new DuplicateResourceFoundException(errorMessage);
                 if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
-                    throw new ResourceNotFoundException(errorMessage);
+                    throw new DuplicateResourceFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
