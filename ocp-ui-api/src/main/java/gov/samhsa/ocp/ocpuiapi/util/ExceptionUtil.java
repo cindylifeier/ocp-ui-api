@@ -1,7 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.util;
 
 import feign.FeignException;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.DuplicateResourceFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.FisClientInterfaceException;
@@ -21,10 +20,7 @@ public final class ExceptionUtil {
             case 400:
                 logErrorMessageWithCode = "Fis client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
-                if (resourceType.equalsIgnoreCase(ResourceType.LOCATION.name()))
-                    throw new BadRequestException(errorMessage);
-                if(resourceType.equalsIgnoreCase(ResourceType.TASK.name()))
-                    throw new BadRequestException(errorMessage);
+                throw new BadRequestException(errorMessage);
             case 404:
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
@@ -110,7 +106,6 @@ public final class ExceptionUtil {
                 throw new UaaClientException("An unknown error occurred while attempting to communicate with Uaa Client");
         }
     }
-
 
     public static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
