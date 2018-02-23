@@ -81,7 +81,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{taskId}")
-    public TaskDto getTaskById(@PathVariable String taskId){
+    public Object getTaskById(@PathVariable String taskId){
         try{
             return fisClient.getTaskById(taskId);
         }catch (FeignException fe){
