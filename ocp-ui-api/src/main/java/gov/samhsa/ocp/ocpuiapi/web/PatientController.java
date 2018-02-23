@@ -3,7 +3,6 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,7 +37,7 @@ public class PatientController {
             log.debug("Call to Feign Client: END");
             return patientDtos;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient  found in the configured FHIR server for the given searchType and searchValue", ResourceType.PATIENT.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient  found in the configured FHIR server for the given searchType and searchValue");
             return fe;
         }
     }
@@ -54,7 +53,7 @@ public class PatientController {
             log.debug("Call to Feign Client: END");
             return patientDtos;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient found in the configured FHIR server for the given searchType and searchValue", ResourceType.PATIENT.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient found in the configured FHIR server for the given searchType and searchValue");
             return fe;
         }
     }
@@ -66,7 +65,7 @@ public class PatientController {
             fisClient.createPatient(patientDto);
             log.debug("Successfully created a patient");
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Patient could not be created in FHIR server", ResourceType.PATIENT.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Patient could not be created in FHIR server");
         }
     }
 
@@ -77,7 +76,7 @@ public class PatientController {
             fisClient.updatePatient(patientDto);
             log.debug("Successfully updated a patient");
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Patient could not be updated in FHIR server", ResourceType.PATIENT.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Patient could not be updated in FHIR server");
         }
     }
 
@@ -88,7 +87,7 @@ public class PatientController {
             log.debug("Successfully retrieved a patient with the given patientId : " + patientId);
             return fisClient.getPatientById(patientId);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Patient could not be retrieved for given patientId : " + patientId, ResourceType.PATIENT.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Patient could not be retrieved for given patientId : " + patientId);
             return fe;
         }
     }

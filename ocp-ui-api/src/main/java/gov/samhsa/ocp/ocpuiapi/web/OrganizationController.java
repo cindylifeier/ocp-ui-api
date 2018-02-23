@@ -4,7 +4,6 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class OrganizationController {
             log.info("Got response from FHIR server for all organizations");
             return organizations;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found in the configured FHIR server", ResourceType.ORGANIZATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found in the configured FHIR server");
             return null;
         }
     }
@@ -79,7 +78,7 @@ public class OrganizationController {
             log.info("Got response from FHIR server for organization search");
             return organizations;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found found in the configured FHIR server for the given searchType and searchValue",  ResourceType.ORGANIZATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found found in the configured FHIR server for the given searchType and searchValue");
             return null;
         }
     }
@@ -94,7 +93,7 @@ public class OrganizationController {
             log.info("Successfully created the organization");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the organization was not created", ResourceType.ORGANIZATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the organization was not created");
         }
     }
 
@@ -108,7 +107,7 @@ public class OrganizationController {
             log.info("Successfully updated the organization");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the organization was not updated", ResourceType.ORGANIZATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the organization was not updated");
         }
     }
 
@@ -121,7 +120,7 @@ public class OrganizationController {
             log.info("Successfully inactivated the organization: " + organizationId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the organization was not inactivated", ResourceType.ORGANIZATION.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the organization was not inactivated");
         }
     }
 

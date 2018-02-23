@@ -4,7 +4,6 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ResourceType;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class PractitionerController {
             log.info("Got response from FHIR server for all practitioners");
             return practitioners;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server", ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server");
             return null;
         }
     }
@@ -79,7 +78,7 @@ public class PractitionerController {
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server for the given searchType and searchValue", ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server for the given searchType and searchValue");
             return null;
         }
     }
@@ -91,7 +90,7 @@ public class PractitionerController {
 
             fisClient.createPractitioner(practitionerDto);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, " that the practitioner was not created", ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, " that the practitioner was not created");
         }
     }
 
@@ -102,7 +101,7 @@ public class PractitionerController {
             fisClient.updatePractitioner(practitionerId, practitionerDto);
 
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the practitioner was not updated", ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the practitioner was not updated");
         }
     }
 
@@ -111,10 +110,8 @@ public class PractitionerController {
         try {
             return fisClient.getPractitioner(practitionerId);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found", ResourceType.PRACTITIONER.name());
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found");
             return null;
         }
     }
-
-
 }

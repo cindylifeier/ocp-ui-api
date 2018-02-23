@@ -20,10 +20,11 @@ import java.util.List;
 public class LookUpController {
 
     public static final String NO_LOOKUPS_FOUND_MESSAGE = "Caution!!: No look up values found. Please check ocp-fis logs for error details.";
-    final List<String> allowedLocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
-    final List<String> allowedOrganizationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
-    final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR", "DR", "SB");
-    final List<String> allowedPractitionerIdentifierTypes = Arrays.asList("PRN", "TAX", "MD", "SB");
+    private final List<String> allowedLocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
+    private final List<String> allowedOrganizationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
+    private final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR", "DR", "SB");
+    private final List<String> allowedPractitionerIdentifierTypes = Arrays.asList("PRN", "TAX", "MD", "SB");
+
     @Autowired
     private FisClient fisClient;
 
@@ -51,7 +52,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.ADDRESSUSE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.ADDRESSUSE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -63,7 +64,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -75,7 +76,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.LOCATIONSTATUS.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.LOCATIONSTATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -87,7 +88,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.LOCATIONPHYSICALTYPE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.LOCATIONPHYSICALTYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -99,7 +100,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.ORGANIZATIONIDENTIFIERSYSTEM.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.ORGANIZATIONIDENTIFIERSYSTEM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -110,7 +111,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.ORGANIZATIONSTATUS.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.ORGANIZATIONSTATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -122,7 +123,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -134,7 +135,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.PRACTITIONERIDENTIFIERSYSTEM.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.PRACTITIONERIDENTIFIERSYSTEM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -146,7 +147,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.TELECOMSYSTEM.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.TELECOMSYSTEM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -158,7 +159,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.TELECOMUSE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.TELECOMUSE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -170,7 +171,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.USPSSTATES.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.USPSSTATES.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -181,7 +182,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.PRACTITIONERROLES.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.PRACTITIONERROLES.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -193,7 +194,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.ADMINISTRATIVEGENDER.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.ADMINISTRATIVEGENDER.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -205,7 +206,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.USCORERACE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.USCORERACE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -217,7 +218,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.USCOREETHNICITY.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.USCOREETHNICITY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -229,7 +230,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.USCOREBIRTHSEX.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.USCOREBIRTHSEX.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -241,7 +242,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.LANGUAGE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.LANGUAGE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -253,7 +254,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -265,7 +266,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICETYPE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICETYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -277,7 +278,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICESPECIALITY.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICESPECIALITY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -289,7 +290,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICEREFERRALMETHOD.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICEREFERRALMETHOD.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -300,7 +301,7 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 //Do nothing
-                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICESTATUS.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.HEALTHCARESERVICESTATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -312,7 +313,7 @@ public class LookUpController {
                 lookUpData.setCareTeamCategories(fisClient.getCareTeamCategories());
             }
             catch (FeignException fe) {
-                log.error("(" + LookUpTypeEnum.CARETEAMCATEGORY.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.CARETEAMCATEGORY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -323,7 +324,7 @@ public class LookUpController {
                 lookUpData.setParticipantTypes(fisClient.getParticipantTypes());
             }
             catch (FeignException fe) {
-                log.error("(" + LookUpTypeEnum.PARTICIPANTTYPE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.PARTICIPANTTYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -334,7 +335,7 @@ public class LookUpController {
                 lookUpData.setCareTeamStatuses(fisClient.getCareTeamStatuses());
             }
             catch (FeignException fe) {
-                log.error("(" + LookUpTypeEnum.CARETEAMSTATUS.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.CARETEAMSTATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -345,7 +346,7 @@ public class LookUpController {
                 lookUpData.setParticipantRoles(fisClient.getParticipantRoles());
             }
             catch (FeignException fe) {
-                log.error("(" + LookUpTypeEnum.PARTICIPANTROLE.name() + ")" +NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.PARTICIPANTROLE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
@@ -476,7 +477,8 @@ public class LookUpController {
             log.info("Getting look up values for " + LookUpTypeEnum.RELATED_ARTIFACT_TYPE);
             try {
                 lookUpData.setRelatedArtifactType(fisClient.getActivityDefinitionRelatedArtifactTypes());
-            } catch (FeignException fe) {
+            }
+            catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.RELATED_ARTIFACT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
