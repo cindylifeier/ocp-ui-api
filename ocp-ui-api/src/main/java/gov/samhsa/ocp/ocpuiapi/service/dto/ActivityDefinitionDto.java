@@ -27,7 +27,7 @@ public class ActivityDefinitionDto {
 
     private PeriodDto effectivePeriod;
     private ValueSetDto topic;
-    private List<ValueSetDto> relatedArtifact;
+    private List<RelatedArtifactDto> relatedArtifact;
     private ValueSetDto kind;
 
     private TimingDto timing;
