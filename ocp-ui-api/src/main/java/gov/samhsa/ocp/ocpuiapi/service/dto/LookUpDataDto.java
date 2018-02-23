@@ -20,14 +20,14 @@ public class LookUpDataDto {
     List<ValueSetDto> healthcareServiceTypes;
     List<ValueSetDto> healthcareServiceSpecialities;
     List<ValueSetDto> healthcareServiceReferralMethods;
-    List<OrganizationStatusDto> healthcareServiceStatuses;
+    List<StatusBooleanValuesDto> healthcareServiceStatuses;
     List<ValueSetDto> languages;
     List<IdentifierSystemDto> locationIdentifierSystems;
     List<ValueSetDto> locationStatuses;
     List<ValueSetDto> locationTypes;
     List<ValueSetDto> locationPhysicalTypes;
     List<IdentifierSystemDto> organizationIdentifierSystems;
-    List<OrganizationStatusDto> organizationStatuses;
+    List<StatusBooleanValuesDto> organizationStatuses;
     List<IdentifierSystemDto> patientIdentifierSystems;
     List<IdentifierSystemDto> practitionerIdentifierSystems;
     List<ValueSetDto> practitionerRoles;
