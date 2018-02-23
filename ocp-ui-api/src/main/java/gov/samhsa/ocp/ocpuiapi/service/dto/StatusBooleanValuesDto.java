@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class OrganizationStatusDto {
+public class StatusBooleanValuesDto {
     boolean code;
     String display;
 }
