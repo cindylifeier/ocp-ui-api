@@ -300,6 +300,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/lookups/practitioner-roles", method = RequestMethod.GET)
     List<ValueSetDto> getPractitionerRoles();
+    //LOOKUP - END
 
     @RequestMapping(value = "/lookups/administrative-genders", method = RequestMethod.GET)
     List<ValueSetDto> getAdministrativeGenders();
@@ -376,6 +377,9 @@ public interface FisClient {
 
     @RequestMapping(value="/lookups/request-intent",method=RequestMethod.GET)
     List<ValueSetDto> getRequestIntent();
+
+    @RequestMapping(value = "lookups/activity-definition-related-artifact-types", method = RequestMethod.GET)
+    List<ValueSetDto> getActivityDefinitionRelatedArtifactTypes();
     //LOOKUP - END
 
 }

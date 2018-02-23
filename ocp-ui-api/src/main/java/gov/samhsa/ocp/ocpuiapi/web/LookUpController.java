@@ -471,6 +471,15 @@ public class LookUpController {
             }
         }
 
+        //Activity Definition RelatedArtifactTypes
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.RELATED_ARTIFACT_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.RELATED_ARTIFACT_TYPE);
+            try {
+                lookUpData.setRelatedArtifactType(fisClient.getActivityDefinitionRelatedArtifactTypes());
+            } catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.RELATED_ARTIFACT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
         return lookUpData;
     }
 }

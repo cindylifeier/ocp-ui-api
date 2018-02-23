@@ -6,6 +6,7 @@ public enum LookUpTypeEnum {
     //In alphabetical order
     ACTION_PARTICIPANT_ROLE,
     ACTION_PARTICIPANT_TYPE,
+    RELATED_ARTIFACT_TYPE,
     ADDRESSTYPE,
     ADDRESSUSE,
     ADMINISTRATIVEGENDER,

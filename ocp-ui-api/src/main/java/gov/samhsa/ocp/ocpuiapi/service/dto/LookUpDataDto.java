@@ -52,4 +52,5 @@ public class LookUpDataDto {
     List<ValueSetDto> requestPriority;
     List<ValueSetDto> taskPerformerType;
     List<ValueSetDto> requestIntent;
+    List<ValueSetDto> relatedArtifactType;
 }
