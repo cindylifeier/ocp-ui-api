@@ -380,6 +380,20 @@ public interface FisClient {
 
     @RequestMapping(value = "lookups/activity-definition-related-artifact-types", method = RequestMethod.GET)
     List<ValueSetDto> getActivityDefinitionRelatedArtifactTypes();
+
+    @RequestMapping(value = "lookups/communication-statuses", method = RequestMethod.GET)
+    List<ValueSetDto> getCommunicationEventStatus();
+
+    @RequestMapping(value = "lookups/communication-categories", method = RequestMethod.GET)
+    List<ValueSetDto> getCommunicationCategory();
+
+    @RequestMapping(value = "lookups/communication-not-done-reasons", method = RequestMethod.GET)
+    List<ValueSetDto> getCommunicationNotDoneReason();
+
+    @RequestMapping(value = "lookups/communication-mediums", method = RequestMethod.GET)
+    List<ValueSetDto> getCommunicationMedium();
+
+
     //LOOKUP - END
 
 }
