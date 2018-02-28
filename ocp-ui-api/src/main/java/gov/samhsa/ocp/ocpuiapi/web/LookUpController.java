@@ -482,6 +482,51 @@ public class LookUpController {
                 log.error("(" + LookUpTypeEnum.RELATED_ARTIFACT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
+
+        //Communication Status
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_EVENT_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_EVENT_STATUS);
+            try {
+                lookUpData.setRelatedArtifactType(fisClient.getCommunicationEventStatus());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.COMMUNICATION_EVENT_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Communication Category
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_CATEGORY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_CATEGORY);
+            try {
+                lookUpData.setRelatedArtifactType(fisClient.getCommunicationCategory());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.COMMUNICATION_CATEGORY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Communication Not Done Reason
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON);
+            try {
+                lookUpData.setRelatedArtifactType(fisClient.getCommunicationNotDoneReason());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Communication Medium
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_MEDIUM.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_MEDIUM);
+            try {
+                lookUpData.setRelatedArtifactType(fisClient.getCommunicationMedium());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.COMMUNICATION_MEDIUM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }
