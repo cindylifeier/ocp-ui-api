@@ -25,7 +25,7 @@ import java.util.List;
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
 
-    //LOCATIONS - START
+    //Location
 
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
     PageDto<LocationDto> getAllLocations(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -60,7 +60,7 @@ public interface FisClient {
     @RequestMapping(value = "/location/{locationId}/inactive", method = RequestMethod.PUT)
     void inactivateLocation(@PathVariable("locationId") String locationId);
 
-    //LOCATIONS - END
+    //Practitioner
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
     PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
@@ -83,6 +83,8 @@ public interface FisClient {
     @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.GET)
     PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
 
+    //Organization
+
     @RequestMapping(value = "/organizations", method = RequestMethod.GET)
     PageDto<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                  @RequestParam(value = "page", required = false) Integer page,
@@ -103,6 +105,8 @@ public interface FisClient {
 
     @RequestMapping(value = "/organizations/{organizationId}/inactive", method = RequestMethod.PUT)
     void inactivateOrganization(@PathVariable("organizationId") String organizationId);
+
+    //Patient
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
     Object getPatients();
@@ -131,7 +135,7 @@ public interface FisClient {
                                                      @RequestParam(value = "page") Integer page,
                                                      @RequestParam(value = "size") Integer size);
 
-    //HealthcareService - START
+    //HealthcareService
 
     @RequestMapping(value = "/healthcare-services", method = RequestMethod.GET)
     PageDto<HealthcareServiceDto> getAllHealthcareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -184,9 +188,8 @@ public interface FisClient {
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/inactive", method = RequestMethod.PUT)
     void inactivateHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId);
 
-    //HealthcareService - End
-
     //CareTeam
+
     @RequestMapping(value = "/care-teams", method = RequestMethod.POST)
     void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto);
 
@@ -216,8 +219,8 @@ public interface FisClient {
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
                                   @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
-
     //Task
+
     @RequestMapping(value = "/tasks", method = RequestMethod.POST)
     void createTask(@Valid @RequestBody TaskDto taskDto);
 
@@ -239,6 +242,7 @@ public interface FisClient {
     Object getTaskById(@PathVariable("taskId") String taskId);
 
     //RelatedPerson
+
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
     void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
 
