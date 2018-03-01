@@ -382,7 +382,7 @@ public interface FisClient {
     List<ValueSetDto> getActivityDefinitionRelatedArtifactTypes();
 
     @RequestMapping(value = "lookups/communication-statuses", method = RequestMethod.GET)
-    List<ValueSetDto> getCommunicationEventStatus();
+    List<ValueSetDto> getCommunicationStatus();
 
     @RequestMapping(value = "lookups/communication-categories", method = RequestMethod.GET)
     List<ValueSetDto> getCommunicationCategory();
@@ -392,7 +392,6 @@ public interface FisClient {
 
     @RequestMapping(value = "lookups/communication-mediums", method = RequestMethod.GET)
     List<ValueSetDto> getCommunicationMedium();
-
 
     //LOOKUP - END
 
