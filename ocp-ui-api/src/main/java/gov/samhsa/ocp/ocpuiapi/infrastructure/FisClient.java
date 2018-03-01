@@ -6,16 +6,15 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.StatusBooleanValuesDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.StatusBooleanValuesDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
-import javafx.concurrent.Task;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -392,6 +391,18 @@ public interface FisClient {
 
     @RequestMapping(value = "lookups/communication-mediums", method = RequestMethod.GET)
     List<ValueSetDto> getCommunicationMedium();
+
+    @RequestMapping(value = "lookups/appointment-statuses", method = RequestMethod.GET)
+    List<ValueSetDto> getAppointmentStatus();
+
+    @RequestMapping(value = "lookups/appointment-types", method = RequestMethod.GET)
+    List<ValueSetDto> getAppointmentType();
+
+    @RequestMapping(value = "lookups/appointment-participant-statuses", method = RequestMethod.GET)
+    List<ValueSetDto> getAppointmentParticipantStatus();
+
+    @RequestMapping(value = "lookups/appointment-participant-types", method = RequestMethod.GET)
+    List<ValueSetDto> getAppointmentParticipantType();
 
     //LOOKUP - END
 
