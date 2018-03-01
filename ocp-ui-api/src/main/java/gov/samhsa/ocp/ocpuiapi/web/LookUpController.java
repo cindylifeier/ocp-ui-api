@@ -487,7 +487,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_EVENT_STATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_EVENT_STATUS);
             try {
-                lookUpData.setRelatedArtifactType(fisClient.getCommunicationEventStatus());
+                lookUpData.setCommunicationStatus(fisClient.getCommunicationEventStatus());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_EVENT_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -498,7 +498,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_CATEGORY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_CATEGORY);
             try {
-                lookUpData.setRelatedArtifactType(fisClient.getCommunicationCategory());
+                lookUpData.setCommunicationCategory(fisClient.getCommunicationCategory());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_CATEGORY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -509,7 +509,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON);
             try {
-                lookUpData.setRelatedArtifactType(fisClient.getCommunicationNotDoneReason());
+                lookUpData.setCommunicationNotDoneReason(fisClient.getCommunicationNotDoneReason());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -520,7 +520,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_MEDIUM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_MEDIUM);
             try {
-                lookUpData.setRelatedArtifactType(fisClient.getCommunicationMedium());
+                lookUpData.setCommunicationMedium(fisClient.getCommunicationMedium());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_MEDIUM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
