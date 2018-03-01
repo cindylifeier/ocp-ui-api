@@ -484,13 +484,13 @@ public class LookUpController {
         }
 
         //Communication Status
-        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_EVENT_STATUS.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_EVENT_STATUS);
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_STATUS);
             try {
-                lookUpData.setCommunicationStatus(fisClient.getCommunicationEventStatus());
+                lookUpData.setCommunicationStatus(fisClient.getCommunicationStatus());
             }
             catch (FeignException fe) {
-                log.error("(" + LookUpTypeEnum.COMMUNICATION_EVENT_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.COMMUNICATION_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
