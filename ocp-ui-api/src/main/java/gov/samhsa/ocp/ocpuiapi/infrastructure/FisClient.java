@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.EpisodeOfCareDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -260,4 +261,10 @@ public interface FisClient {
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}")
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
+
+    @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
+    List<EpisodeOfCareDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
+                                             @RequestParam(value = "status", required = false) String status);
 }
+
+
