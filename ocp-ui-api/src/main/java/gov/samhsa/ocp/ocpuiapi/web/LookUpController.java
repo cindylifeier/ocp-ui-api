@@ -571,6 +571,17 @@ public class LookUpController {
             }
         }
 
+        //Appointment Participant Required
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPANT_REQUIRED.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_REQUIRED);
+            try {
+                lookUpData.setAppointmentParticipantRequired(lookupFisClient.getAppointmentParticipantRequired());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_REQUIRED.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }
