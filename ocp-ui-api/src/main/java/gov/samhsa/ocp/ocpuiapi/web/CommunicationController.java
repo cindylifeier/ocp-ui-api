@@ -8,7 +8,9 @@ import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,5 +37,17 @@ public class CommunicationController {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the communication was not created");
         }
     }
+
+    @PutMapping("/communications/{communicationsId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateCommunication(@PathVariable String communicationsId, @Valid @RequestBody CommunicationDto communicationDto){
+        try{
+            fisClient.updateCommunication(communicationsId,communicationDto);
+            log.debug("Successfully updated a communication");
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Communication could not be updated in the FHIR server");
+        }
+    }
+
 
 }
