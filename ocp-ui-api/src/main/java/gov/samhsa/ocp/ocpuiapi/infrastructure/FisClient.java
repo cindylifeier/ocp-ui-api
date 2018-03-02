@@ -10,6 +10,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
@@ -135,6 +136,10 @@ public interface FisClient {
                                                      @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                      @RequestParam(value = "page") Integer page,
                                                      @RequestParam(value = "size") Integer size);
+
+    @RequestMapping(value = "/participants", method = RequestMethod.GET)
+    List<ReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
+                                               @RequestParam(value = "roles") List<String> roles);
 
     //HealthcareService
 
