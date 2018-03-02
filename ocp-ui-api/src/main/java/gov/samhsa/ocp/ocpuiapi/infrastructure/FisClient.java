@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
@@ -260,6 +261,10 @@ public interface FisClient {
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}")
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
+
+    //Communication
+    @RequestMapping(value="/communications",method=RequestMethod.POST)
+    void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
 
     //LOOKUP - START
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
