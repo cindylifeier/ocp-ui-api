@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
@@ -260,4 +261,9 @@ public interface FisClient {
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}")
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
+
+    //Appointment
+
+    @RequestMapping(value = "/appointments", method = RequestMethod.POST)
+    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
 }
