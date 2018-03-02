@@ -549,25 +549,25 @@ public class LookUpController {
             }
         }
 
-        //Appointment Participant Status
-        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPANT_STATUS.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_STATUS);
+        //Appointment Participation Status
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPATION_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_STATUS);
             try {
-                lookUpData.setAppointmentParticipantStatus(lookupFisClient.getAppointmentParticipantStatus());
+                lookUpData.setAppointmentParticipationStatus(lookupFisClient.getAppointmentParticipationStatus());
             }
             catch (FeignException fe) {
-                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
-        //Appointment Participant Type
-        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPANT_TYPE.name()::equalsIgnoreCase)) {
-            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_TYPE);
+        //Appointment Participation Type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPATION_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_TYPE);
             try {
-                lookUpData.setAppointmentParticipantType(lookupFisClient.getAppointmentParticipantType());
+                lookUpData.setAppointmentParticipationType(lookupFisClient.getAppointmentParticipationType());
             }
             catch (FeignException fe) {
-                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 

@@ -59,6 +59,6 @@ public class LookUpDataDto {
     List<ValueSetDto> relatedArtifactType;
     List<ValueSetDto> appointmentStatus;
     List<ValueSetDto> appointmentType;
-    List<ValueSetDto> appointmentParticipantStatus;
-    List<ValueSetDto> appointmentParticipantType;
+    List<ValueSetDto> appointmentParticipationStatus;
+    List<ValueSetDto> appointmentParticipationType;
 }

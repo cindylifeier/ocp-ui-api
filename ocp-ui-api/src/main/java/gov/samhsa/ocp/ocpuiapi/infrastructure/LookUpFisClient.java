@@ -148,9 +148,9 @@ public interface LookUpFisClient {
     @RequestMapping(value = "lookups/appointment-types", method = RequestMethod.GET)
     List<ValueSetDto> getAppointmentType();
 
-    @RequestMapping(value = "lookups/appointment-participant-statuses", method = RequestMethod.GET)
-    List<ValueSetDto> getAppointmentParticipantStatus();
+    @RequestMapping(value = "lookups/appointment-participation-statuses", method = RequestMethod.GET)
+    List<ValueSetDto> getAppointmentParticipationStatus();
 
-    @RequestMapping(value = "lookups/appointment-participant-types", method = RequestMethod.GET)
-    List<ValueSetDto> getAppointmentParticipantType();
+    @RequestMapping(value = "lookups/appointment-participation-types", method = RequestMethod.GET)
+    List<ValueSetDto> getAppointmentParticipationType();
 }
