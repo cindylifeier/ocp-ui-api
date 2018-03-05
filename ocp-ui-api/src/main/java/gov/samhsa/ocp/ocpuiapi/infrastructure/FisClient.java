@@ -88,12 +88,6 @@ public interface FisClient {
     PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
 
     //Organization
-
-    @RequestMapping(value = "/organizations", method = RequestMethod.GET)
-    PageDto<OrganizationDto> getAllOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
-                                                 @RequestParam(value = "page", required = false) Integer page,
-                                                 @RequestParam(value = "size", required = false) Integer size);
-
     @RequestMapping(value = "/organizations/search", method = RequestMethod.GET)
     PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) String searchType,
                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
@@ -109,6 +103,10 @@ public interface FisClient {
 
     @RequestMapping(value = "/organizations/{organizationId}/inactive", method = RequestMethod.PUT)
     void inactivateOrganization(@PathVariable("organizationId") String organizationId);
+
+    @RequestMapping(value = "/organizations")
+    List<ReferenceDto> getOrganizationsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
+
 
     //Patient
 
@@ -270,7 +268,7 @@ public interface FisClient {
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
 
     @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
-    List<EpisodeOfCareDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
+    List<ReferenceDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
                                              @RequestParam(value = "status", required = false) String status);
 
     //Appointment
