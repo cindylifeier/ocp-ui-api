@@ -271,16 +271,11 @@ public interface FisClient {
     @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
     List<EpisodeOfCareDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
                                              @RequestParam(value = "status", required = false) String status);
-}
+
     //Communication
     @RequestMapping(value="/communications",method=RequestMethod.POST)
     void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
 
     @RequestMapping(value="/communications/{communicationsId}",method=RequestMethod.PUT)
     void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
-
-    //LOOKUP - START
-    @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
-    List<ValueSetDto> getUspsStates();
-
-
+}
