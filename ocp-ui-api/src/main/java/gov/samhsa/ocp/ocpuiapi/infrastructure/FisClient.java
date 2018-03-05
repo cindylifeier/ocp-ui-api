@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.EpisodeOfCareDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -9,6 +10,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
@@ -135,6 +137,10 @@ public interface FisClient {
                                                      @RequestParam(value = "page") Integer page,
                                                      @RequestParam(value = "size") Integer size);
 
+    @RequestMapping(value = "/participants", method = RequestMethod.GET)
+    List<ReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
+                                               @RequestParam(value = "roles") List<String> roles);
+
     //HealthcareService
 
     @RequestMapping(value = "/healthcare-services", method = RequestMethod.GET)
@@ -260,4 +266,10 @@ public interface FisClient {
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}")
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
+
+    @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
+    List<EpisodeOfCareDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
+                                             @RequestParam(value = "status", required = false) String status);
 }
+
+
