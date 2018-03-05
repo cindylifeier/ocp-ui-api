@@ -277,7 +277,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/appointments", method = RequestMethod.POST)
     void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
-}
+
 
     //Communication
     @RequestMapping(value="/communications",method=RequestMethod.POST)
