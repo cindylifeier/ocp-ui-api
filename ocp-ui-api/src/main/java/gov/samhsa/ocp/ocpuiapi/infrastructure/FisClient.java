@@ -4,6 +4,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.EpisodeOfCareDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -276,6 +277,12 @@ public interface FisClient {
 
     @RequestMapping(value = "/appointments", method = RequestMethod.POST)
     void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
+
+
+    //Communication
+    @RequestMapping(value="/communications",method=RequestMethod.POST)
+    void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
+
+    @RequestMapping(value="/communications/{communicationsId}",method=RequestMethod.PUT)
+    void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
 }
-
-
