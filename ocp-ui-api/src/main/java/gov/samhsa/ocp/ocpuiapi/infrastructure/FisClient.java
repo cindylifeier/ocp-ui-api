@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.EpisodeOfCareDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
@@ -270,6 +271,11 @@ public interface FisClient {
     @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
     List<EpisodeOfCareDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
                                              @RequestParam(value = "status", required = false) String status);
+
+    //Appointment
+
+    @RequestMapping(value = "/appointments", method = RequestMethod.POST)
+    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
 }
 
 
