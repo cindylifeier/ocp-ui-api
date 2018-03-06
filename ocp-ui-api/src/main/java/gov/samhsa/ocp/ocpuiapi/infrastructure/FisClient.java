@@ -66,10 +66,10 @@ public interface FisClient {
 
     //Practitioner
 
-    @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
+/*    @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
     PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                  @RequestParam(value = "page", required = false) Integer page,
-                                                 @RequestParam(value = "size", required = false) Integer size);
+                                                 @RequestParam(value = "size", required = false) Integer size);*/
 
     @RequestMapping(value = "/practitioners/search", method = RequestMethod.GET)
     PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) PractitionerController.SearchType searchType,
@@ -86,6 +86,9 @@ public interface FisClient {
 
     @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.GET)
     PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
+
+    @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
+    List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
 
     //Organization
     @RequestMapping(value = "/organizations/search", method = RequestMethod.GET)

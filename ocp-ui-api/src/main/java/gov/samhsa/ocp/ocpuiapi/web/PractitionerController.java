@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -41,7 +43,7 @@ public class PractitionerController {
      * @param size
      * @return
      */
-    @GetMapping("/practitioners")
+    /*@GetMapping("/practitioners")
     public PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "size", required = false) Integer size) {
@@ -54,7 +56,7 @@ public class PractitionerController {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server");
             return null;
         }
-    }
+    }*/
 
     /**
      * Example: http://localhost:8446/ocp-fis/practitioners/search?searchType=name&searchValue=smith&showInactive=true&page=1&size=10
@@ -111,6 +113,16 @@ public class PractitionerController {
             return fisClient.getPractitioner(practitionerId);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found");
+            return null;
+        }
+    }
+
+    @GetMapping("/practitioners")
+    public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner) {
+        try {
+            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found for the given organization");
             return null;
         }
     }
