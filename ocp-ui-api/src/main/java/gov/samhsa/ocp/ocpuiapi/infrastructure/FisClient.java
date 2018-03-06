@@ -228,6 +228,9 @@ public interface FisClient {
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
                                   @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
+    @RequestMapping(value = "/activity-definitions", method = RequestMethod.GET)
+    List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
+
     //Task
 
     @RequestMapping(value = "/tasks", method = RequestMethod.POST)
