@@ -253,6 +253,9 @@ public interface FisClient {
     @RequestMapping(value = "/tasks/{taskId}")
     Object getTaskById(@PathVariable("taskId") String taskId);
 
+    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
+    List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient);
+
     //RelatedPerson
 
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)

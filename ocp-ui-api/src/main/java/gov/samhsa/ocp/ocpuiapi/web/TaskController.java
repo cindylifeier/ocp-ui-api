@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -85,6 +86,16 @@ public class TaskController {
             return fisClient.getTaskById(taskId);
         }catch (FeignException fe){
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"Task could not be found");
+            return null;
+        }
+    }
+
+    @GetMapping("/tasks")
+    public List<ReferenceDto> getRelatedTasks(String patient) {
+        try {
+            return fisClient.getRelatedTasks(patient);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found for the given patientId");
             return null;
         }
     }
