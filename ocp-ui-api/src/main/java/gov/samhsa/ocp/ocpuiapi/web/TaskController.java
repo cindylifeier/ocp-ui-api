@@ -41,11 +41,11 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/search")
-    public Object searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
-                                            @RequestParam(value = "searchType", required = false) String searchType,
-                                            @RequestParam(value = "searchValue", required = false) String searchValue,
-                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+    public Object searchTasks(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                              @RequestParam(value = "searchType", required = false) String searchType,
+                              @RequestParam(value = "searchValue", required = false) String searchValue,
+                              @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Tasks from FHIR server");
         try {
             Object tasks = fisClient.searchTasks(statusList, searchType, searchValue, pageNumber, pageSize);
