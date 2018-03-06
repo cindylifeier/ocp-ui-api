@@ -278,6 +278,13 @@ public interface FisClient {
 
 
     //Communication
+    @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
+    Object getCommunications(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                       @RequestParam(value = "searchKey", required = false) String searchKey,
+                       @RequestParam(value = "searchValue", required = false) String searchValue,
+                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
     @RequestMapping(value="/communications",method=RequestMethod.POST)
     void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
 
