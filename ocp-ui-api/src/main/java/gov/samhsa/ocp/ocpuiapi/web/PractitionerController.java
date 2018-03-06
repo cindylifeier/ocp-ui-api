@@ -35,30 +35,6 @@ public class PractitionerController {
     private FisClient fisClient;
 
     /**
-     * Example: http://localhost:8446/ocp-fis/practitioners/
-     * http://localhost:8446/ocp-fis/practitioners?showInActive=true&page=1&size=10
-     *
-     * @param showInactive
-     * @param page
-     * @param size
-     * @return
-     */
-    /*@GetMapping("/practitioners")
-    public PageDto<PractitionerDto> getAllPractitioners(@RequestParam(value = "showInactive", required = false) boolean showInactive,
-                                                        @RequestParam(value = "page", required = false) Integer page,
-                                                        @RequestParam(value = "size", required = false) Integer size) {
-        log.info("Fetching practitioners from FHIR server");
-        try {
-            PageDto<PractitionerDto> practitioners = fisClient.getAllPractitioners(showInactive, page, size);
-            log.info("Got response from FHIR server for all practitioners");
-            return practitioners;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no practitioners were found in the configured FHIR server");
-            return null;
-        }
-    }*/
-
-    /**
      * Example: http://localhost:8446/ocp-fis/practitioners/search?searchType=name&searchValue=smith&showInactive=true&page=1&size=10
      *
      * @param searchType
