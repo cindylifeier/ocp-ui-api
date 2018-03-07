@@ -1,7 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
-import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.LookUpFisClient;
 import gov.samhsa.ocp.ocpuiapi.service.LookUpTypeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LookUpDataDto;
 import lombok.extern.slf4j.Slf4j;
@@ -19,24 +19,24 @@ import java.util.List;
 @RequestMapping("ocp-fis/lookups")
 public class LookUpController {
 
-    public static final String NO_LOOKUPS_FOUND_MESSAGE = "Caution!!: No look up values found. Please check ocp-fis logs for error details.";
+    private static final String NO_LOOKUPS_FOUND_MESSAGE = " Caution!!: No look up values found. Please check ocp-fis logs for error details.";
     private final List<String> allowedLocationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
     private final List<String> allowedOrganizationIdentifierTypes = Arrays.asList("EN", "TAX", "NIIP", "PRN");
     private final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR", "DR", "SB");
     private final List<String> allowedPractitionerIdentifierTypes = Arrays.asList("PRN", "TAX", "MD", "SB");
 
     @Autowired
-    private FisClient fisClient;
+    private LookUpFisClient lookupFisClient;
 
     @GetMapping()
     public LookUpDataDto getAllLookUpValues(@RequestParam(value = "lookUpTypeList", required = false) List<String> lookUpTypeList) {
         LookUpDataDto lookUpData = new LookUpDataDto();
 
-        //Adddress type
+        //Address type
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADDRESSTYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSTYPE.name());
             try {
-                lookUpData.setAddressTypes(fisClient.getAddressTypes());
+                lookUpData.setAddressTypes(lookupFisClient.getAddressTypes());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -48,7 +48,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADDRESSUSE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ADDRESSUSE.name());
             try {
-                lookUpData.setAddressUses(fisClient.getAddressUses());
+                lookUpData.setAddressUses(lookupFisClient.getAddressUses());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -60,7 +60,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONIDENTIFIERSYSTEM.name());
             try {
-                lookUpData.setLocationIdentifierSystems(fisClient.getIdentifierSystems(allowedLocationIdentifierTypes));
+                lookUpData.setLocationIdentifierSystems(lookupFisClient.getIdentifierSystems(allowedLocationIdentifierTypes));
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -72,7 +72,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONSTATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONSTATUS.name());
             try {
-                lookUpData.setLocationStatuses(fisClient.getLocationStatuses());
+                lookUpData.setLocationStatuses(lookupFisClient.getLocationStatuses());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -84,7 +84,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LOCATIONPHYSICALTYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LOCATIONPHYSICALTYPE.name());
             try {
-                lookUpData.setLocationPhysicalTypes(fisClient.getLocationPhysicalTypes());
+                lookUpData.setLocationPhysicalTypes(lookupFisClient.getLocationPhysicalTypes());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -96,7 +96,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ORGANIZATIONIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ORGANIZATIONIDENTIFIERSYSTEM.name());
             try {
-                lookUpData.setOrganizationIdentifierSystems(fisClient.getIdentifierSystems(allowedOrganizationIdentifierTypes));
+                lookUpData.setOrganizationIdentifierSystems(lookupFisClient.getIdentifierSystems(allowedOrganizationIdentifierTypes));
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -107,7 +107,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ORGANIZATIONSTATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ORGANIZATIONSTATUS.name());
             try {
-                lookUpData.setOrganizationStatuses(fisClient.getOrganizationStatuses());
+                lookUpData.setOrganizationStatuses(lookupFisClient.getOrganizationStatuses());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -119,7 +119,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name());
             try {
-                lookUpData.setPatientIdentifierSystems(fisClient.getIdentifierSystems(allowedPatientIdentifierTypes));
+                lookUpData.setPatientIdentifierSystems(lookupFisClient.getIdentifierSystems(allowedPatientIdentifierTypes));
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -131,7 +131,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PRACTITIONERIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PRACTITIONERIDENTIFIERSYSTEM.name());
             try {
-                lookUpData.setPractitionerIdentifierSystems(fisClient.getIdentifierSystems(allowedPractitionerIdentifierTypes));
+                lookUpData.setPractitionerIdentifierSystems(lookupFisClient.getIdentifierSystems(allowedPractitionerIdentifierTypes));
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -143,7 +143,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TELECOMSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.TELECOMSYSTEM.name());
             try {
-                lookUpData.setTelecomSystems(fisClient.getTelecomSystems());
+                lookUpData.setTelecomSystems(lookupFisClient.getTelecomSystems());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -155,7 +155,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TELECOMUSE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.TELECOMUSE.name());
             try {
-                lookUpData.setTelecomUses(fisClient.getTelecomUses());
+                lookUpData.setTelecomUses(lookupFisClient.getTelecomUses());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -167,7 +167,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USPSSTATES.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USPSSTATES.name());
             try {
-                lookUpData.setUspsStates(fisClient.getUspsStates());
+                lookUpData.setUspsStates(lookupFisClient.getUspsStates());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -178,7 +178,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PRACTITIONERROLES.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PRACTITIONERROLES.name());
             try {
-                lookUpData.setPractitionerRoles(fisClient.getPractitionerRoles());
+                lookUpData.setPractitionerRoles(lookupFisClient.getPractitionerRoles());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -190,7 +190,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ADMINISTRATIVEGENDER.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ADMINISTRATIVEGENDER.name());
             try {
-                lookUpData.setAdministrativeGenders(fisClient.getAdministrativeGenders());
+                lookUpData.setAdministrativeGenders(lookupFisClient.getAdministrativeGenders());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -202,7 +202,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCORERACE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USCORERACE.name());
             try {
-                lookUpData.setUsCoreRaces(fisClient.getUSCoreRaces());
+                lookUpData.setUsCoreRaces(lookupFisClient.getUSCoreRaces());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -214,7 +214,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCOREETHNICITY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USCOREETHNICITY.name());
             try {
-                lookUpData.setUsCoreEthnicities(fisClient.getUSCoreEthnicities());
+                lookUpData.setUsCoreEthnicities(lookupFisClient.getUSCoreEthnicities());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -226,7 +226,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.USCOREBIRTHSEX.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.USCOREBIRTHSEX.name());
             try {
-                lookUpData.setUsCoreBirthSex(fisClient.getUSCoreBirthsexes());
+                lookUpData.setUsCoreBirthSex(lookupFisClient.getUSCoreBirthsexes());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -238,7 +238,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.LANGUAGE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.LANGUAGE.name());
             try {
-                lookUpData.setLanguages(fisClient.getLanguages());
+                lookUpData.setLanguages(lookupFisClient.getLanguages());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -250,7 +250,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICECATEGORY.name());
             try {
-                lookUpData.setHealthcareServiceCategories(fisClient.getHealthcareServiceCategories());
+                lookUpData.setHealthcareServiceCategories(lookupFisClient.getHealthcareServiceCategories());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -262,7 +262,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICETYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICETYPE.name());
             try {
-                lookUpData.setHealthcareServiceTypes(fisClient.getHealthcareServiceTypes());
+                lookUpData.setHealthcareServiceTypes(lookupFisClient.getHealthcareServiceTypes());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -274,7 +274,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICESPECIALITY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICESPECIALITY.name());
             try {
-                lookUpData.setHealthcareServiceSpecialities(fisClient.getHealthcareServiceSpecialities());
+                lookUpData.setHealthcareServiceSpecialities(lookupFisClient.getHealthcareServiceSpecialities());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -286,7 +286,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICEREFERRALMETHOD.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICEREFERRALMETHOD.name());
             try {
-                lookUpData.setHealthcareServiceReferralMethods(fisClient.getHealthcareServiceReferralMethods());
+                lookUpData.setHealthcareServiceReferralMethods(lookupFisClient.getHealthcareServiceReferralMethods());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -297,7 +297,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.HEALTHCARESERVICESTATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.HEALTHCARESERVICESTATUS.name());
             try {
-                lookUpData.setHealthcareServiceStatuses(fisClient.getHealthcareServiceStatuses());
+                lookUpData.setHealthcareServiceStatuses(lookupFisClient.getHealthcareServiceStatuses());
             }
             catch (FeignException fe) {
                 //Do nothing
@@ -310,7 +310,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMCATEGORY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.CARETEAMCATEGORY.name());
             try {
-                lookUpData.setCareTeamCategories(fisClient.getCareTeamCategories());
+                lookUpData.setCareTeamCategories(lookupFisClient.getCareTeamCategories());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.CARETEAMCATEGORY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -321,7 +321,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PARTICIPANTTYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PARTICIPANTTYPE.name());
             try {
-                lookUpData.setParticipantTypes(fisClient.getParticipantTypes());
+                lookUpData.setParticipantTypes(lookupFisClient.getParticipantTypes());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.PARTICIPANTTYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -332,7 +332,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMSTATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.CARETEAMSTATUS.name());
             try {
-                lookUpData.setCareTeamStatuses(fisClient.getCareTeamStatuses());
+                lookUpData.setCareTeamStatuses(lookupFisClient.getCareTeamStatuses());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.CARETEAMSTATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -343,7 +343,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PARTICIPANTROLE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PARTICIPANTROLE.name());
             try {
-                lookUpData.setParticipantRoles(fisClient.getParticipantRoles());
+                lookUpData.setParticipantRoles(lookupFisClient.getParticipantRoles());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.PARTICIPANTROLE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -354,7 +354,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CARETEAMREASON.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.CARETEAMREASON.name());
             try {
-                lookUpData.setCareTeamReasons(fisClient.getCareTeamReasons());
+                lookUpData.setCareTeamReasons(lookupFisClient.getCareTeamReasons());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.CARETEAMREASON.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -365,7 +365,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.RELATEDPERSONPATIENTRELATIONSHIPTYPES.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.RELATEDPERSONPATIENTRELATIONSHIPTYPES.name());
             try {
-                lookUpData.setRelatedPersonPatientRelationshipTypes(fisClient.getRelatedPersonPatientRelationshipTypes());
+                lookUpData.setRelatedPersonPatientRelationshipTypes(lookupFisClient.getRelatedPersonPatientRelationshipTypes());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.RELATEDPERSONPATIENTRELATIONSHIPTYPES.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -376,7 +376,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PUBLICATION_STATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PUBLICATION_STATUS.name());
             try {
-                lookUpData.setPublicationStatus(fisClient.getPublicationStatus());
+                lookUpData.setPublicationStatus(lookupFisClient.getPublicationStatus());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.PUBLICATION_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -388,7 +388,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.DEFINITION_TOPIC.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.DEFINITION_TOPIC.name());
             try {
-                lookUpData.setDefinitionTopic(fisClient.getDefinitionTopic());
+                lookUpData.setDefinitionTopic(lookupFisClient.getDefinitionTopic());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.DEFINITION_TOPIC.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -399,7 +399,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.RESOURCE_TYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.RESOURCE_TYPE.name());
             try {
-                lookUpData.setResourceType(fisClient.getResourceType());
+                lookUpData.setResourceType(lookupFisClient.getResourceType());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.RESOURCE_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -410,7 +410,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ACTION_PARTICIPANT_ROLE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ACTION_PARTICIPANT_ROLE.name());
             try {
-                lookUpData.setActionParticipantRole(fisClient.getActionParticipantRole());
+                lookUpData.setActionParticipantRole(lookupFisClient.getActionParticipantRole());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.ACTION_PARTICIPANT_ROLE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -421,7 +421,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.ACTION_PARTICIPANT_TYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.ACTION_PARTICIPANT_TYPE.name());
             try {
-                lookUpData.setActionParticipantType(fisClient.getActionParticipantType());
+                lookUpData.setActionParticipantType(lookupFisClient.getActionParticipantType());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.ACTION_PARTICIPANT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -432,7 +432,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TASK_STATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.TASK_STATUS.name());
             try {
-                lookUpData.setTaskStatus(fisClient.getTaskStatus());
+                lookUpData.setTaskStatus(lookupFisClient.getTaskStatus());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.TASK_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -443,7 +443,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.REQUEST_PRIORITY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.REQUEST_PRIORITY.name());
             try {
-                lookUpData.setRequestPriority(fisClient.getRequestPriority());
+                lookUpData.setRequestPriority(lookupFisClient.getRequestPriority());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.REQUEST_PRIORITY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -454,7 +454,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.TASK_PERFORMER_TYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.TASK_PERFORMER_TYPE.name());
             try {
-                lookUpData.setTaskPerformerType(fisClient.getTaskPerformerType());
+                lookUpData.setTaskPerformerType(lookupFisClient.getTaskPerformerType());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.TASK_PERFORMER_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -465,7 +465,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.REQUEST_INTENT.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.REQUEST_INTENT.name());
             try {
-                lookUpData.setRequestIntent(fisClient.getRequestIntent());
+                lookUpData.setRequestIntent(lookupFisClient.getRequestIntent());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.REQUEST_INTENT.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -476,7 +476,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.RELATED_ARTIFACT_TYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.RELATED_ARTIFACT_TYPE);
             try {
-                lookUpData.setRelatedArtifactType(fisClient.getActivityDefinitionRelatedArtifactTypes());
+                lookUpData.setRelatedArtifactType(lookupFisClient.getActivityDefinitionRelatedArtifactTypes());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.RELATED_ARTIFACT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -487,7 +487,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_STATUS.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_STATUS);
             try {
-                lookUpData.setCommunicationStatus(fisClient.getCommunicationStatus());
+                lookUpData.setCommunicationStatus(lookupFisClient.getCommunicationStatus());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -498,7 +498,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_CATEGORY.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_CATEGORY);
             try {
-                lookUpData.setCommunicationCategory(fisClient.getCommunicationCategory());
+                lookUpData.setCommunicationCategory(lookupFisClient.getCommunicationCategory());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_CATEGORY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -509,7 +509,7 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON);
             try {
-                lookUpData.setCommunicationNotDoneReason(fisClient.getCommunicationNotDoneReason());
+                lookUpData.setCommunicationNotDoneReason(lookupFisClient.getCommunicationNotDoneReason());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_NOT_DONE_REASON.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
@@ -520,10 +520,65 @@ public class LookUpController {
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COMMUNICATION_MEDIUM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.COMMUNICATION_MEDIUM);
             try {
-                lookUpData.setCommunicationMedium(fisClient.getCommunicationMedium());
+                lookUpData.setCommunicationMedium(lookupFisClient.getCommunicationMedium());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.COMMUNICATION_MEDIUM.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Appointment Status
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_STATUS);
+            try {
+                lookUpData.setAppointmentStatus(lookupFisClient.getAppointmentStatus());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Appointment Type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_TYPE);
+            try {
+                lookUpData.setAppointmentType(lookupFisClient.getAppointmentType());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Appointment Participation Status
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPATION_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_STATUS);
+            try {
+                lookUpData.setAppointmentParticipationStatus(lookupFisClient.getAppointmentParticipationStatus());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Appointment Participation Type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPATION_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_TYPE);
+            try {
+                lookUpData.setAppointmentParticipationType(lookupFisClient.getAppointmentParticipationType());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Appointment Participant Required
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPANT_REQUIRED.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_REQUIRED);
+            try {
+                lookUpData.setAppointmentParticipantRequired(lookupFisClient.getAppointmentParticipantRequired());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_REQUIRED.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 

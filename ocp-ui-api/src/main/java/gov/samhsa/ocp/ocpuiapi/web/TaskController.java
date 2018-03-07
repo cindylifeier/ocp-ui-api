@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +42,11 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/search")
-    public Object searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
-                                            @RequestParam(value = "searchType", required = false) String searchType,
-                                            @RequestParam(value = "searchValue", required = false) String searchValue,
-                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+    public Object searchTasks(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                              @RequestParam(value = "searchType", required = false) String searchType,
+                              @RequestParam(value = "searchValue", required = false) String searchValue,
+                              @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Tasks from FHIR server");
         try {
             Object tasks = fisClient.searchTasks(statusList, searchType, searchValue, pageNumber, pageSize);
@@ -85,6 +86,16 @@ public class TaskController {
             return fisClient.getTaskById(taskId);
         }catch (FeignException fe){
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"Task could not be found");
+            return null;
+        }
+    }
+
+    @GetMapping("/tasks")
+    public List<ReferenceDto> getRelatedTasks(String patient) {
+        try {
+            return fisClient.getRelatedTasks(patient);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found for the given patientId");
             return null;
         }
     }

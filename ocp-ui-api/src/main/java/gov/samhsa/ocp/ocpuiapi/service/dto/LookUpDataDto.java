@@ -57,4 +57,9 @@ public class LookUpDataDto {
     List<ValueSetDto> taskPerformerType;
     List<ValueSetDto> requestIntent;
     List<ValueSetDto> relatedArtifactType;
+    List<ValueSetDto> appointmentStatus;
+    List<ValueSetDto> appointmentType;
+    List<ValueSetDto> appointmentParticipationStatus;
+    List<ValueSetDto> appointmentParticipationType;
+    List<ValueSetDto> appointmentParticipantRequired;
 }
