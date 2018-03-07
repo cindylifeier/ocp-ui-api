@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("ocp-fis")
@@ -55,6 +57,16 @@ public class ActivityDefinitionController {
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created");
+        }
+    }
+
+    @GetMapping("/activity-definitions")
+    public List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner) {
+        try {
+            return fisClient.getActivityDefinitionsByPractitioner(practitioner);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no activity definitions were found in the configured FHIR server for the given pracitioner");
+            return null;
         }
     }
 }
