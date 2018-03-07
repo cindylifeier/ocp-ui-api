@@ -279,6 +279,13 @@ public interface FisClient {
     @RequestMapping(value = "/appointments", method = RequestMethod.POST)
     void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
 
+    @RequestMapping(value = "/appointments/search", method = RequestMethod.GET)
+    Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                           @RequestParam(value = "searchKey", required = false) String searchKey,
+                           @RequestParam(value = "searchValue", required = false) String searchValue,
+                           @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                           @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
 
     //Communication
     @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
