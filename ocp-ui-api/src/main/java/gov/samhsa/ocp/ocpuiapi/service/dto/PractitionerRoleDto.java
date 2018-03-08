@@ -6,15 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PractitionerRoleDto {
-    private String system;
+    private String logicalId;
 
-    private String code;
+    private boolean active;
 
-    private String display;
+    private ReferenceDto organization;
+
+    private ReferenceDto practitioner;
+
+    private List<ValueSetDto> specialty;
+
+    private List<ValueSetDto> code;
 }
