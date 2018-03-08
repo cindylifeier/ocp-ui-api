@@ -582,6 +582,28 @@ public class LookUpController {
             }
         }
 
+        //Provider Role
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PROVIDER_ROLE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PROVIDER_ROLE);
+            try {
+                lookUpData.setProviderRoles(lookupFisClient.getProviderRole());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.PROVIDER_ROLE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Provider Specialty
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PROVIDER_SPECIALTY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PROVIDER_SPECIALTY);
+            try {
+                lookUpData.setProviderSpecialties(lookupFisClient.getProviderSpecialty());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.PROVIDER_SPECIALTY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }

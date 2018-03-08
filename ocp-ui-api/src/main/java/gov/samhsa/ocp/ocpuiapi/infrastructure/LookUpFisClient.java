@@ -156,4 +156,10 @@ public interface LookUpFisClient {
 
     @RequestMapping(value = "lookups/appointment-participant-required", method = RequestMethod.GET)
     List<ValueSetDto> getAppointmentParticipantRequired();
+
+    @RequestMapping(value = "lookups/provider-role", method = RequestMethod.GET)
+    List<ValueSetDto> getProviderRole();
+
+    @RequestMapping(value = "lookups/provider-specialty", method = RequestMethod.GET)
+    List<ValueSetDto> getProviderSpecialty();
 }

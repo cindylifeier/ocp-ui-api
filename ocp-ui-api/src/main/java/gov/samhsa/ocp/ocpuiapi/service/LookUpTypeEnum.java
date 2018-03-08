@@ -51,7 +51,9 @@ public enum LookUpTypeEnum {
     USCOREBIRTHSEX,
     USCOREETHNICITY,
     USCORERACE,
-    USPSSTATES;
+    USPSSTATES,
+    PROVIDER_ROLE,
+    PROVIDER_SPECIALTY;
 
     public static boolean contains(String s) {
         return Arrays.stream(values()).anyMatch(key -> key.name().equalsIgnoreCase(s));
