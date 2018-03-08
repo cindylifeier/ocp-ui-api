@@ -42,9 +42,9 @@ public class PatientDto {
 
     private String birthSex;
 
-    private List<AddressDto> address;
+    private List<AddressDto> addresses;
 
-    private List<TelecomDto> telecom;
+    private List<TelecomDto> telecoms;
 
     private String language;
 
