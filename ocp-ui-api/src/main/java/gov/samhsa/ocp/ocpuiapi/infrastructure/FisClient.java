@@ -290,6 +290,8 @@ public interface FisClient {
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value = "/appointments/{appointmentId}/cancel", method = RequestMethod.PUT)
+    void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
 
     //Communication
     @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
