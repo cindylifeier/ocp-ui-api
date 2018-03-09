@@ -2,9 +2,9 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +39,11 @@ public class ParticipantController {
     }
 
     @GetMapping
-    List<ReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
-                                               @RequestParam(value = "roles") List<String> roles) {
+    List<CommunicationReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
+                                                            @RequestParam(value = "roles", required = false) List<String> roles,
+                                                            @RequestParam(value = "communication", required = false) String communication) {
         try {
-            return fisClient.getCareTeamParticipants(patient, roles);
+            return fisClient.getCareTeamParticipants(patient, roles, communication);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No participants were found for the given patient and the roles");
             return null;

@@ -90,7 +90,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/tasks/task-references")
     public List<ReferenceDto> getRelatedTasks(String patient) {
         try {
             return fisClient.getRelatedTasks(patient);
@@ -99,5 +99,17 @@ public class TaskController {
             return null;
         }
     }
+
+    @GetMapping("/tasks")
+    public List<TaskDto> getUpcomingTasks(@RequestParam(value = "practitioner") String practitioner) {
+        try {
+            return fisClient.getUpcomingTasks(practitioner);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found for the given practitioner");
+            return null;
+        }
+    }
+
+
 
 }

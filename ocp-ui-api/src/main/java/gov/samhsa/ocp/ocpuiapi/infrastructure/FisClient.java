@@ -4,6 +4,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -134,8 +135,9 @@ public interface FisClient {
                                                      @RequestParam(value = "size") Integer size);
 
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
-    List<ReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
-                                               @RequestParam(value = "roles") List<String> roles);
+    List<CommunicationReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
+                                                            @RequestParam(value = "roles", required = false) List<String> roles,
+                                                            @RequestParam(value = "communication", required = false) String communication);
 
     //HealthcareService
 
@@ -246,8 +248,11 @@ public interface FisClient {
     @RequestMapping(value = "/tasks/{taskId}")
     Object getTaskById(@PathVariable("taskId") String taskId);
 
-    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
+    @RequestMapping(value = "/tasks/task-references", method = RequestMethod.GET)
     List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient);
+
+    @RequestMapping(value = "/tasks")
+    List<TaskDto> getUpcomingTasks(@RequestParam(value = "practitioner") String practitioner);
 
     //RelatedPerson
 
