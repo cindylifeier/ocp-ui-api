@@ -24,8 +24,12 @@ import java.util.List;
 @RequestMapping("ocp-fis/appointments")
 @Slf4j
 public class AppointmentController {
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public AppointmentController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,11 +48,12 @@ public class AppointmentController {
     public Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                   @RequestParam(value = "searchKey", required = false) String searchKey,
                                   @RequestParam(value = "searchValue", required = false) String searchValue,
+                                  @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc,
                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                   @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Appointments from FHIR server");
         try {
-            Object appointment = fisClient.getAppointments(statusList, searchKey, searchValue, pageNumber, pageSize);
+            Object appointment = fisClient.getAppointments(statusList, searchKey, searchValue, sortByStartTimeAsc, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Appointment Search");
             return appointment;
         } catch (FeignException fe) {
