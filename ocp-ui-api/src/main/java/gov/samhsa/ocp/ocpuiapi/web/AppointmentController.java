@@ -48,12 +48,13 @@ public class AppointmentController {
     public Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                   @RequestParam(value = "searchKey", required = false) String searchKey,
                                   @RequestParam(value = "searchValue", required = false) String searchValue,
-                                  @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc,
+                                  @RequestParam(value = "showPastAppointments", required = false, defaultValue = "false") Boolean showPastAppointments,
+                                  @RequestParam(value = "sortByStartTimeAsc", required = false, defaultValue = "true") Boolean sortByStartTimeAsc,
                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                   @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Appointments from FHIR server");
         try {
-            Object appointment = fisClient.getAppointments(statusList, searchKey, searchValue, sortByStartTimeAsc, pageNumber, pageSize);
+            Object appointment = fisClient.getAppointments(statusList, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Appointment Search");
             return appointment;
         } catch (FeignException fe) {
