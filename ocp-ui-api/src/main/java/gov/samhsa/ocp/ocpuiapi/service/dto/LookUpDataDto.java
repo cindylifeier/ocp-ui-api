@@ -64,4 +64,6 @@ public class LookUpDataDto {
     List<ValueSetDto> appointmentParticipantRequired;
     List<ValueSetDto> providerRoles;
     List<ValueSetDto> providerSpecialties;
+    List<ValueSetDto> flagStatus;
+    List<ValueSetDto> flagCategory;
 }
