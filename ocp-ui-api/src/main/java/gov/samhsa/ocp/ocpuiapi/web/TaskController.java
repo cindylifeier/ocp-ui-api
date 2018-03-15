@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis")
@@ -91,9 +92,9 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/task-references")
-    public List<ReferenceDto> getRelatedTasks(String patient) {
+    public List<ReferenceDto> getRelatedTasks(@RequestParam String patient,@RequestParam(value = "definition", required = false) String definition) {
         try {
-            return fisClient.getRelatedTasks(patient);
+            return fisClient.getRelatedTasks(patient, definition);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found for the given patientId");
             return null;

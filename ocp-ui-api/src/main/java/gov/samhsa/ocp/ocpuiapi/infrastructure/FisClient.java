@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -249,7 +250,7 @@ public interface FisClient {
     Object getTaskById(@PathVariable("taskId") String taskId);
 
     @RequestMapping(value = "/tasks/task-references", method = RequestMethod.GET)
-    List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient);
+    List<ReferenceDto> getRelatedTasks(@RequestParam (value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
 
     @RequestMapping(value = "/tasks")
     List<TaskDto> getUpcomingTasks(@RequestParam(value = "practitioner") String practitioner);
