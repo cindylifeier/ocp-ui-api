@@ -280,11 +280,10 @@ public interface FisClient {
 
     //Appointment
 
-    @RequestMapping(value = "/appointments", method = RequestMethod.POST)
-    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
-
     @RequestMapping(value = "/appointments/search", method = RequestMethod.GET)
     Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                           @RequestParam(value = "patientId", required = false) String patientId,
+                           @RequestParam(value = "practitionerId", required = false) String practitionerId,
                            @RequestParam(value = "searchKey", required = false) String searchKey,
                            @RequestParam(value = "searchValue", required = false) String searchValue,
                            @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
@@ -292,14 +291,8 @@ public interface FisClient {
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value = "/practitioner/{practitionerId}/patient/{patientId}/appointments/search", method = RequestMethod.GET)
-    Object getAppointmentsByPractitionerAndPatient(@PathVariable("patientId")  String patientId,
-                                                   @PathVariable("practitionerId")  String practitionerId,
-                                                   @RequestParam(value = "statusList", required = false) List<String> statusList,
-                                                   @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
-                                                   @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc,
-                                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize);
+    @RequestMapping(value = "/appointments", method = RequestMethod.POST)
+    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
 
     @RequestMapping(value = "/appointments/{appointmentId}/cancel", method = RequestMethod.PUT)
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
