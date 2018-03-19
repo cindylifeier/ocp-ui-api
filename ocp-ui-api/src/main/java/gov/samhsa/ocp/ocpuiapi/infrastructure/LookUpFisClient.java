@@ -162,4 +162,10 @@ public interface LookUpFisClient {
 
     @RequestMapping(value = "lookups/provider-specialty", method = RequestMethod.GET)
     List<ValueSetDto> getProviderSpecialty();
+
+    @RequestMapping(value = "lookups/flag-status",method=RequestMethod.GET)
+    List<ValueSetDto> getFlagStatus();
+
+    @RequestMapping(value="lookups/flag-category",method=RequestMethod.GET)
+    List<ValueSetDto> getFlagCategory();
 }
