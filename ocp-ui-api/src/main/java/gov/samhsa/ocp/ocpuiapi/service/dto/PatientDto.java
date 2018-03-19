@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class PatientDto {
     @NotEmpty
     private String genderCode;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
     private LocalDate birthDate;
 
     private String locale;
@@ -48,5 +50,5 @@ public class PatientDto {
 
     private String language;
 
-
+    private List<FlagDto> flags;
 }
