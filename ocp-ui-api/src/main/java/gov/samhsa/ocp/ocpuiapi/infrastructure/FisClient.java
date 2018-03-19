@@ -1,31 +1,12 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
-import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationReferenceDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.*;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -86,6 +67,9 @@ public interface FisClient {
     List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
 
     //Organization
+    @RequestMapping(value = "/organizations/{organizationId}", method = RequestMethod.GET)
+    OrganizationDto getOrganization(@PathVariable("organizationId") String organizationId);
+
     @RequestMapping(value = "/organizations/search", method = RequestMethod.GET)
     PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) String searchType,
                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
@@ -250,7 +234,7 @@ public interface FisClient {
     Object getTaskById(@PathVariable("taskId") String taskId);
 
     @RequestMapping(value = "/tasks/task-references", method = RequestMethod.GET)
-    List<ReferenceDto> getRelatedTasks(@RequestParam (value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
+    List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
 
     @RequestMapping(value = "/tasks")
     List<TaskDto> getUpcomingTasks(@RequestParam(value = "practitioner") String practitioner);
@@ -277,7 +261,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
     List<ReferenceDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
-                                             @RequestParam(value = "status", required = false) String status);
+                                         @RequestParam(value = "status", required = false) String status);
 
     //Appointment
 
@@ -299,14 +283,14 @@ public interface FisClient {
     //Communication
     @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
     Object getCommunications(@RequestParam(value = "statusList", required = false) List<String> statusList,
-                       @RequestParam(value = "searchKey", required = false) String searchKey,
-                       @RequestParam(value = "searchValue", required = false) String searchValue,
-                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
+                             @RequestParam(value = "searchKey", required = false) String searchKey,
+                             @RequestParam(value = "searchValue", required = false) String searchValue,
+                             @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                             @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value="/communications",method=RequestMethod.POST)
+    @RequestMapping(value = "/communications", method = RequestMethod.POST)
     void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
 
-    @RequestMapping(value="/communications/{communicationsId}",method=RequestMethod.PUT)
+    @RequestMapping(value = "/communications/{communicationsId}", method = RequestMethod.PUT)
     void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
 }

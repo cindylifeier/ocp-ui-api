@@ -36,6 +36,19 @@ public class OrganizationController {
     @Autowired
     private FisClient fisClient;
 
+    @GetMapping("/organizations/{organizationId}")
+    public OrganizationDto searchOrganizations(@PathVariable String organizationId) {
+        log.info("Searching organizations from FHIR server");
+        try {
+            OrganizationDto organization = fisClient.getOrganization(organizationId);
+            log.info("Got response from FHIR server for get organization");
+            return organization;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found found in the configured FHIR server for the given organization ID");
+            return null;
+        }
+    }
+
     /**
      * Example: http://localhost:8446/ocp-fis/organizations/search?searchType=name&searchValue=smith&showInactive=true&page=1&size=10
      * @param searchType
