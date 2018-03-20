@@ -13,6 +13,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto {
+
+    private enum TaskDueEnum {
+        OVERDUE,
+        DUETODAY,
+        UPCOMING
+    }
+
+    private TaskDueEnum taskDue;
+
     private String logicalId;
 
     //Reference to activity definition
@@ -71,4 +80,6 @@ public class TaskDto {
 
     //managingOrganization - Organization the agent is acting for
     private ReferenceDto organization;
+
+    int dateDiff;
 }

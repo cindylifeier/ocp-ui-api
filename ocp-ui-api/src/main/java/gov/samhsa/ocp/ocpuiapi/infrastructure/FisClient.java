@@ -247,6 +247,11 @@ public interface FisClient {
                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
 
+    @RequestMapping(value = "/tasks/subtasks", method = RequestMethod.GET)
+    List<TaskDto> getSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
+                              @RequestParam(value = "patientId", required = false) String patientId,
+                              @RequestParam(value = "definition", required = false) String definition);
+
     @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.PUT)
     void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
 
