@@ -27,6 +27,8 @@ import java.util.List;
 @RequestMapping("ocp-fis")
 
 public class OrganizationController {
+
+
     @Autowired
     private FisClient fisClient;
 
@@ -36,6 +38,19 @@ public class OrganizationController {
                                                      @RequestParam(value = "page", required = false) Integer page,
                                                      @RequestParam(value = "size", required = false) Integer size) {
         return fisClient.getOrganizations(showInactive, page, size);
+    }
+
+    @GetMapping("/organizations/{organizationId}")
+    public OrganizationDto searchOrganizations(@PathVariable String organizationId) {
+        log.info("Searching organizations from FHIR server");
+        try {
+            OrganizationDto organization = fisClient.getOrganization(organizationId);
+            log.info("Got response from FHIR server for get organization");
+            return organization;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found found in the configured FHIR server for the given organization ID");
+            return null;
+        }
     }
 
     /**
