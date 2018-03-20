@@ -85,6 +85,9 @@ public interface FisClient {
     List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
 
     //Organization
+    @RequestMapping(value = "/organizations/{organizationId}", method = RequestMethod.GET)
+    OrganizationDto getOrganization(@PathVariable("organizationId") String organizationId);
+
     @RequestMapping(value = "/organizations/search", method = RequestMethod.GET)
     PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) String searchType,
                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
