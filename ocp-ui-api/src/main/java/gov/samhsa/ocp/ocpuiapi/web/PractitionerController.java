@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -94,9 +95,9 @@ public class PractitionerController {
     }
 
     @GetMapping("/practitioners")
-    public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner) {
+    public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner", required = false) String practitioner, @RequestParam(value = "role", required = false) String role) {
         try {
-            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner);
+            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, role);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found for the given organization");
             return null;
