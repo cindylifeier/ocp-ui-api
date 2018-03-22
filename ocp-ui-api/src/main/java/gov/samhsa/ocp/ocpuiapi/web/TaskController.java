@@ -118,8 +118,8 @@ public class TaskController {
 
 
     @GetMapping("/tasks")
-    public List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
-                                     @RequestParam(value = "patientId", required = false) String patientId,
+    public List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitionerId,
+                                     @RequestParam(value = "patient", required = false) String patientId,
                                      @RequestParam(value = "definition", required = false) String definition,
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks) {
         log.info("Searching Main and Sub taks from FHIR server");
