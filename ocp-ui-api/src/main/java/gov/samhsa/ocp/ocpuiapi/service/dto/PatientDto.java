@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -51,4 +52,8 @@ public class PatientDto {
     private String language;
 
     private List<FlagDto> flags;
+
+    Optional<String> organizationId;
+
+    Optional<String> practitionerId;
 }
