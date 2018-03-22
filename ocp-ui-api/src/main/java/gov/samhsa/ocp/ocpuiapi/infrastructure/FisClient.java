@@ -249,8 +249,9 @@ public interface FisClient {
 
     @RequestMapping(value = "/tasks/subtasks", method = RequestMethod.GET)
     List<TaskDto> getSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
-                              @RequestParam(value = "patientId", required = false) String patientId,
-                              @RequestParam(value = "definition", required = false) String definition);
+                                     @RequestParam(value = "patientId", required = false) String patientId,
+                                     @RequestParam(value = "definition", required = false) String definition,
+                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.PUT)
     void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
@@ -264,8 +265,11 @@ public interface FisClient {
     @RequestMapping(value = "/tasks/task-references", method = RequestMethod.GET)
     List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
 
-    @RequestMapping(value = "/tasks")
-    List<TaskDto> getUpcomingTasks(@RequestParam(value = "practitioner") String practitioner);
+    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
+    List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
+                                     @RequestParam(value = "patientId", required = false) String patientId,
+                                     @RequestParam(value = "definition", required = false) String definition,
+                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     //RelatedPerson
 

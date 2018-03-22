@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis")
@@ -103,11 +102,12 @@ public class TaskController {
 
     @GetMapping("/tasks/subtasks")
     public List<TaskDto> getSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
-                              @RequestParam(value = "patientId", required = false) String patientId,
-                              @RequestParam(value = "definition", required = false) String definition) {
-        log.info("Searching Subtasks from FHIR server");
+                                     @RequestParam(value = "patientId", required = false) String patientId,
+                                     @RequestParam(value = "definition", required = false) String definition,
+                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks) {
+        log.info("Searching Sub taks from FHIR server");
         try {
-            List<TaskDto> tasks = fisClient.getSubTasks(practitionerId, patientId, definition);
+            List<TaskDto> tasks = fisClient.getSubTasks(practitionerId, patientId, definition, isUpcomingTasks);
             log.info("Got Response from FHIR server for SubTasks Search");
             return tasks;
         } catch (FeignException fe) {
@@ -118,15 +118,19 @@ public class TaskController {
 
 
     @GetMapping("/tasks")
-    public List<TaskDto> getUpcomingTasks(@RequestParam(value = "practitioner") String practitioner) {
+    public List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
+                                     @RequestParam(value = "patientId", required = false) String patientId,
+                                     @RequestParam(value = "definition", required = false) String definition,
+                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks) {
+        log.info("Searching Main and Sub taks from FHIR server");
         try {
-            return fisClient.getUpcomingTasks(practitioner);
+            List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitionerId, patientId, definition, isUpcomingTasks);
+            log.info("Got Response from FHIR server for SubTasks Search");
+            return tasks;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found for the given practitioner");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No SubTasks were found in configured FHIR server for the given practitioner/patient");
             return null;
         }
     }
-
-
 
 }
