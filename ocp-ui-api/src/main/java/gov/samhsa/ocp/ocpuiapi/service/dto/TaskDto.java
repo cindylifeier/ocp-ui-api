@@ -15,9 +15,10 @@ import java.time.LocalDate;
 public class TaskDto {
 
     private enum TaskDueEnum {
-        OVERDUE,
-        DUETODAY,
-        UPCOMING
+        OVER_DUE,
+        DUE_TODAY,
+        UPCOMING,
+        DATA_ERROR
     }
 
     private TaskDueEnum taskDue;
