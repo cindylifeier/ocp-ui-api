@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,8 +75,52 @@ public class AppointmentController {
             log.debug("Successfully cancelled the appointment.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, "Appointment could not be cancelled in the FHIR server");
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, "the appointment could not be cancelled.");
         }
     }
 
+    @PutMapping("/appointments/{appointmentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateAppointment(@PathVariable String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto) {
+        log.info("About to update the appointment ID: " + appointmentId);
+        try {
+            fisClient.updateAppointment(appointmentId, appointmentDto);
+            log.info("Successfully updated the appointment ID: " + appointmentId);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment was not updated");
+        }
+    }
+
+    @GetMapping("appointments/{appointmentId}")
+    public AppointmentDto getAppointmentById(@PathVariable String appointmentId) {
+        log.info("Fetching appointment from FHIR Server for the given appointmentId: " + appointmentId);
+        try {
+            AppointmentDto fisClientResponse = fisClient.getAppointmentById(appointmentId);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "the appointment was not found");
+            return null;
+        }
+    }
+
+    @GetMapping("patient/{patientId}/appointmentParticipants")
+    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
+                                                             @RequestParam(value = "roles", required = false) List<String> roles,
+                                                             @RequestParam(value = "appointmentId", required = false) String appointmentId) {
+
+        log.info("Fetching appointment participants from FHIR Server for the given PatientId: " + patientId);
+        try {
+            List<ParticipantReferenceDto> fisClientResponse = fisClient.getAppointmentParticipants(patientId, roles, appointmentId);
+            log.info("Got response from FHIR Server...");
+            return fisClientResponse;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no participants were found for the given patient and the roles");
+            return null;
+        }
+    }
 }
+

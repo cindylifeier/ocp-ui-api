@@ -4,11 +4,11 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
@@ -185,8 +185,8 @@ public interface FisClient {
 
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/unassign", method = RequestMethod.PUT)
     void unassignLocationFromHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
-                                                @RequestParam(value = "organizationId") String organizationId,
-                                                @RequestParam(value = "locationIdList") List<String> locationIdList);
+                                               @RequestParam(value = "organizationId") String organizationId,
+                                               @RequestParam(value = "locationIdList") List<String> locationIdList);
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-service", method = RequestMethod.POST)
     void createHealthcareService(@PathVariable("organizationId") String organizationId,
@@ -304,6 +304,17 @@ public interface FisClient {
 
     @RequestMapping(value = "/appointments/{appointmentId}/cancel", method = RequestMethod.PUT)
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
+
+    @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.PUT)
+    void updateAppointment(@PathVariable String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
+
+    @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.GET)
+    AppointmentDto getAppointmentById(@PathVariable String appointmentId);
+
+    @RequestMapping(value = "patient/{patientId}/appointmentParticipants", method = RequestMethod.GET)
+    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
+                                                             @RequestParam(value = "roles", required = false) List<String> roles,
+                                                             @RequestParam(value = "appointmentId", required = false) String appointmentId);
 
     //Communication
     @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
