@@ -104,7 +104,7 @@ public class PractitionerController {
     }
 
     @GetMapping("/practitioners/organization/{organizationId}")
-    public Object getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+    public PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
                                                         @RequestParam(value = "role", required = false) String role,
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "size", required = false) Integer size) {
