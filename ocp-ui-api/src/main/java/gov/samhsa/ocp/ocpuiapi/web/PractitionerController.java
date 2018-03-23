@@ -96,7 +96,7 @@ public class PractitionerController {
     }
 
     @GetMapping("/practitioners/organization/{organizationId}")
-    public List<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization, @RequestParam(value = "role", required = false) String role) {
+    public PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization, @RequestParam(value = "role", required = false) String role) {
         try {
             return fisClient.getPractitionersByOrganizationAndRole(organization, role);
         } catch (FeignException fe) {
