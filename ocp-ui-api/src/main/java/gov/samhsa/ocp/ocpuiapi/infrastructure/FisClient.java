@@ -97,11 +97,15 @@ public interface FisClient {
     @RequestMapping(value = "/organizations")
     List<ReferenceDto> getOrganizationsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
 
-
     //Patient
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
-    Object getPatients();
+    Object getPatients(@RequestParam(value = "practitioner") String practitioner,
+                                            @RequestParam(value = "searchKey") String searchKey,
+                                            @RequestParam(value = "searchValue") String searchValue,
+                                            @RequestParam(value = "showInActive") Boolean showInactive,
+                                            @RequestParam(value = "pageNumber") Integer pageNumber,
+                                            @RequestParam(value = "pageSize") Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
     Object getPatientsByValue(@RequestParam(value = "value") String value,
