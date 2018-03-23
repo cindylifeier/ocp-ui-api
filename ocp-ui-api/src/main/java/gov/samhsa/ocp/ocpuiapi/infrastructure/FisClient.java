@@ -119,11 +119,11 @@ public interface FisClient {
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
     Object getPatients(@RequestParam(value = "practitioner") String practitioner,
-                                            @RequestParam(value = "searchKey") String searchKey,
-                                            @RequestParam(value = "searchValue") String searchValue,
-                                            @RequestParam(value = "showInActive") Boolean showInactive,
-                                            @RequestParam(value = "pageNumber") Integer pageNumber,
-                                            @RequestParam(value = "pageSize") Integer pageSize);
+                       @RequestParam(value = "searchKey") String searchKey,
+                       @RequestParam(value = "searchValue") String searchValue,
+                       @RequestParam(value = "showInActive") Boolean showInactive,
+                       @RequestParam(value = "pageNumber") Integer pageNumber,
+                       @RequestParam(value = "pageSize") Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
     Object getPatientsByValue(@RequestParam(value = "value") String value,
@@ -256,9 +256,9 @@ public interface FisClient {
 
     @RequestMapping(value = "/tasks/subtasks", method = RequestMethod.GET)
     List<TaskDto> getSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
-                                     @RequestParam(value = "patientId", required = false) String patientId,
-                                     @RequestParam(value = "definition", required = false) String definition,
-                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
+                              @RequestParam(value = "patientId", required = false) String patientId,
+                              @RequestParam(value = "definition", required = false) String definition,
+                              @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.PUT)
     void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
@@ -322,13 +322,13 @@ public interface FisClient {
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.PUT)
-    void updateAppointment(@PathVariable String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
+    void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.GET)
-    AppointmentDto getAppointmentById(@PathVariable String appointmentId);
+    AppointmentDto getAppointmentById(@PathVariable("appointmentId") String appointmentId);
 
-    @RequestMapping(value = "patients/{patientId}/appointmentParticipants", method = RequestMethod.GET)
-    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
+    @RequestMapping(value = "/patients/{patientId}/appointmentParticipants", method = RequestMethod.GET)
+    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable("patientId") String patientId,
                                                              @RequestParam(value = "roles", required = false) List<String> roles,
                                                              @RequestParam(value = "appointmentId", required = false) String appointmentId);
 
