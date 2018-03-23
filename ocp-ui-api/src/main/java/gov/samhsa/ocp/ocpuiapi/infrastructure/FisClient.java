@@ -85,7 +85,10 @@ public interface FisClient {
     List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
 
     @RequestMapping(value = "/practitioners/organization/{organizationId}")
-    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization, @RequestParam(value = "role", required = false) String role);
+    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+                                                                   @RequestParam(value = "role", required = false) String role,
+                                                                   @RequestParam(value = "page", required = false) Integer page,
+                                                                   @RequestParam(value = "size", required = false) Integer size);
 
     //Organization
     @RequestMapping(value = "/organizations/all", method = RequestMethod.GET)
@@ -118,12 +121,12 @@ public interface FisClient {
     //Patient
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
-    Object getPatients(@RequestParam(value = "practitioner") String practitioner,
-                                            @RequestParam(value = "searchKey") String searchKey,
-                                            @RequestParam(value = "searchValue") String searchValue,
-                                            @RequestParam(value = "showInActive") Boolean showInactive,
-                                            @RequestParam(value = "pageNumber") Integer pageNumber,
-                                            @RequestParam(value = "pageSize") Integer pageSize);
+    Object getPatients(@RequestParam(value = "practitioner", required = false) String practitioner,
+                       @RequestParam(value = "searchKey", required = false) String searchKey,
+                       @RequestParam(value = "searchValue", required = false) String searchValue,
+                       @RequestParam(value = "showInActive", required = false) Boolean showInactive,
+                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
     Object getPatientsByValue(@RequestParam(value = "value") String value,
@@ -256,9 +259,9 @@ public interface FisClient {
 
     @RequestMapping(value = "/tasks/subtasks", method = RequestMethod.GET)
     List<TaskDto> getSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
-                                     @RequestParam(value = "patientId", required = false) String patientId,
-                                     @RequestParam(value = "definition", required = false) String definition,
-                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
+                              @RequestParam(value = "patientId", required = false) String patientId,
+                              @RequestParam(value = "definition", required = false) String definition,
+                              @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.PUT)
     void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
