@@ -92,7 +92,7 @@ public class AppointmentController {
         }
     }
 
-    @GetMapping("appointments/{appointmentId}")
+    @GetMapping("/appointments/{appointmentId}")
     public AppointmentDto getAppointmentById(@PathVariable String appointmentId) {
         log.info("Fetching appointment from FHIR Server for the given appointmentId: " + appointmentId);
         try {
@@ -106,7 +106,7 @@ public class AppointmentController {
         }
     }
 
-    @GetMapping("patients/{patientId}/appointmentParticipants")
+    @GetMapping("/patients/{patientId}/appointmentParticipants")
     public List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
                                                              @RequestParam(value = "roles", required = false) List<String> roles,
                                                              @RequestParam(value = "appointmentId", required = false) String appointmentId) {

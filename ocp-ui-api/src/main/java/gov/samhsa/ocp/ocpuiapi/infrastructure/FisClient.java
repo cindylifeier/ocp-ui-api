@@ -325,13 +325,13 @@ public interface FisClient {
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.PUT)
-    void updateAppointment(@PathVariable String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
+    void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.GET)
-    AppointmentDto getAppointmentById(@PathVariable String appointmentId);
+    AppointmentDto getAppointmentById(@PathVariable("appointmentId") String appointmentId);
 
-    @RequestMapping(value = "patients/{patientId}/appointmentParticipants", method = RequestMethod.GET)
-    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
+    @RequestMapping(value = "/patients/{patientId}/appointmentParticipants", method = RequestMethod.GET)
+    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable("patientId") String patientId,
                                                              @RequestParam(value = "roles", required = false) List<String> roles,
                                                              @RequestParam(value = "appointmentId", required = false) String appointmentId);
 

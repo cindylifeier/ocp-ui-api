@@ -24,8 +24,12 @@ import java.util.List;
 @RequestMapping("ocp-fis")
 @Slf4j
 public class ActivityDefinitionController {
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public ActivityDefinitionController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @GetMapping("/organizations/{organizationId}/activity-definitions")
     public Object getAllActivityDefinitionsByOrganization(@PathVariable String organizationId,
