@@ -269,6 +269,7 @@ public interface FisClient {
     List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
                                      @RequestParam(value = "patientId", required = false) String patientId,
                                      @RequestParam(value = "definition", required = false) String definition,
+                                     @RequestParam(value = "partOf", required = false) String partOf,
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     //RelatedPerson
