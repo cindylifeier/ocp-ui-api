@@ -134,7 +134,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/upcoming-task-search")
-    public Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner",required=false) String practitioner,
+    public Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner") String practitioner,
                                                  @RequestParam(value = "searchKey",required = false) String searchKey,
                                                  @RequestParam(value = "searchValue",required = false) String searchValue,
                                                  @RequestParam(value = "pageNumber",required = false) String pageNumber,

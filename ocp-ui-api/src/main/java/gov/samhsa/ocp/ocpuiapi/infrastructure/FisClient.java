@@ -284,7 +284,7 @@ public interface FisClient {
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     @RequestMapping(value="/tasks/upcoming-task-search", method=RequestMethod.GET)
-    Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner",required=false) String practitioner,
+    Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner") String practitioner,
                                                                   @RequestParam(value = "searchKey",required = false) String searchKey,
                                                                   @RequestParam(value = "searchValue",required = false) String searchValue,
                                                                   @RequestParam(value = "pageNumber",required = false) String pageNumber,
