@@ -107,7 +107,7 @@ public class AppointmentController {
     }
 
     @GetMapping("patients/{patientId}/appointmentParticipants")
-    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
+    public List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
                                                              @RequestParam(value = "roles", required = false) List<String> roles,
                                                              @RequestParam(value = "appointmentId", required = false) String appointmentId) {
 
