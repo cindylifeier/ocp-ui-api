@@ -121,12 +121,12 @@ public interface FisClient {
     //Patient
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
-    Object getPatients(@RequestParam(value = "practitioner") String practitioner,
-                       @RequestParam(value = "searchKey") String searchKey,
-                       @RequestParam(value = "searchValue") String searchValue,
-                       @RequestParam(value = "showInActive") Boolean showInactive,
-                       @RequestParam(value = "pageNumber") Integer pageNumber,
-                       @RequestParam(value = "pageSize") Integer pageSize);
+    Object getPatients(@RequestParam(value = "practitioner", required = false) String practitioner,
+                       @RequestParam(value = "searchKey", required = false) String searchKey,
+                       @RequestParam(value = "searchValue", required = false) String searchValue,
+                       @RequestParam(value = "showInActive", required = false) Boolean showInactive,
+                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
     Object getPatientsByValue(@RequestParam(value = "value") String value,
