@@ -98,7 +98,20 @@ public class PractitionerController {
         try {
             return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found for the given organization");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found in the organization for the given practitioner");
+            return null;
+        }
+    }
+
+    @GetMapping("/practitioners/organization/{organizationId}")
+    public PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+                                                        @RequestParam(value = "role", required = false) String role,
+                                                        @RequestParam(value = "page", required = false) Integer page,
+                                                        @RequestParam(value = "size", required = false) Integer size) {
+        try {
+            return fisClient.getPractitionersByOrganizationAndRole(organization, role, page, size);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found for the given organization and the role (if provided) ");
             return null;
         }
     }

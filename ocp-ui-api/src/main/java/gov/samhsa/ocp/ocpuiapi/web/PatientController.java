@@ -30,10 +30,15 @@ public class PatientController {
     }
 
     @GetMapping
-    public Object getPatients() {
+    public Object getPatients(@RequestParam(value = "practitioner", required = false) String practitioner,
+                              @RequestParam(value = "searchKey", required = false) String searchKey,
+                              @RequestParam(value = "searchValue", required = false) String searchValue,
+                              @RequestParam(value = "showInActive", required = false) Boolean showInactive,
+                              @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.debug("Call to Feign Client: START");
         try {
-            Object patientDtos = fisClient.getPatients();
+            Object patientDtos = fisClient.getPatients(practitioner,searchKey,searchValue,showInactive,pageNumber,pageSize);
             log.debug("Call to Feign Client: END");
             return patientDtos;
         } catch (FeignException fe) {
@@ -43,13 +48,13 @@ public class PatientController {
     }
 
     @GetMapping("/search")
-    public Object searchPatientsByValue(@RequestParam(value = "value") String value,
-                                        @RequestParam(value = "type", defaultValue = "name") String type,
+    public Object searchPatientsByValue(@RequestParam(value = "type", defaultValue = "name") String key,
+                                        @RequestParam(value = "value") String value,
                                         @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                                         @RequestParam(value = "page", required = false) Integer page,
                                         @RequestParam(value = "size", required = false) Integer size) {
         try {
-            Object patientDtos = fisClient.getPatientsByValue(value, type, showInactive, page,size);
+            Object patientDtos = fisClient.getPatientsByValue(key, value, showInactive, page,size);
             log.debug("Call to Feign Client: END");
             return patientDtos;
         } catch (FeignException fe) {
