@@ -30,10 +30,15 @@ public class PatientController {
     }
 
     @GetMapping
-    public Object getPatients() {
+    public Object getPatients(@RequestParam(value = "practitioner") String practitioner,
+                              @RequestParam(value = "searchKey") String searchKey,
+                              @RequestParam(value = "searchValue") String searchValue,
+                              @RequestParam(value = "showInActive") Boolean showInactive,
+                              @RequestParam(value = "pageNumber") Integer pageNumber,
+                              @RequestParam(value = "pageSize") Integer pageSize) {
         log.debug("Call to Feign Client: START");
         try {
-            Object patientDtos = fisClient.getPatients();
+            Object patientDtos = fisClient.getPatients(practitioner,searchKey,searchValue,showInactive,pageNumber,pageSize);
             log.debug("Call to Feign Client: END");
             return patientDtos;
         } catch (FeignException fe) {

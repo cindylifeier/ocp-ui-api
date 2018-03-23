@@ -1,27 +1,9 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
-import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationReferenceDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.*;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -84,6 +66,9 @@ public interface FisClient {
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
     List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
 
+    @RequestMapping(value = "/practitioners/organization/{organizationId}")
+    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization, @RequestParam(value = "role", required = false) String role);
+
     //Organization
     @RequestMapping(value = "/organizations/all", method = RequestMethod.GET)
     PageDto<OrganizationDto> getOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
@@ -112,11 +97,15 @@ public interface FisClient {
     @RequestMapping(value = "/organizations")
     List<ReferenceDto> getOrganizationsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
 
-
     //Patient
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
-    Object getPatients();
+    Object getPatients(@RequestParam(value = "practitioner") String practitioner,
+                                            @RequestParam(value = "searchKey") String searchKey,
+                                            @RequestParam(value = "searchValue") String searchValue,
+                                            @RequestParam(value = "showInActive") Boolean showInactive,
+                                            @RequestParam(value = "pageNumber") Integer pageNumber,
+                                            @RequestParam(value = "pageSize") Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
     Object getPatientsByValue(@RequestParam(value = "value") String value,
