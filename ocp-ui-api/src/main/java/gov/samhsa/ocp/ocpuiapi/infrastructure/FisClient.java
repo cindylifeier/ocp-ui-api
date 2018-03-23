@@ -129,8 +129,8 @@ public interface FisClient {
                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
-    Object getPatientsByValue(@RequestParam(value = "value") String value,
-                              @RequestParam(value = "type") String type,
+    Object getPatientsByValue(@RequestParam(value = "type") String key,
+                              @RequestParam(value = "value") String value,
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size);
@@ -280,6 +280,13 @@ public interface FisClient {
                                      @RequestParam(value = "patientId", required = false) String patientId,
                                      @RequestParam(value = "definition", required = false) String definition,
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
+
+    @RequestMapping(value = "/tasks/upcoming-task-search", method = RequestMethod.GET)
+    Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner") String practitioner,
+                                                 @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                 @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                 @RequestParam(value = "pageNumber", required = false) String pageNumber,
+                                                 @RequestParam(value = "pageSize", required = false) String pageSize);
 
     //RelatedPerson
 
