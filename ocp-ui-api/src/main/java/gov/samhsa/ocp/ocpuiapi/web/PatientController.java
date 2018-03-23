@@ -30,12 +30,12 @@ public class PatientController {
     }
 
     @GetMapping
-    public Object getPatients(@RequestParam(value = "practitioner") String practitioner,
-                              @RequestParam(value = "searchKey") String searchKey,
-                              @RequestParam(value = "searchValue") String searchValue,
-                              @RequestParam(value = "showInActive") Boolean showInactive,
-                              @RequestParam(value = "pageNumber") Integer pageNumber,
-                              @RequestParam(value = "pageSize") Integer pageSize) {
+    public Object getPatients(@RequestParam(value = "practitioner", required = false) String practitioner,
+                              @RequestParam(value = "searchKey", required = false) String searchKey,
+                              @RequestParam(value = "searchValue", required = false) String searchValue,
+                              @RequestParam(value = "showInActive", required = false) Boolean showInactive,
+                              @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.debug("Call to Feign Client: START");
         try {
             Object patientDtos = fisClient.getPatients(practitioner,searchKey,searchValue,showInactive,pageNumber,pageSize);
