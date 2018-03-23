@@ -2,7 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationReferenceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -20,8 +20,12 @@ import java.util.List;
 @RequestMapping("ocp-fis/participants")
 public class ParticipantController {
 
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public ParticipantController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @GetMapping("/search")
     public PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
@@ -39,9 +43,9 @@ public class ParticipantController {
     }
 
     @GetMapping
-    List<CommunicationReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
-                                                            @RequestParam(value = "roles", required = false) List<String> roles,
-                                                            @RequestParam(value = "communication", required = false) String communication) {
+    List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
+                                                          @RequestParam(value = "roles", required = false) List<String> roles,
+                                                          @RequestParam(value = "communication", required = false) String communication) {
         try {
             return fisClient.getCareTeamParticipants(patient, roles, communication);
         } catch (FeignException fe) {

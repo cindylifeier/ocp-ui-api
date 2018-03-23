@@ -26,8 +26,12 @@ import java.util.List;
 @RequestMapping("ocp-fis")
 
 public class HealthcareServiceController {
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public HealthcareServiceController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @GetMapping("/healthcare-services")
     public PageDto<HealthcareServiceDto> getAllHealthcareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -113,12 +117,12 @@ public class HealthcareServiceController {
 
     @PutMapping("/healthcare-services/{healthcareServiceId}/unassign")
     @ResponseStatus(HttpStatus.OK)
-    public void unassignsLocationFromHealthcareService(@PathVariable String healthcareServiceId,
+    public void unassignLocationFromHealthcareService(@PathVariable String healthcareServiceId,
                                                     @RequestParam(value = "organizationId") String organizationId,
                                                     @RequestParam(value = "locationIdList") List<String> locationIdList) {
         log.info("About to unassign location(s) from the healthcare service...");
         try {
-            fisClient.unassignsLocationFromHealthcareService(healthcareServiceId, organizationId, locationIdList);
+            fisClient.unassignLocationFromHealthcareService(healthcareServiceId, organizationId, locationIdList);
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " the location(s) were not unassigned from the healthcare service.");

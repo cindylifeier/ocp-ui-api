@@ -4,11 +4,11 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -85,7 +84,21 @@ public interface FisClient {
     @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
     List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
 
+    @RequestMapping(value = "/practitioners/organization/{organizationId}")
+    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+                                                                   @RequestParam(value = "role", required = false) String role,
+                                                                   @RequestParam(value = "page", required = false) Integer page,
+                                                                   @RequestParam(value = "size", required = false) Integer size);
+
     //Organization
+    @RequestMapping(value = "/organizations/all", method = RequestMethod.GET)
+    PageDto<OrganizationDto> getOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
+                                              @RequestParam(value = "page", required = false) Integer page,
+                                              @RequestParam(value = "size", required = false) Integer size);
+
+    @RequestMapping(value = "/organizations/{organizationId}", method = RequestMethod.GET)
+    OrganizationDto getOrganization(@PathVariable("organizationId") String organizationId);
+
     @RequestMapping(value = "/organizations/search", method = RequestMethod.GET)
     PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) String searchType,
                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
@@ -105,15 +118,19 @@ public interface FisClient {
     @RequestMapping(value = "/organizations")
     List<ReferenceDto> getOrganizationsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
 
-
     //Patient
 
     @RequestMapping(value = "/patients", method = RequestMethod.GET)
-    Object getPatients();
+    Object getPatients(@RequestParam(value = "practitioner", required = false) String practitioner,
+                       @RequestParam(value = "searchKey", required = false) String searchKey,
+                       @RequestParam(value = "searchValue", required = false) String searchValue,
+                       @RequestParam(value = "showInActive", required = false) Boolean showInactive,
+                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
-    Object getPatientsByValue(@RequestParam(value = "value") String value,
-                              @RequestParam(value = "type") String type,
+    Object getPatientsByValue(@RequestParam(value = "type") String key,
+                              @RequestParam(value = "value") String value,
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size);
@@ -136,9 +153,9 @@ public interface FisClient {
                                                      @RequestParam(value = "size") Integer size);
 
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
-    List<CommunicationReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
-                                                            @RequestParam(value = "roles", required = false) List<String> roles,
-                                                            @RequestParam(value = "communication", required = false) String communication);
+    List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
+                                                          @RequestParam(value = "roles", required = false) List<String> roles,
+                                                          @RequestParam(value = "communication", required = false) String communication);
 
     //HealthcareService
 
@@ -177,9 +194,9 @@ public interface FisClient {
                                             @RequestParam(value = "locationIdList") List<String> locationIdList);
 
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/unassign", method = RequestMethod.PUT)
-    void unassignsLocationFromHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
-                                                @RequestParam(value = "organizationId") String organizationId,
-                                                @RequestParam(value = "locationIdList") List<String> locationIdList);
+    void unassignLocationFromHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId,
+                                               @RequestParam(value = "organizationId") String organizationId,
+                                               @RequestParam(value = "locationIdList") List<String> locationIdList);
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-service", method = RequestMethod.POST)
     void createHealthcareService(@PathVariable("organizationId") String organizationId,
@@ -240,6 +257,12 @@ public interface FisClient {
                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
 
+    @RequestMapping(value = "/tasks/subtasks", method = RequestMethod.GET)
+    List<TaskDto> getSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
+                              @RequestParam(value = "patientId", required = false) String patientId,
+                              @RequestParam(value = "definition", required = false) String definition,
+                              @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
+
     @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.PUT)
     void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
 
@@ -250,10 +273,20 @@ public interface FisClient {
     Object getTaskById(@PathVariable("taskId") String taskId);
 
     @RequestMapping(value = "/tasks/task-references", method = RequestMethod.GET)
-    List<ReferenceDto> getRelatedTasks(@RequestParam (value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
+    List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
 
-    @RequestMapping(value = "/tasks")
-    List<TaskDto> getUpcomingTasks(@RequestParam(value = "practitioner") String practitioner);
+    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
+    List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
+                                     @RequestParam(value = "patientId", required = false) String patientId,
+                                     @RequestParam(value = "definition", required = false) String definition,
+                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
+
+    @RequestMapping(value = "/tasks/upcoming-task-search", method = RequestMethod.GET)
+    Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner") String practitioner,
+                                                 @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                 @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                 @RequestParam(value = "pageNumber", required = false) String pageNumber,
+                                                 @RequestParam(value = "pageSize", required = false) String pageSize);
 
     //RelatedPerson
 
@@ -277,15 +310,14 @@ public interface FisClient {
 
     @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
     List<ReferenceDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
-                                             @RequestParam(value = "status", required = false) String status);
+                                         @RequestParam(value = "status", required = false) String status);
 
     //Appointment
 
-    @RequestMapping(value = "/appointments", method = RequestMethod.POST)
-    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
-
     @RequestMapping(value = "/appointments/search", method = RequestMethod.GET)
     Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                           @RequestParam(value = "patientId", required = false) String patientId,
+                           @RequestParam(value = "practitionerId", required = false) String practitionerId,
                            @RequestParam(value = "searchKey", required = false) String searchKey,
                            @RequestParam(value = "searchValue", required = false) String searchValue,
                            @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
@@ -293,20 +325,34 @@ public interface FisClient {
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value = "/appointments", method = RequestMethod.POST)
+    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
+
     @RequestMapping(value = "/appointments/{appointmentId}/cancel", method = RequestMethod.PUT)
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
+
+    @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.PUT)
+    void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
+
+    @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.GET)
+    AppointmentDto getAppointmentById(@PathVariable("appointmentId") String appointmentId);
+
+    @RequestMapping(value = "/patients/{patientId}/appointmentParticipants", method = RequestMethod.GET)
+    List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable("patientId") String patientId,
+                                                             @RequestParam(value = "roles", required = false) List<String> roles,
+                                                             @RequestParam(value = "appointmentId", required = false) String appointmentId);
 
     //Communication
     @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
     Object getCommunications(@RequestParam(value = "statusList", required = false) List<String> statusList,
-                       @RequestParam(value = "searchKey", required = false) String searchKey,
-                       @RequestParam(value = "searchValue", required = false) String searchValue,
-                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
+                             @RequestParam(value = "searchKey", required = false) String searchKey,
+                             @RequestParam(value = "searchValue", required = false) String searchValue,
+                             @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                             @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value="/communications",method=RequestMethod.POST)
+    @RequestMapping(value = "/communications", method = RequestMethod.POST)
     void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
 
-    @RequestMapping(value="/communications/{communicationsId}",method=RequestMethod.PUT)
+    @RequestMapping(value = "/communications/{communicationsId}", method = RequestMethod.PUT)
     void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
 }

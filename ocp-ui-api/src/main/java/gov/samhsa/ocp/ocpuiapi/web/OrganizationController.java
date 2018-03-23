@@ -29,15 +29,33 @@ import java.util.List;
 public class OrganizationController {
 
 
-    public enum SearchType {
-        identifier, name, logicalId
-    }
-
     @Autowired
     private FisClient fisClient;
 
+    // Todo: Resolve endpoint conflicts with getOrganizationsByPractitioner
+    @GetMapping("/organizations/all")
+    public PageDto<OrganizationDto> getOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
+                                                     @RequestParam(value = "page", required = false) Integer page,
+                                                     @RequestParam(value = "size", required = false) Integer size) {
+        return fisClient.getOrganizations(showInactive, page, size);
+    }
+
+    @GetMapping("/organizations/{organizationId}")
+    public OrganizationDto searchOrganizations(@PathVariable String organizationId) {
+        log.info("Searching organizations from FHIR server");
+        try {
+            OrganizationDto organization = fisClient.getOrganization(organizationId);
+            log.info("Got response from FHIR server for get organization");
+            return organization;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found found in the configured FHIR server for the given organization ID");
+            return null;
+        }
+    }
+
     /**
      * Example: http://localhost:8446/ocp-fis/organizations/search?searchType=name&searchValue=smith&showInactive=true&page=1&size=10
+     *
      * @param searchType
      * @param searchValue
      * @param showInactive
@@ -62,7 +80,6 @@ public class OrganizationController {
         }
     }
 
-
     @PostMapping("/organizations")
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrganization(@Valid @RequestBody OrganizationDto organizationDto) {
@@ -70,8 +87,7 @@ public class OrganizationController {
         try {
             fisClient.createOrganization(organizationDto);
             log.info("Successfully created the organization");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the organization was not created");
         }
     }
@@ -84,8 +100,7 @@ public class OrganizationController {
         try {
             fisClient.updateOrganization(organizationId, organizationDto);
             log.info("Successfully updated the organization");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the organization was not updated");
         }
     }
@@ -97,8 +112,7 @@ public class OrganizationController {
         try {
             fisClient.inactivateOrganization(organizationId);
             log.info("Successfully inactivated the organization: " + organizationId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the organization was not inactivated");
         }
     }
@@ -111,6 +125,10 @@ public class OrganizationController {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No organizations were found for the given practitioner Id");
             return null;
         }
+    }
+
+    public enum SearchType {
+        identifier, name, logicalId
     }
 
 }
