@@ -48,13 +48,13 @@ public class PatientController {
     }
 
     @GetMapping("/search")
-    public Object searchPatientsByValue(@RequestParam(value = "value") String value,
-                                        @RequestParam(value = "type", defaultValue = "name") String type,
+    public Object searchPatientsByValue(@RequestParam(value = "type", defaultValue = "name") String key,
+                                        @RequestParam(value = "value") String value,
                                         @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                                         @RequestParam(value = "page", required = false) Integer page,
                                         @RequestParam(value = "size", required = false) Integer size) {
         try {
-            Object patientDtos = fisClient.getPatientsByValue(value, type, showInactive, page,size);
+            Object patientDtos = fisClient.getPatientsByValue(key, value, showInactive, page,size);
             log.debug("Call to Feign Client: END");
             return patientDtos;
         } catch (FeignException fe) {
