@@ -311,7 +311,7 @@ public interface FisClient {
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.GET)
     AppointmentDto getAppointmentById(@PathVariable String appointmentId);
 
-    @RequestMapping(value = "patient/{patientId}/appointmentParticipants", method = RequestMethod.GET)
+    @RequestMapping(value = "patients/{patientId}/appointmentParticipants", method = RequestMethod.GET)
     List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
                                                              @RequestParam(value = "roles", required = false) List<String> roles,
                                                              @RequestParam(value = "appointmentId", required = false) String appointmentId);
