@@ -276,8 +276,8 @@ public interface FisClient {
     List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
 
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
-    List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
-                                     @RequestParam(value = "patientId", required = false) String patientId,
+    List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitioner,
+                                     @RequestParam(value = "patient", required = false) String patient,
                                      @RequestParam(value = "definition", required = false) String definition,
                                      @RequestParam(value = "partOf", required = false) String partOf,
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
