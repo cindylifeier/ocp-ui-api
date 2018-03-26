@@ -51,7 +51,7 @@ public class PatientDto {
 
     private String language;
 
-    private List<FlagDto> flags;
+    private Optional<List<FlagDto>> flags;
 
     Optional<String> organizationId;
 
