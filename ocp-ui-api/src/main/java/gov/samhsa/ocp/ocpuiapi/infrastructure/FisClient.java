@@ -273,7 +273,10 @@ public interface FisClient {
     Object getTaskById(@PathVariable("taskId") String taskId);
 
     @RequestMapping(value = "/tasks/task-references", method = RequestMethod.GET)
-    List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient, @RequestParam(value = "definition", required = false) String definition);
+    List<ReferenceDto> getRelatedTasks(@RequestParam(value = "patient") String patient,
+                                       @RequestParam(value = "definition", required = false) String definition,
+                                       @RequestParam(value = "practitioner", required = false) String practitioner,
+                                       @RequestParam(value = "organization", required = false) String organization);
 
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitioner,
