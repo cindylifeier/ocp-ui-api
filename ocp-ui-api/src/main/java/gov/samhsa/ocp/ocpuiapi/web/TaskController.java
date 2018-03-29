@@ -35,8 +35,7 @@ public class TaskController {
         try {
             fisClient.createTask(taskDto);
             log.info("Successfully created a task.");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created");
         }
     }
@@ -60,40 +59,43 @@ public class TaskController {
 
     @PutMapping("/tasks/{taskId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateTask(@PathVariable String taskId, @Valid @RequestBody TaskDto taskDto){
-        try{
-            fisClient.updateTask(taskId,taskDto);
+    public void updateTask(@PathVariable String taskId, @Valid @RequestBody TaskDto taskDto) {
+        try {
+            fisClient.updateTask(taskId, taskDto);
             log.debug("Successfully updated a task");
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Task could not be updated in the FHIR server");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Task could not be updated in the FHIR server");
         }
     }
 
     @PutMapping("/tasks/{taskId}/deactivate")
     @ResponseStatus(HttpStatus.OK)
-    public void deactivateTask(@PathVariable String taskId){
-        try{
+    public void deactivateTask(@PathVariable String taskId) {
+        try {
             fisClient.deactivateTask(taskId);
             log.debug("Successfully cancelled the task.");
-        }catch (FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe,"Task could not be deactivated in the FHIR server");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, "Task could not be deactivated in the FHIR server");
         }
     }
 
     @GetMapping("/tasks/{taskId}")
-    public Object getTaskById(@PathVariable String taskId){
-        try{
+    public Object getTaskById(@PathVariable String taskId) {
+        try {
             return fisClient.getTaskById(taskId);
-        }catch (FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"Task could not be found");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found");
             return null;
         }
     }
 
     @GetMapping("/tasks/task-references")
-    public List<ReferenceDto> getRelatedTasks(@RequestParam String patient,@RequestParam(value = "definition", required = false) String definition) {
+    public List<ReferenceDto> getRelatedTasks(@RequestParam String patient,
+                                              @RequestParam(value = "definition", required = false) String definition,
+                                              @RequestParam(value = "practitioner", required = false) String practitioner,
+                                              @RequestParam(value = "organization", required = false) String organization) {
         try {
-            return fisClient.getRelatedTasks(patient, definition);
+            return fisClient.getRelatedTasks(patient, definition, practitioner, organization);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found for the given patientId");
             return null;
@@ -119,10 +121,10 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitioner,
-                                     @RequestParam(value = "patient", required = false) String patient,
-                                     @RequestParam(value = "definition", required = false) String definition,
-                                     @RequestParam(value = "partOf", required = false) String partOf,
-                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks) {
+                                            @RequestParam(value = "patient", required = false) String patient,
+                                            @RequestParam(value = "definition", required = false) String definition,
+                                            @RequestParam(value = "partOf", required = false) String partOf,
+                                            @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks) {
         log.info("Searching Main and Sub taks from FHIR server");
         try {
             List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitioner, patient, definition, partOf, isUpcomingTasks);
@@ -136,15 +138,15 @@ public class TaskController {
 
     @GetMapping("/tasks/upcoming-task-search")
     public Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner") String practitioner,
-                                                 @RequestParam(value = "searchKey",required = false) String searchKey,
-                                                 @RequestParam(value = "searchValue",required = false) String searchValue,
-                                                 @RequestParam(value = "pageNumber",required = false) String pageNumber,
-                                                 @RequestParam(value = "pageSize",required = false) String pageSize){
+                                                        @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                        @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                        @RequestParam(value = "pageNumber", required = false) String pageNumber,
+                                                        @RequestParam(value = "pageSize", required = false) String pageSize) {
         log.info("Searching Upcoming tasks");
-        try{
-            return fisClient.getUpcomingTasksByPractitionerAndRole(practitioner,searchKey,searchValue,pageNumber,pageSize);
-        }catch (FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe,"No Upcoming task found.");
+        try {
+            return fisClient.getUpcomingTasksByPractitionerAndRole(practitioner, searchKey, searchValue, pageNumber, pageSize);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Upcoming task found.");
             return null;
         }
     }
