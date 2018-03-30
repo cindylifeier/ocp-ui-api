@@ -25,8 +25,12 @@ public class LookUpController {
     private final List<String> allowedPatientIdentifierTypes = Arrays.asList("DL", "PPN", "TAX", "MR", "DR", "SB");
     private final List<String> allowedPractitionerIdentifierTypes = Arrays.asList("PRN", "TAX", "MD", "SB");
 
+    private final LookUpFisClient lookupFisClient;
+
     @Autowired
-    private LookUpFisClient lookupFisClient;
+    public LookUpController(LookUpFisClient lookupFisClient) {
+        this.lookupFisClient = lookupFisClient;
+    }
 
     @GetMapping()
     public LookUpDataDto getAllLookUpValues(@RequestParam(value = "lookUpTypeList", required = false) List<String> lookUpTypeList) {
@@ -557,6 +561,17 @@ public class LookUpController {
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPATION_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Appointment Participant Type
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.APPOINTMENT_PARTICIPANT_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_TYPE);
+            try {
+                lookUpData.setAppointmentParticipantType(lookupFisClient.getAppointmentParticipantType());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.APPOINTMENT_PARTICIPANT_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
 
