@@ -4,6 +4,6 @@ import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
 
 public class DateRangeDto {
 
-    DateRangeEnum dateRangeCode;
+    DateRangeEnum value;
     String display;
 }
