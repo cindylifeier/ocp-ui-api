@@ -652,7 +652,7 @@ public class LookUpController {
         if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.SECURITY_ROLE_TYPE.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.SECURITY_ROLE_TYPE);
             try {
-                lookUpData.setConsentSecurityRole(lookupFisClient.getSecurityRole());
+                lookUpData.setSecurityRoleType(lookupFisClient.getSecurityRole());
             }
             catch (FeignException fe) {
                 log.error("(" + LookUpTypeEnum.SECURITY_ROLE_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
