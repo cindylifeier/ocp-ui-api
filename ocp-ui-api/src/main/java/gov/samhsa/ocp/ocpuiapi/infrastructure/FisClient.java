@@ -31,7 +31,6 @@ import java.util.List;
 public interface FisClient {
 
     //Consent
-
     @RequestMapping(value = "/consents", method = RequestMethod.GET)
     Object getConsents(@RequestParam(value = "patient", required = false) String patient,
                        @RequestParam(value = "practitioner", required = false) String practitioner,
@@ -42,6 +41,12 @@ public interface FisClient {
 
     @RequestMapping(value = "/consents/{consentId}", method = RequestMethod.GET)
     Object getConsentById(@PathVariable("consentId") String consentId);
+
+    @RequestMapping(value = "/consents", method = RequestMethod.POST)
+    void createConsent(@Valid @RequestBody ConsentDto consentDto);
+
+    @RequestMapping(value = "/consents/{consent}", method = RequestMethod.PUT)
+    void updateConsent(@PathVariable("consent") String consent, @Valid @RequestBody ConsentDto consentDto);
 
     //Location
 
@@ -374,10 +379,5 @@ public interface FisClient {
     @RequestMapping(value = "/communications/{communicationsId}", method = RequestMethod.PUT)
     void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
 
-    //Consent
-    @RequestMapping(value = "/consents", method = RequestMethod.POST)
-    void createConsent(@Valid @RequestBody ConsentDto consentDto);
 
-    @RequestMapping(value = "/consents/{consent}", method = RequestMethod.PUT)
-    void updateConsent(@PathVariable("consent") String consent, @Valid @RequestBody ConsentDto consentDto);
 }
