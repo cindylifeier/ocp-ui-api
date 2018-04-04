@@ -30,6 +30,19 @@ import java.util.List;
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
 
+    //Consent
+
+    @RequestMapping(value = "/consents", method = RequestMethod.GET)
+    Object getConsents(@RequestParam(value = "patient", required = false) String patient,
+                       @RequestParam(value = "practitioner", required = false) String practitioner,
+                       @RequestParam(value = "status", required = false) String status,
+                       @RequestParam(value = "generalDesignation", required = false) Boolean generalDesignation,
+                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping(value = "/consents/{consentId}", method = RequestMethod.GET)
+    Object getConsentById(@PathVariable("consentId") String consentId);
+
     //Location
 
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
