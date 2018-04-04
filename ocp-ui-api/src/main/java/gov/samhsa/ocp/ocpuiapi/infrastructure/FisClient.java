@@ -40,6 +40,9 @@ public interface FisClient {
                        @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value = "/consents/{consentId}", method = RequestMethod.GET)
+    Object getConsentById(@PathVariable("consentId") String consentId);
+
     //Location
 
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
