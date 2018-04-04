@@ -365,6 +365,6 @@ public interface FisClient {
     @RequestMapping(value = "/consents", method = RequestMethod.POST)
     void createConsent(@Valid @RequestBody ConsentDto consentDto);
 
-    @RequestMapping(value = "/consents/{consentId}", method = RequestMethod.PUT)
-    void updateConsent(@PathVariable("consentId") String consentId, @Valid @RequestBody ConsentDto consentDto);
+    @RequestMapping(value = "/consents/{consent}", method = RequestMethod.PUT)
+    void updateConsent(@PathVariable("consent") String consent, @Valid @RequestBody ConsentDto consentDto);
 }

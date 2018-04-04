@@ -36,11 +36,11 @@ public class ConsentController {
         }
     }
 
-    @PutMapping("/consents/{consentId}")
+    @PutMapping("/consents/{consent}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateConsent(@PathVariable String consentId, @Valid @RequestBody ConsentDto consentDto) {
+    public void updateConsent(@PathVariable String consent, @Valid @RequestBody ConsentDto consentDto) {
         try {
-            fisClient.updateConsent(consentId, consentDto);
+            fisClient.updateConsent(consent, consentDto);
             log.debug("Successfully updated a consent");
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Consent could not be updated in the FHIR server");
