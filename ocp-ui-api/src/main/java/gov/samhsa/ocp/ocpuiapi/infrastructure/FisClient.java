@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -29,6 +30,19 @@ import java.util.List;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
+
+    //Consent
+
+    @RequestMapping(value = "/consents", method = RequestMethod.GET)
+    Object getConsents(@RequestParam(value = "patient", required = false) String patient,
+                       @RequestParam(value = "practitioner", required = false) String practitioner,
+                       @RequestParam(value = "status", required = false) String status,
+                       @RequestParam(value = "generalDesignation", required = false) Boolean generalDesignation,
+                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping(value = "/consents/{consentId}", method = RequestMethod.GET)
+    Object getConsentById(@PathVariable("consentId") String consentId);
 
     //Location
 
