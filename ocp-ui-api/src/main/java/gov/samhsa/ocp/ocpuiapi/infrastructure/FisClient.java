@@ -34,8 +34,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/consents", method = RequestMethod.GET)
     Object getConsents(@RequestParam(value = "patient", required = false) String patient,
-                       @RequestParam(value = "fromActor", required = false) String fromActor,
-                       @RequestParam(value = "toActor", required = false) String toActor,
+                       @RequestParam(value = "practitioner", required = false) String practitioner,
                        @RequestParam(value = "status", required = false) String status,
                        @RequestParam(value = "generalDesignation", required = false) Boolean generalDesignation,
                        @RequestParam(value = "pageNumber", required = false) Integer pageNumber,

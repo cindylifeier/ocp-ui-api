@@ -21,15 +21,14 @@ public class ConsentController {
 
     @GetMapping("/consents")
     public Object getConsents(@RequestParam(value = "patient", required = false) String patient,
-                              @RequestParam(value = "fromActor", required = false) String fromActor,
-                              @RequestParam(value = "toActor", required = false) String toActor,
+                              @RequestParam(value = "practitioner", required = false) String practitioner,
                               @RequestParam(value = "status", required = false) String status,
                               @RequestParam(value = "generalDesignation", required = false) Boolean generalDesignation,
                               @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                               @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Consents from FHIR server");
         try {
-            Object consents = fisClient.getConsents(patient, fromActor, toActor,status, generalDesignation, pageNumber, pageSize);
+            Object consents = fisClient.getConsents(patient, practitioner, status, generalDesignation, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Consents Search");
             return consents;
         } catch (FeignException fe) {
