@@ -20,6 +20,7 @@ public class LookUpDataDto {
     List<ValueSetDto> communicationCategory;
     List<ValueSetDto> communicationNotDoneReason;
     List<ValueSetDto> communicationMedium;
+    Object dateRanges;
     List<ValueSetDto> healthcareServiceCategories;
     List<ValueSetDto> healthcareServiceTypes;
     List<ValueSetDto> healthcareServiceSpecialities;
