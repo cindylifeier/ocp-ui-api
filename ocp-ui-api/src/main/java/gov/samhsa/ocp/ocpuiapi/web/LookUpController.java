@@ -119,6 +119,17 @@ public class LookUpController {
             }
         }
 
+        if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.DATE_RANGE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.DATE_RANGE.name());
+            try {
+                lookUpData.setDateRanges(lookupFisClient.getDateRanges());
+            }
+            catch (FeignException fe) {
+                //Do nothing
+                log.error("(" + LookUpTypeEnum.DATE_RANGE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         //Patient identifier system
         if (lookUpTypeList == null || lookUpTypeList.size() == 0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name()::equalsIgnoreCase)) {
             log.info("Getting look up values for " + LookUpTypeEnum.PATIENTIDENTIFIERSYSTEM.name());

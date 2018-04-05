@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -124,10 +125,11 @@ public class TaskController {
                                             @RequestParam(value = "patient", required = false) String patient,
                                             @RequestParam(value = "definition", required = false) String definition,
                                             @RequestParam(value = "partOf", required = false) String partOf,
-                                            @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks) {
+                                            @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks,
+                                            @RequestParam(value = "filterDate", required = false) DateRangeEnum filterDate) {
         log.info("Searching Main and Sub taks from FHIR server");
         try {
-            List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitioner, patient, definition, partOf, isUpcomingTasks);
+            List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitioner, patient, definition, partOf, isUpcomingTasks, filterDate);
             log.info("Got Response from FHIR server for SubTasks Search");
             return tasks;
         } catch (FeignException fe) {
