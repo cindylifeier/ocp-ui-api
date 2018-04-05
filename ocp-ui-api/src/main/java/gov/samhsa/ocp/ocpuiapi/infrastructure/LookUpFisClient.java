@@ -17,6 +17,9 @@ public interface LookUpFisClient {
     @RequestMapping(value = "/lookups/usps-states", method = RequestMethod.GET)
     List<ValueSetDto> getUspsStates();
 
+    @RequestMapping(value = "/lookups/date-ranges", method = RequestMethod.GET)
+    Object getDateRanges();
+
     @RequestMapping(value = "/lookups/identifier-types", method = RequestMethod.GET)
     List<ValueSetDto> getIdentifierTypes(@RequestParam(value = "resourceType", required = false) String resourceType);
 

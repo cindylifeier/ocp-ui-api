@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
@@ -302,7 +303,8 @@ public interface FisClient {
                                      @RequestParam(value = "patient", required = false) String patient,
                                      @RequestParam(value = "definition", required = false) String definition,
                                      @RequestParam(value = "partOf", required = false) String partOf,
-                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
+                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks,
+                                     @RequestParam(value = "filterDate", required = false) DateRangeEnum filterDate);
 
     @RequestMapping(value = "/tasks/upcoming-task-search", method = RequestMethod.GET)
     Object getUpcomingTasksByPractitionerAndRole(@RequestParam(value = "practitioner") String practitioner,
