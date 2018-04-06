@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -47,6 +48,9 @@ public interface FisClient {
 
     @RequestMapping(value = "/consents/{consent}", method = RequestMethod.PUT)
     void updateConsent(@PathVariable("consent") String consent, @Valid @RequestBody ConsentDto consentDto);
+
+    @RequestMapping(value="/generalConsent/{patient}",method=RequestMethod.GET)
+    GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable("patient") String patient);
 
     //Location
 
