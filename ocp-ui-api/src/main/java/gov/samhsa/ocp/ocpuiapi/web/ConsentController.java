@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +85,15 @@ public class ConsentController {
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Consent could not be updated in the FHIR server");
         }
+    }
+
+    @GetMapping("/generalConsent/{patient}")
+    public GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable String patient){
+       try{
+           return fisClient.getRelatedFieldForGeneralConsent(patient);
+       }catch (FeignException fe){
+           ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "the consent was not found");
+           return null;
+       }
     }
 }
