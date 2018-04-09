@@ -652,6 +652,61 @@ public class LookUpController {
             }
         }
 
+        //Consent State Codes
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CONSENT_STATE_CODES.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.CONSENT_STATE_CODES);
+            try {
+                lookUpData.setConsentStateCodes(lookupFisClient.getConsentStateCodes());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.CONSENT_STATE_CODES.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Consent Category
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CONSENT_CATEGORY.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.CONSENT_CATEGORY);
+            try {
+                lookUpData.setConsentCategory(lookupFisClient.getConsentCategory());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.CONSENT_CATEGORY.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Security Role
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.SECURITY_ROLE_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.SECURITY_ROLE_TYPE);
+            try {
+                lookUpData.setSecurityRoleType(lookupFisClient.getSecurityRole());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.SECURITY_ROLE_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Consent Action
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CONSENT_ACTION.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.CONSENT_ACTION);
+            try {
+                lookUpData.setConsentAction(lookupFisClient.getConsentAction());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.CONSENT_ACTION.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Purpose of use
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.PURPOSE_OF_USE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.PURPOSE_OF_USE);
+            try {
+                lookUpData.setPurposeOfUse(lookupFisClient.getPurposeOfUse());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.PURPOSE_OF_USE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }

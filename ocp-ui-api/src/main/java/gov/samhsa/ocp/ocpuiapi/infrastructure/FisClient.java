@@ -6,6 +6,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -32,7 +33,6 @@ import java.util.List;
 public interface FisClient {
 
     //Consent
-
     @RequestMapping(value = "/consents", method = RequestMethod.GET)
     Object getConsents(@RequestParam(value = "patient", required = false) String patient,
                        @RequestParam(value = "practitioner", required = false) String practitioner,
@@ -43,6 +43,15 @@ public interface FisClient {
 
     @RequestMapping(value = "/consents/{consentId}", method = RequestMethod.GET)
     Object getConsentById(@PathVariable("consentId") String consentId);
+
+    @RequestMapping(value = "/consents", method = RequestMethod.POST)
+    void createConsent(@Valid @RequestBody ConsentDto consentDto);
+
+    @RequestMapping(value = "/consents/{consent}", method = RequestMethod.PUT)
+    void updateConsent(@PathVariable("consent") String consent, @Valid @RequestBody ConsentDto consentDto);
+
+    @RequestMapping(value="/generalConsent/{patient}",method=RequestMethod.GET)
+    GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable("patient") String patient);
 
     //Location
 
@@ -375,4 +384,6 @@ public interface FisClient {
 
     @RequestMapping(value = "/communications/{communicationsId}", method = RequestMethod.PUT)
     void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
+
+
 }

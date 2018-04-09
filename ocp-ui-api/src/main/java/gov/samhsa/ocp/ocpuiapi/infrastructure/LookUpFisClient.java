@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import com.sun.org.apache.regexp.internal.RE;
 import gov.samhsa.ocp.ocpuiapi.service.dto.IdentifierSystemDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.StatusBooleanValuesDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
@@ -174,4 +175,19 @@ public interface LookUpFisClient {
 
     @RequestMapping(value="lookups/flag-category",method=RequestMethod.GET)
     List<ValueSetDto> getFlagCategory();
+
+    @RequestMapping(value="lookups/consent-state-codes", method = RequestMethod.GET)
+    List<ValueSetDto> getConsentStateCodes();
+
+    @RequestMapping(value="lookups/consent-category", method=RequestMethod.GET)
+    List<ValueSetDto> getConsentCategory();
+
+    @RequestMapping(value="lookups/security-role-type", method=RequestMethod.GET)
+    List<ValueSetDto> getSecurityRole();
+
+    @RequestMapping(value="lookups/consent-action", method=RequestMethod.GET)
+    List<ValueSetDto> getConsentAction();
+
+    @RequestMapping(value="lookups/purpose-of-use",method= RequestMethod.GET)
+    List<ValueSetDto> getPurposeOfUse();
 }
