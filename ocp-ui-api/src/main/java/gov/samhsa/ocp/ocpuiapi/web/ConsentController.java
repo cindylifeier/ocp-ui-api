@@ -87,6 +87,17 @@ public class ConsentController {
         }
     }
 
+    @PutMapping("/consents/{consentId}/attestation")
+    @ResponseStatus(HttpStatus.OK)
+    public void attestConsent(@PathVariable String consentId) {
+        try {
+            fisClient.attestConsent(consentId);
+            log.debug("Successfully active a consent");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Consent could not be activated in the FHIR server");
+        }
+    }
+
     @GetMapping("/generalConsent/{patient}")
     public GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable String patient){
        try{
