@@ -103,23 +103,6 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/tasks/subtasks")
-    public List<TaskDto> getSubTasks(@RequestParam(value = "practitionerId", required = false) String practitionerId,
-                                     @RequestParam(value = "patientId", required = false) String patientId,
-                                     @RequestParam(value = "definition", required = false) String definition,
-                                     @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks) {
-        log.info("Searching Sub taks from FHIR server");
-        try {
-            List<TaskDto> tasks = fisClient.getSubTasks(practitionerId, patientId, definition, isUpcomingTasks);
-            log.info("Got Response from FHIR server for SubTasks Search");
-            return tasks;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No SubTasks were found in configured FHIR server for the given practitioner/patient");
-            return null;
-        }
-    }
-
-
     @GetMapping("/tasks")
     public List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitioner,
                                             @RequestParam(value = "patient", required = false) String patient,
