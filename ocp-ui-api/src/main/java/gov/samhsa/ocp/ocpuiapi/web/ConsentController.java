@@ -36,7 +36,7 @@ public class ConsentController {
     public Object getConsents(@RequestParam(value = "patient", required = false) String patient,
                               @RequestParam(value = "practitioner", required = false) String practitioner,
                               @RequestParam(value = "status", required = false) String status,
-                              @RequestParam(value = "generalDesignation", required = false) Boolean generalDesignation,
+                              @RequestParam(value = "generalDesignation", required = false, defaultValue = "true") Boolean generalDesignation,
                               @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                               @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Consents from FHIR server");
