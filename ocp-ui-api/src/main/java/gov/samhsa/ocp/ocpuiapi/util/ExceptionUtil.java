@@ -4,10 +4,12 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.DuplicateResourceFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.FisClientInterfaceException;
+import gov.samhsa.ocp.ocpuiapi.service.exception.PreconditionFailedException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.UaaClientException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.UserAuthenticationFailure;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 @Slf4j
 public final class ExceptionUtil {
@@ -44,6 +46,10 @@ public final class ExceptionUtil {
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 throw new DuplicateResourceFoundException(errorMessage);
+            case 412:
+                logErrorMessageWithCode = "Fis client returned a 412 - Precondition Failed status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new PreconditionFailedException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
