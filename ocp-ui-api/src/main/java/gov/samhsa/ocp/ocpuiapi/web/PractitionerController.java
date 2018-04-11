@@ -93,7 +93,7 @@ public class PractitionerController {
         }
     }
 
-    @GetMapping("/practitioners")
+    @GetMapping("/practitioners/practitioner-references")
     public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner) {
         try {
             return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner);
@@ -103,8 +103,8 @@ public class PractitionerController {
         }
     }
 
-    @GetMapping("/practitioners/organization/{organizationId}")
-    public PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+    @GetMapping("/practitioners")
+    public PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@RequestParam("organization") String organization,
                                                         @RequestParam(value = "role", required = false) String role,
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "size", required = false) Integer size) {

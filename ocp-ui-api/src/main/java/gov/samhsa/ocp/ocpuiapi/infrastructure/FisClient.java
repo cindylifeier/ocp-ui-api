@@ -108,11 +108,11 @@ public interface FisClient {
     @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.GET)
     PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
 
-    @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
+    @RequestMapping(value = "/practitioners/practitioner-references", method = RequestMethod.GET)
     List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
 
-    @RequestMapping(value = "/practitioners/organization/{organizationId}")
-    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+    @RequestMapping(value = "/practitioners")
+    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@RequestParam(value="organization") String organization,
                                                                    @RequestParam(value = "role", required = false) String role,
                                                                    @RequestParam(value = "page", required = false) Integer page,
                                                                    @RequestParam(value = "size", required = false) Integer size);
