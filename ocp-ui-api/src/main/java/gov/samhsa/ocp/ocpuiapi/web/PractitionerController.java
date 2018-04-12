@@ -94,9 +94,10 @@ public class PractitionerController {
     }
 
     @GetMapping("/practitioners/practitioner-references")
-    public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner) {
+    public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner", required = false) String practitioner,
+                                                                             @RequestParam(value="organization",required = false)String organization) {
         try {
-            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner);
+            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner,organization);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found in the organization for the given practitioner");
             return null;
