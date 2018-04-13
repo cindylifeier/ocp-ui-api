@@ -68,10 +68,11 @@ public class OrganizationController {
                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
                                                         @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                         @RequestParam(value = "page", required = false) Integer page,
-                                                        @RequestParam(value = "size", required = false) Integer size) {
+                                                        @RequestParam(value = "size", required = false) Integer size,
+                                                        @RequestParam(value="showAll",required=false) boolean showAll) {
         log.info("Searching organizations from FHIR server");
         try {
-            PageDto<OrganizationDto> organizations = fisClient.searchOrganizations(searchType, searchValue, showInactive, page, size);
+            PageDto<OrganizationDto> organizations = fisClient.searchOrganizations(searchType, searchValue, showInactive, page, size,showAll);
             log.info("Got response from FHIR server for organization search");
             return organizations;
         } catch (FeignException fe) {

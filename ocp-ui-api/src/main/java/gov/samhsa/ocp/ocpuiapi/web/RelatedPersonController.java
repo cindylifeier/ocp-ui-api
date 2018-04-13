@@ -45,8 +45,9 @@ public class RelatedPersonController {
                                                        @RequestParam(value = "searchValue", required = false) String searchValue,
                                                        @RequestParam(value = "showInActive", required = false) Boolean showInActive,
                                                        @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        return fisClient.searchRelatedPersons(patientId, searchKey, searchValue, showInActive, pageNumber, pageSize);
+                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                       @RequestParam(value="showAll",required=false) Boolean showAll) {
+        return fisClient.searchRelatedPersons(patientId, searchKey, searchValue, showInActive, pageNumber, pageSize,showAll);
     }
 
     @GetMapping("/{relatedPersonId}")

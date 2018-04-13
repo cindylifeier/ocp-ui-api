@@ -47,12 +47,14 @@ public class PractitionerController {
     @GetMapping("/practitioners/search")
     public PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                        @RequestParam(value="organization",required = false) String organization,
                                                         @RequestParam(value = "showInactive", required = false) Boolean showInactive,
                                                         @RequestParam(value = "page", required = false) Integer page,
-                                                        @RequestParam(value = "size", required = false) Integer size) {
+                                                        @RequestParam(value = "size", required = false) Integer size,
+                                                        @RequestParam(value="showAll", required = false) Boolean showAll) {
         log.info("Searching practitioners from FHIR server");
         try {
-            PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, showInactive, page, size);
+            PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, organization, showInactive, page, size, showAll);
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
         } catch (FeignException fe) {
