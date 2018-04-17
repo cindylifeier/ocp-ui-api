@@ -47,12 +47,14 @@ public class PractitionerController {
     @GetMapping("/practitioners/search")
     public PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                        @RequestParam(value="organization",required = false) String organization,
                                                         @RequestParam(value = "showInactive", required = false) Boolean showInactive,
                                                         @RequestParam(value = "page", required = false) Integer page,
-                                                        @RequestParam(value = "size", required = false) Integer size) {
+                                                        @RequestParam(value = "size", required = false) Integer size,
+                                                        @RequestParam(value="showAll", required = false) Boolean showAll) {
         log.info("Searching practitioners from FHIR server");
         try {
-            PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, showInactive, page, size);
+            PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, organization, showInactive, page, size, showAll);
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
         } catch (FeignException fe) {
@@ -93,18 +95,20 @@ public class PractitionerController {
         }
     }
 
-    @GetMapping("/practitioners")
-    public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner) {
+    @GetMapping("/practitioners/practitioner-references")
+    public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner", required = false) String practitioner,
+                                                                             @RequestParam(value="organization",required = false)String organization,
+                                                                             @RequestParam(value="role",required=false) String role) {
         try {
-            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner);
+            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner,organization,role);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No practitioner was found in the organization for the given practitioner");
             return null;
         }
     }
 
-    @GetMapping("/practitioners/organization/{organizationId}")
-    public PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+    @GetMapping("/practitioners")
+    public PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@RequestParam("organization") String organization,
                                                         @RequestParam(value = "role", required = false) String role,
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "size", required = false) Integer size) {
