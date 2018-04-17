@@ -106,13 +106,14 @@ public class TaskController {
     @GetMapping("/tasks")
     public List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitioner,
                                             @RequestParam(value = "patient", required = false) String patient,
+                                            @RequestParam(value="organization", required = false) String organization,
                                             @RequestParam(value = "definition", required = false) String definition,
                                             @RequestParam(value = "partOf", required = false) String partOf,
                                             @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks,
                                             @RequestParam(value = "filterDate", required = false) DateRangeEnum filterDate) {
         log.info("Searching Main and Sub taks from FHIR server");
         try {
-            List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitioner, patient, definition, partOf, isUpcomingTasks, filterDate);
+            List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitioner, patient, organization, definition, partOf, isUpcomingTasks, filterDate);
             log.info("Got Response from FHIR server for SubTasks Search");
             return tasks;
         } catch (FeignException fe) {
