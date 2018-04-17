@@ -317,6 +317,7 @@ public interface FisClient {
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitioner,
                                      @RequestParam(value = "patient", required = false) String patient,
+                                     @RequestParam(value="organization",required=false) String organization,
                                      @RequestParam(value = "definition", required = false) String definition,
                                      @RequestParam(value = "partOf", required = false) String partOf,
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks,
