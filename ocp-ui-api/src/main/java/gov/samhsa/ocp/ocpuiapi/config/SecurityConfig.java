@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
                         .antMatchers(HttpMethod.POST, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
+                        .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
             }
         };
