@@ -90,6 +90,11 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/practitioners/**").access("#oauth2.hasScopeMatching('ocpUiApi.practitioner_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/practitioners/**").access("#oauth2.hasScopeMatching('ocpUiApi.practitioner_delete')")
 
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_create')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_read')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_update')")
+                        .antMatchers(HttpMethod.DELETE, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_delete')")
+
                         //TODO: Secure Participant, EpisodeOfCare APIs
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
