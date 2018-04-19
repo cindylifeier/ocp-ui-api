@@ -30,10 +30,14 @@ public class SecurityConfig {
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.POST, "/login/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/ocp-fis/lookups/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.read')")
-                        .antMatchers(HttpMethod.PUT, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
-                        .antMatchers(HttpMethod.POST, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
-                        .antMatchers(HttpMethod.DELETE, "/ocp-fis/**").access("#oauth2.hasScope('ocpUiApi.write')")
+                        .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
+
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/organizations/*/activity-definitions").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_create')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/organizations/*/activity-definitions").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_read')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/activity-definitions").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_read')")
+                        //.antMatchers(HttpMethod.PUT, "/ocp-fis/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_update')")
+                        //.antMatchers(HttpMethod.DELETE, "/ocp-fis/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_delete')")
+
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
             }
