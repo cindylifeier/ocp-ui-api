@@ -59,7 +59,15 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_delete')")
 
-
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/organization/*/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_create')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_read')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/organizations/*/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_read')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/organizations/*/locations/*/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_read')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/healthcare-services/*/assign").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_assign')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/healthcare-services/*/unassign").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_unassign')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/organization/*/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_update')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/healthcare-services/*/inactive/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_update')")
+                        .antMatchers(HttpMethod.DELETE, "/ocp-fis/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_delete')")
 
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
