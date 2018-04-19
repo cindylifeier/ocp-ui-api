@@ -95,6 +95,11 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_delete')")
 
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_create')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_read')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_update')")
+                        .antMatchers(HttpMethod.DELETE, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_delete')")
+
                         //TODO: Secure Participant, EpisodeOfCare APIs
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
