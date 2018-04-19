@@ -38,6 +38,11 @@ public class SecurityConfig {
                         //.antMatchers(HttpMethod.PUT, "/ocp-fis/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_update')")
                         //.antMatchers(HttpMethod.DELETE, "/ocp-fis/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_delete')")
 
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_create')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_read')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_update')")
+                        .antMatchers(HttpMethod.DELETE, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_delete')")
+
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
             }
