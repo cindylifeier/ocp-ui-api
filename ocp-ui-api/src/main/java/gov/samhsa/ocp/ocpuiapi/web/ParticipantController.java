@@ -43,7 +43,7 @@ public class ParticipantController {
     }
 
     @GetMapping
-    List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
+    public List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
                                                           @RequestParam(value = "roles", required = false) List<String> roles,
                                                           @RequestParam(value = "communication", required = false) String communication) {
         try {
