@@ -43,6 +43,11 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_delete')")
 
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/care-teams/**").access("#oauth2.hasScopeMatching('ocpUiApi.careTeam_create')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/care-teams/**").access("#oauth2.hasScopeMatching('ocpUiApi.careTeam_read')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/care-teams/**").access("#oauth2.hasScopeMatching('ocpUiApi.careTeam_update')")
+                        .antMatchers(HttpMethod.DELETE, "/ocp-fis/care-teams/**").access("#oauth2.hasScopeMatching('ocpUiApi.careTeam_delete')")
+
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
             }
