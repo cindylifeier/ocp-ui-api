@@ -53,6 +53,14 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/communications/**").access("#oauth2.hasScopeMatching('ocpUiApi.communication_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/communications/**").access("#oauth2.hasScopeMatching('ocpUiApi.communication_delete')")
 
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_create')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_read')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/consents/generalConsent/").access("#oauth2.hasScopeMatching('ocpUiApi.consent_read')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_update')")
+                        .antMatchers(HttpMethod.DELETE, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_delete')")
+
+
+
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
             }
