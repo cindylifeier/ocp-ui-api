@@ -37,4 +37,6 @@ public class CareTeamDto {
     private String endDate;
 
     private List<ParticipantDto> participants;
+
+    private String managingOrganization;
 }
