@@ -162,8 +162,8 @@ public interface FisClient {
                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
-    Object getPatientsByValue(@RequestParam(value = "type") String key,
-                              @RequestParam(value = "value") String value,
+    Object getPatientsByValue(@RequestParam(value = "type",required = false) String key,
+                              @RequestParam(value = "value",required = false) String value,
                               @RequestParam(value="organization",required = false) String organization,
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                               @RequestParam(value = "page", required = false) Integer page,
@@ -182,11 +182,11 @@ public interface FisClient {
     @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
     PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
                                                      @RequestParam(value = "member") String member,
-                                                     @RequestParam(value = "value") String value,
+                                                     @RequestParam(value = "value",required = false) String value,
                                                      @RequestParam(value="organization", required = false) String organization,
                                                      @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
-                                                     @RequestParam(value = "page") Integer page,
-                                                     @RequestParam(value = "size") Integer size,
+                                                     @RequestParam(value = "page",required = false) Integer page,
+                                                     @RequestParam(value = "size",required = false) Integer size,
                                                      @RequestParam(value="showAll",required = false) Boolean showAll);
 
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
