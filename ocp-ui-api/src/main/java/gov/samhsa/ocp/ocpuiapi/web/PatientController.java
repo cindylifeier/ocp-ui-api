@@ -48,8 +48,8 @@ public class PatientController {
     }
 
     @GetMapping("/search")
-    public Object searchPatientsByValue(@RequestParam(value = "type", defaultValue = "name") String key,
-                                        @RequestParam(value = "value") String value,
+    public Object searchPatientsByValue(@RequestParam(value = "type", defaultValue = "name",required = false) String key,
+                                        @RequestParam(value = "value",required = false) String value,
                                         @RequestParam(value = "organization", required = false) String organization,
                                         @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                                         @RequestParam(value = "page", required = false) Integer page,
