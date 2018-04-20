@@ -30,12 +30,14 @@ public class ParticipantController {
     @GetMapping("/search")
     public PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
                                                             @RequestParam(value = "member") String member,
-                                                            @RequestParam(value = "value") String value,
+                                                            @RequestParam(value = "value", required = false) String value,
+                                                            @RequestParam(value="organization", required=false) String organization,
                                                             @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                             @RequestParam(value = "page", required = false) Integer page,
-                                                            @RequestParam(value = "size", required = false) Integer size) {
+                                                            @RequestParam(value = "size", required = false) Integer size,
+                                                            @RequestParam(value="showAll",required=false) Boolean showAll) {
         try {
-            return fisClient.getAllParticipants(patientId, member, value, showInActive, page, size);
+            return fisClient.getAllParticipants(patientId, member, value, organization, showInActive, page, size,showAll);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No participants were found for the given parameters");
             return null;

@@ -95,9 +95,11 @@ public interface FisClient {
     @RequestMapping(value = "/practitioners/search", method = RequestMethod.GET)
     PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) PractitionerController.SearchType searchType,
                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                 @RequestParam(value="organization",required = false) String organization,
                                                  @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                  @RequestParam(value = "page", required = false) Integer page,
-                                                 @RequestParam(value = "size", required = false) Integer size);
+                                                 @RequestParam(value = "size", required = false) Integer size,
+                                                 @RequestParam(value="showAll", required = false) Boolean showAll);
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.POST)
     void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto);
@@ -108,11 +110,13 @@ public interface FisClient {
     @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.GET)
     PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
 
-    @RequestMapping(value = "/practitioners", method = RequestMethod.GET)
-    List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner") String practitioner);
+    @RequestMapping(value = "/practitioners/practitioner-references", method = RequestMethod.GET)
+    List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner", required = false) String practitioner,
+                                                                      @RequestParam(value="organization", required = false) String organization,
+                                                                      @RequestParam(value="role",required=false) String role);
 
-    @RequestMapping(value = "/practitioners/organization/{organizationId}")
-    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@PathVariable("organizationId") String organization,
+    @RequestMapping(value = "/practitioners")
+    PageDto<PractitionerDto> getPractitionersByOrganizationAndRole(@RequestParam(value="organization") String organization,
                                                                    @RequestParam(value = "role", required = false) String role,
                                                                    @RequestParam(value = "page", required = false) Integer page,
                                                                    @RequestParam(value = "size", required = false) Integer size);
@@ -131,7 +135,8 @@ public interface FisClient {
                                                  @RequestParam(value = "searchValue", required = false) String searchValue,
                                                  @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                  @RequestParam(value = "page", required = false) Integer page,
-                                                 @RequestParam(value = "size", required = false) Integer size);
+                                                 @RequestParam(value = "size", required = false) Integer size,
+                                                 @RequestParam(value="showAll",required=false) boolean showAll);
 
     @RequestMapping(value = "/organizations", method = RequestMethod.POST)
     void createOrganization(@Valid @RequestBody OrganizationDto organizationDto);
@@ -156,11 +161,13 @@ public interface FisClient {
                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
-    Object getPatientsByValue(@RequestParam(value = "type") String key,
-                              @RequestParam(value = "value") String value,
+    Object getPatientsByValue(@RequestParam(value = "type",required = false) String key,
+                              @RequestParam(value = "value",required = false) String value,
+                              @RequestParam(value="organization",required = false) String organization,
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                               @RequestParam(value = "page", required = false) Integer page,
-                              @RequestParam(value = "size", required = false) Integer size);
+                              @RequestParam(value = "size", required = false) Integer size,
+                              @RequestParam(value="showAll",required=false) Boolean showAll);
 
     @RequestMapping(value = "/patients", method = RequestMethod.POST)
     void createPatient(@Valid @RequestBody PatientDto patientDto);
@@ -174,10 +181,12 @@ public interface FisClient {
     @RequestMapping(value = "/participants/search", method = RequestMethod.GET)
     PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
                                                      @RequestParam(value = "member") String member,
-                                                     @RequestParam(value = "value") String value,
+                                                     @RequestParam(value = "value",required = false) String value,
+                                                     @RequestParam(value="organization", required = false) String organization,
                                                      @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
-                                                     @RequestParam(value = "page") Integer page,
-                                                     @RequestParam(value = "size") Integer size);
+                                                     @RequestParam(value = "page",required = false) Integer page,
+                                                     @RequestParam(value = "size",required = false) Integer size,
+                                                     @RequestParam(value="showAll",required = false) Boolean showAll);
 
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
     List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
@@ -308,6 +317,7 @@ public interface FisClient {
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     List<TaskDto> getMainAndSubTasks(@RequestParam(value = "practitioner", required = false) String practitioner,
                                      @RequestParam(value = "patient", required = false) String patient,
+                                     @RequestParam(value="organization",required=false) String organization,
                                      @RequestParam(value = "definition", required = false) String definition,
                                      @RequestParam(value = "partOf", required = false) String partOf,
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks,
@@ -335,7 +345,8 @@ public interface FisClient {
             @RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "showInActive", required = false) Boolean showInActive,
             @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-            @RequestParam(value = "pageSize", required = false) Integer pageSize);
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value="showAll",required = false) Boolean showAll);
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}")
     RelatedPersonDto getRelatedPersonById(@PathVariable("relatedPersonId") String relatedPersonId);
