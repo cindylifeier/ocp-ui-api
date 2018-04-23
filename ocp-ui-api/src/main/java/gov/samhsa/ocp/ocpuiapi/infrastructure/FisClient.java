@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -263,6 +264,13 @@ public interface FisClient {
 
     @RequestMapping("/care-teams/{careTeamId}")
     CareTeamDto getCareTeamById(@PathVariable("careTeamId") String careTeamId);
+
+    @RequestMapping(value = "/care-teams", method = RequestMethod.GET)
+    PageDto<CareTeamDto> getCareTeamsByPatient(@RequestParam(value = "patient") String patient,
+                                               @RequestParam(value = "organization", required = false) String organization,
+                                               @RequestParam(value = "status", required = false) List<String> status,
+                                               @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                               @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     //Activity Definition
 
