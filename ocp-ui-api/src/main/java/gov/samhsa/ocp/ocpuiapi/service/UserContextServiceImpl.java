@@ -47,14 +47,14 @@ public class UserContextServiceImpl implements UserContextService{
 
     @Override
     public UserContextDto getUserContext() {
-        Object resource = null;
+        Object fhirResource = null;
         if(getUserResourceType().equals(UserType.PRACTITIONER)){
-            resource = fisClient.getPractitioner(getUserResourceId());
+            fhirResource = fisClient.getPractitioner(getUserResourceId());
         }
         if(getUserResourceType().equals(UserType.PATIENT)){
-            resource = fisClient.getPatientById(getUserResourceId());
+            fhirResource = fisClient.getPatientById(getUserResourceId());
         }
         OrganizationDto organization = fisClient.getOrganization(getUserOrganizationId());
-        return UserContextDto.builder().organization(organization).resource(resource).build();
+        return UserContextDto.builder().organization(organization).fhirResource(fhirResource).build();
     }
 }

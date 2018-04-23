@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserContextDto {
-    Object resource;
+    Object fhirResource;
     OrganizationDto organization;
 }
