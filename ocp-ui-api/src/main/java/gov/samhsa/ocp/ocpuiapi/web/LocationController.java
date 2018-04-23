@@ -26,8 +26,12 @@ import java.util.List;
 @RequestMapping("ocp-fis")
 public class LocationController {
 
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public LocationController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @GetMapping("/locations")
     public PageDto<LocationDto> getAllLocations(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -89,7 +93,7 @@ public class LocationController {
         }
     }
 
-    @PostMapping("/organization/{organizationId}/location")
+    @PostMapping("/organization/{organizationId}/locations")
     @ResponseStatus(HttpStatus.CREATED)
     public void createLocation(@PathVariable String organizationId,
                                @Valid @RequestBody LocationDto locationDto) {
@@ -103,7 +107,7 @@ public class LocationController {
         }
     }
 
-    @PutMapping("/organization/{organizationId}/location/{locationId}")
+    @PutMapping("/organization/{organizationId}/locations/{locationId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateLocation(@PathVariable String organizationId,
                                @PathVariable String locationId,
@@ -118,7 +122,7 @@ public class LocationController {
         }
     }
 
-    @PutMapping("/location/{locationId}/inactive")
+    @PutMapping("/locations/{locationId}/inactive")
     @ResponseStatus(HttpStatus.OK)
     public void inactivateLocation(@PathVariable String locationId) {
         log.info("About to Inactivating the location: " + locationId);

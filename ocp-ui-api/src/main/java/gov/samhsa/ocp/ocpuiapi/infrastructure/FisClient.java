@@ -80,16 +80,16 @@ public interface FisClient {
     @RequestMapping(value = "/locations/{locationId}/child-location", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
 
-    @RequestMapping(value = "/organization/{organizationId}/location", method = RequestMethod.POST)
+    @RequestMapping(value = "/organization/{organizationId}/locations", method = RequestMethod.POST)
     void createLocation(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody LocationDto locationDto);
 
-    @RequestMapping(value = "/organization/{organizationId}/location/{locationId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/organization/{organizationId}/locations/{locationId}", method = RequestMethod.PUT)
     void updateLocation(@PathVariable("organizationId") String organizationId,
                         @PathVariable("locationId") String locationId,
                         @Valid @RequestBody LocationDto locationDto);
 
-    @RequestMapping(value = "/location/{locationId}/inactive", method = RequestMethod.PUT)
+    @RequestMapping(value = "/locations/{locationId}/inactive", method = RequestMethod.PUT)
     void inactivateLocation(@PathVariable("locationId") String locationId);
 
     //Practitioner
@@ -235,11 +235,11 @@ public interface FisClient {
                                                @RequestParam(value = "organizationId") String organizationId,
                                                @RequestParam(value = "locationIdList") List<String> locationIdList);
 
-    @RequestMapping(value = "/organization/{organizationId}/healthcare-service", method = RequestMethod.POST)
+    @RequestMapping(value = "/organization/{organizationId}/healthcare-services", method = RequestMethod.POST)
     void createHealthcareService(@PathVariable("organizationId") String organizationId,
                                  @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
 
-    @RequestMapping(value = "/organization/{organizationId}/healthcare-service/{healthcareServiceId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/organization/{organizationId}/healthcare-services/{healthcareServiceId}", method = RequestMethod.PUT)
     void updateHealthcareService(@PathVariable("organizationId") String organizationId,
                                  @PathVariable("healthcareServiceId") String healthcareServiceId,
                                  @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
