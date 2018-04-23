@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis/care-teams")
@@ -77,6 +78,20 @@ public class CareTeamController {
             return fisClient.getCareTeamById(careTeamId);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server");
+            return null;
+        }
+    }
+
+    @GetMapping
+    public PageDto<CareTeamDto> getCareTeamsByPatient(@RequestParam(value = "patient") String patient,
+                                                      @RequestParam(value = "organization", required = false) String organization,
+                                                      @RequestParam(value = "status", required = false) List<String> status,
+                                                      @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                      @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        try {
+            return fisClient.getCareTeamsByPatient(patient, organization, status, pageNumber, pageSize);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server for the given search criteria");
             return null;
         }
     }
