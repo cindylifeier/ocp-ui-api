@@ -20,6 +20,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -407,5 +408,7 @@ public interface FisClient {
     @RequestMapping(value = "/communications/{communicationsId}", method = RequestMethod.PUT)
     void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
 
-
+    //Resource
+    @RequestMapping(value="/delete/{resource}/{id}", method=RequestMethod.DELETE)
+    void delete(@PathVariable("resource") String resource, @PathVariable("id") String id);
 }
