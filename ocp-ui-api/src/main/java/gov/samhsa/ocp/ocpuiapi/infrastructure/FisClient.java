@@ -330,6 +330,7 @@ public interface FisClient {
                                      @RequestParam(value = "definition", required = false) String definition,
                                      @RequestParam(value = "partOf", required = false) String partOf,
                                      @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks,
+                                     @RequestParam(value = "isTodoList", required = false) Boolean isTodoList,
                                      @RequestParam(value = "filterDate", required = false) DateRangeEnum filterDate);
 
     @RequestMapping(value = "/tasks/upcoming-task-search", method = RequestMethod.GET)
