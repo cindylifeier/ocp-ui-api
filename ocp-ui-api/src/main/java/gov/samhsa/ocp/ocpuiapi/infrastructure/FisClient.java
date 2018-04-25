@@ -282,12 +282,20 @@ public interface FisClient {
                                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value = "/organization/{organizationId}/activity-definitions", method = RequestMethod.POST)
+    @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.POST)
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
+                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+
+    @RequestMapping(value = "/organizations/{organizationId}/activity-definitions/{activityDefinitionId}", method = RequestMethod.PUT)
+    void updateActivityDefinition(@PathVariable("organizationId") String organizationId,
+                                  @PathVariable("activityDefinitionId") String activityDefinitionId,
                                   @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
     @RequestMapping(value = "/activity-definitions", method = RequestMethod.GET)
     List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
+
+    @RequestMapping(value = "/activity-definitions/{activityDefinitionId}", method = RequestMethod.GET)
+    ActivityDefinitionDto getActivityDefinitionById(@PathVariable("activityDefinitionId") String activityDefinitionId);
 
     //Task
 
