@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,8 @@ import java.util.List;
 @Slf4j
 public class ActivityDefinitionController {
     private final FisClient fisClient;
+
+    final static String ACTIVITY_DEFINITION_NOT_FOUND = "No activity definitions were found the for the given organizationId and/or other criteria";
 
     @Autowired
     public ActivityDefinitionController(FisClient fisClient) {
@@ -44,13 +47,13 @@ public class ActivityDefinitionController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no activity definitions were found in the configured FHIR server for the given OrganizationId");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
             return null;
         }
     }
 
 
-    @PostMapping("/organization/{organizationId}/activity-definitions")
+    @PostMapping("/organizations/{organizationId}/activity-definitions")
     @ResponseStatus(HttpStatus.CREATED)
     public void createActivityDefinition(@PathVariable String organizationId,
                                @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto) {
@@ -69,8 +72,17 @@ public class ActivityDefinitionController {
         try {
             return fisClient.getActivityDefinitionsByPractitioner(practitioner);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no activity definitions were found in the configured FHIR server for the given pracitioner");
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
             return null;
+        }
+    }
+
+    @PutMapping("/organizations/{organizationId}/activity-definitions/{activityDefinitionId}")
+    public void updateActivityDefinition(@PathVariable String organizationId, @PathVariable String activityDefinitionId, @RequestBody ActivityDefinitionDto activityDefinitionDto) {
+        try {
+            fisClient.updateActivityDefinition(organizationId, activityDefinitionId, activityDefinitionDto);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
         }
     }
 }
