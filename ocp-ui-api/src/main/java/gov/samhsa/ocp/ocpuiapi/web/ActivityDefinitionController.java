@@ -77,6 +77,16 @@ public class ActivityDefinitionController {
         }
     }
 
+    @GetMapping("/activity-definitions/{activityDefinitionId}")
+    public ActivityDefinitionDto getActivityDefinitionById(@PathVariable String activityDefinitionId) {
+        try {
+            return fisClient.getActivityDefinitionById(activityDefinitionId);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
+            return null;
+        }
+    }
+
     @PutMapping("/organizations/{organizationId}/activity-definitions/{activityDefinitionId}")
     public void updateActivityDefinition(@PathVariable String organizationId, @PathVariable String activityDefinitionId, @RequestBody ActivityDefinitionDto activityDefinitionDto) {
         try {

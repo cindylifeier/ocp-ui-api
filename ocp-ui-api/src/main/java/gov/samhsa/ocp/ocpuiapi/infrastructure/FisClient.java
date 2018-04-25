@@ -294,6 +294,9 @@ public interface FisClient {
     @RequestMapping(value = "/activity-definitions", method = RequestMethod.GET)
     List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
 
+    @RequestMapping(value = "/activity-definitions/{activityDefinitionId}", method = RequestMethod.GET)
+    ActivityDefinitionDto getActivityDefinitionById(@PathVariable("activityDefinitionId") String activityDefinitionId);
+
     //Task
 
     @RequestMapping(value = "/tasks", method = RequestMethod.POST)
