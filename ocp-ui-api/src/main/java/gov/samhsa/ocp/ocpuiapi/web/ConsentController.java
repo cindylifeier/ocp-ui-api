@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -107,4 +109,10 @@ public class ConsentController {
            return null;
        }
     }
+
+    @GetMapping("/actors")
+    public List<ReferenceDto> getActors(@RequestParam(value="name", required=true) String name, @RequestParam(value="actorsAlreadyAssigned", required=false) List<String> actorsAlreadyAssigned){
+        return fisClient.getActors(name,actorsAlreadyAssigned);
+    }
+
 }
