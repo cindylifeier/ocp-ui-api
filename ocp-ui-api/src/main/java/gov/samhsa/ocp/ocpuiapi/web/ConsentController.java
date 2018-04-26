@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -111,8 +112,11 @@ public class ConsentController {
     }
 
     @GetMapping("/actors")
-    public List<ReferenceDto> getActors(@RequestParam(value="name", required=true) String name, @RequestParam(value="actorsAlreadyAssigned", required=false) List<String> actorsAlreadyAssigned){
-        return fisClient.getActors(name,actorsAlreadyAssigned);
+    public PageDto<ReferenceDto> getActors(@RequestParam(value="name", required=true) String name,
+                                           @RequestParam(value="actorsAlreadyAssigned", required=false) List<String> actorsAlreadyAssigned,
+                                           @RequestParam(value="pageNumber",required = false) Integer pageNumber,
+                                           @RequestParam(value="pageSize",required = false) Integer pageSize){
+        return fisClient.getActors(name,actorsAlreadyAssigned,pageNumber, pageSize);
     }
 
 }
