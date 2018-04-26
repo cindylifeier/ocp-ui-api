@@ -7,7 +7,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.UserContextDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,8 +24,8 @@ public class UserContextServiceImpl implements UserContextService{
 
     @Override
     public String getUserOrganizationId() {
-        List<String> scopes = (List) jwtTokenExtractor.getValueByKey(JwtTokenKey.SCOPE);
-        return scopes.stream().filter(x -> x.startsWith("ocp.role")).findFirst().get().replaceAll("[^0-9]+", "");
+        Map extAttr = (Map) jwtTokenExtractor.getValueByKey(JwtTokenKey.EXT_ATTR);
+        return extAttr.get("orgId").toString();
     }
 
     @Override
