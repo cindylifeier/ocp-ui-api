@@ -112,11 +112,13 @@ public class ConsentController {
     }
 
     @GetMapping("/actors")
-    public PageDto<ReferenceDto> getActors(@RequestParam(value="name", required=true) String name,
+    public Object getActors(@RequestParam(value="patient",required = false) String patient,
+                                            @RequestParam(value="name", required=false) String name,
+                                           @RequestParam(value="actorType",required = false) String actorType,
                                            @RequestParam(value="actorsAlreadyAssigned", required=false) List<String> actorsAlreadyAssigned,
                                            @RequestParam(value="pageNumber",required = false) Integer pageNumber,
                                            @RequestParam(value="pageSize",required = false) Integer pageSize){
-        return fisClient.getActors(name,actorsAlreadyAssigned,pageNumber, pageSize);
+        return fisClient.getActors(patient,name, actorType, actorsAlreadyAssigned,pageNumber, pageSize);
     }
 
 }
