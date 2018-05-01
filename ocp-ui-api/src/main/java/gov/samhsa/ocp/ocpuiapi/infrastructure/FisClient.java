@@ -56,6 +56,14 @@ public interface FisClient {
     @RequestMapping(value="/generalConsent/{patient}",method=RequestMethod.GET)
     GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable("patient") String patient);
 
+    @RequestMapping(value="/actors",method=RequestMethod.GET)
+    Object getActors(@RequestParam(value="patient", required = false) String patient,
+                                @RequestParam(value="name",required = false) String name,
+                                 @RequestParam(value="actorType",required = false) String actorType,
+                                 @RequestParam(value="actorsAlreadyAssigned",required = false) List<String> actorsAlreadyAssigned,
+                                 @RequestParam(value="pageNumber",required = false) Integer pageNumber,
+                                 @RequestParam(value="pageSize", required = false) Integer pageSize);
+
     //Location
 
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
