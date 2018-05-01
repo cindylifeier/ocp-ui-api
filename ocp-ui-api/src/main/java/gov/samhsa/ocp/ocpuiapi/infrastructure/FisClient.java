@@ -20,7 +20,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -89,11 +87,11 @@ public interface FisClient {
     @RequestMapping(value = "/locations/{locationId}/child-location", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
 
-    @RequestMapping(value = "/organization/{organizationId}/locations", method = RequestMethod.POST)
+    @RequestMapping(value = "/organizations/{organizationId}/locations", method = RequestMethod.POST)
     void createLocation(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody LocationDto locationDto);
 
-    @RequestMapping(value = "/organization/{organizationId}/locations/{locationId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/organizations/{organizationId}/locations/{locationId}", method = RequestMethod.PUT)
     void updateLocation(@PathVariable("organizationId") String organizationId,
                         @PathVariable("locationId") String locationId,
                         @Valid @RequestBody LocationDto locationDto);
@@ -290,12 +288,20 @@ public interface FisClient {
                                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value = "/organization/{organizationId}/activity-definitions", method = RequestMethod.POST)
+    @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.POST)
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
+                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+
+    @RequestMapping(value = "/organizations/{organizationId}/activity-definitions/{activityDefinitionId}", method = RequestMethod.PUT)
+    void updateActivityDefinition(@PathVariable("organizationId") String organizationId,
+                                  @PathVariable("activityDefinitionId") String activityDefinitionId,
                                   @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
     @RequestMapping(value = "/activity-definitions", method = RequestMethod.GET)
     List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
+
+    @RequestMapping(value = "/activity-definitions/{activityDefinitionId}", method = RequestMethod.GET)
+    ActivityDefinitionDto getActivityDefinitionById(@PathVariable("activityDefinitionId") String activityDefinitionId);
 
     //Task
 
