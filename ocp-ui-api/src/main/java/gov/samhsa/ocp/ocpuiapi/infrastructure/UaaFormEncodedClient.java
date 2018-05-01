@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Map;
 
-@FeignClient(name = "uaa", url = "${ocp.ocp-ui-api.oauth.authorization-server-endpoint}", configuration = CoreFeignConfiguration.class)
-public interface UaaClient {
+@FeignClient(name = "uaaForm", url = "${ocp.ocp-ui-api.oauth.authorization-server-endpoint}", configuration = CoreFeignConfiguration.class)
+public interface UaaFormEncodedClient {
 
     @RequestMapping(value = "/oauth/token", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     Object getTokenUsingPasswordGrant(Map<String, ?> formParams);
