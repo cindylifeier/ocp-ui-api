@@ -58,8 +58,7 @@ public class LocationController {
             PageDto<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
@@ -72,8 +71,7 @@ public class LocationController {
             LocationDto fisClientResponse = fisClient.getLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
@@ -86,14 +84,13 @@ public class LocationController {
             LocationDto fisClientResponse = fisClient.getChildLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
 
-    @PostMapping("/organization/{organizationId}/locations")
+    @PostMapping("/organizations/{organizationId}/locations")
     @ResponseStatus(HttpStatus.CREATED)
     public void createLocation(@PathVariable String organizationId,
                                @Valid @RequestBody LocationDto locationDto) {
@@ -101,13 +98,12 @@ public class LocationController {
         try {
             fisClient.createLocation(organizationId, locationDto);
             log.info("Successfully created a location");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the location was not created");
         }
     }
 
-    @PutMapping("/organization/{organizationId}/locations/{locationId}")
+    @PutMapping("/organizations/{organizationId}/locations/{locationId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateLocation(@PathVariable String organizationId,
                                @PathVariable String locationId,
@@ -116,8 +112,7 @@ public class LocationController {
         try {
             fisClient.updateLocation(organizationId, locationId, locationDto);
             log.info("Successfully updated the location ID: " + locationId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated");
         }
     }
@@ -129,8 +124,7 @@ public class LocationController {
         try {
             fisClient.inactivateLocation(locationId);
             log.info("Successfully inactivated the location: " + locationId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the location was not inactivated");
         }
     }

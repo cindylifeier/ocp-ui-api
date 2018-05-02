@@ -59,6 +59,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/ocp-fis/consents/generalConsent/").access("#oauth2.hasScopeMatching('ocpUiApi.consent_read')")
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/consents/**").access("#oauth2.hasScopeMatching('ocpUiApi.consent_delete')")
+                        .antMatchers(HttpMethod.GET,"/ocp-fis/actors/**").permitAll()
 
                         .antMatchers(HttpMethod.POST, "/ocp-fis/organization/*/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_read')")

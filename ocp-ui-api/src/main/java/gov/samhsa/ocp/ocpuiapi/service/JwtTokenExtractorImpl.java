@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -26,10 +25,5 @@ public class JwtTokenExtractorImpl implements JwtTokenExtractor{
         Jwt jwt = JwtHelper.decode(oAuth2AuthenticationDetails.getTokenValue());
         Map<String, Object> map = objectMapper.parseMap(jwt.getClaims());
         return map.get(jwtTokenKey.toString());
-    }
-
-    public String getOrganizationId(){
-        List<String> scopes = (List) getValueByKey(JwtTokenKey.SCOPE);
-        return scopes.stream().filter(x -> x.startsWith("ocp.role")).findFirst().get().replaceAll("[^0-9]+", "");
     }
 }
