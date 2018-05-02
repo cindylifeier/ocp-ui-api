@@ -56,6 +56,14 @@ public interface FisClient {
     @RequestMapping(value="/generalConsent/{patient}",method=RequestMethod.GET)
     GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable("patient") String patient);
 
+    @RequestMapping(value="/actors",method=RequestMethod.GET)
+    Object getActors(@RequestParam(value="patient", required = false) String patient,
+                                @RequestParam(value="name",required = false) String name,
+                                 @RequestParam(value="actorType",required = false) String actorType,
+                                 @RequestParam(value="actorsAlreadyAssigned",required = false) List<String> actorsAlreadyAssigned,
+                                 @RequestParam(value="pageNumber",required = false) Integer pageNumber,
+                                 @RequestParam(value="pageSize", required = false) Integer pageSize);
+
     //Location
 
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
@@ -79,11 +87,11 @@ public interface FisClient {
     @RequestMapping(value = "/locations/{locationId}/child-location", method = RequestMethod.GET)
     LocationDto getChildLocation(@PathVariable("locationId") String locationId);
 
-    @RequestMapping(value = "/organization/{organizationId}/locations", method = RequestMethod.POST)
+    @RequestMapping(value = "/organizations/{organizationId}/locations", method = RequestMethod.POST)
     void createLocation(@PathVariable("organizationId") String organizationId,
                         @Valid @RequestBody LocationDto locationDto);
 
-    @RequestMapping(value = "/organization/{organizationId}/locations/{locationId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/organizations/{organizationId}/locations/{locationId}", method = RequestMethod.PUT)
     void updateLocation(@PathVariable("organizationId") String organizationId,
                         @PathVariable("locationId") String locationId,
                         @Valid @RequestBody LocationDto locationDto);
