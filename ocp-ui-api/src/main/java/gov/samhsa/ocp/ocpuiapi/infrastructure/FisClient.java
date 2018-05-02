@@ -20,7 +20,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -377,6 +375,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/appointments/search", method = RequestMethod.GET)
     Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                           @RequestParam(value = "requesterReference", required = false) String requesterReference,
                            @RequestParam(value = "patientId", required = false) String patientId,
                            @RequestParam(value = "practitionerId", required = false) String practitionerId,
                            @RequestParam(value = "searchKey", required = false) String searchKey,

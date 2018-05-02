@@ -47,6 +47,7 @@ public class AppointmentController {
 
     @GetMapping("/appointments/search")
     public Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                  @RequestParam(value = "requesterReference", required = false) String requesterReference,
                                   @RequestParam(value = "patientId", required = false) String patientId,
                                   @RequestParam(value = "practitionerId", required = false) String practitionerId,
                                   @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -57,7 +58,7 @@ public class AppointmentController {
                                   @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Appointments from FHIR server");
         try {
-            Object appointment = fisClient.getAppointments(statusList, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc, pageNumber, pageSize);
+            Object appointment = fisClient.getAppointments(statusList, requesterReference, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Appointment Search");
             return appointment;
         }
