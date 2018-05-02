@@ -71,6 +71,7 @@ public class AppointmentController {
     @PutMapping("/appointments/{appointmentId}/cancel")
     @ResponseStatus(HttpStatus.OK)
     public void cancelAppointment(@PathVariable String appointmentId) {
+        log.info("About to cancel the appointment with ID: " + appointmentId);
         try {
             fisClient.cancelAppointment(appointmentId);
             log.debug("Successfully cancelled the appointment.");
@@ -79,6 +80,46 @@ public class AppointmentController {
             ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, "the appointment could not be cancelled.");
         }
     }
+
+    @PutMapping("/appointments/{appointmentId}/accept")
+    @ResponseStatus(HttpStatus.OK)
+    public void acceptAppointment(@PathVariable String appointmentId, @RequestParam(value = "actorReference") String actorReference) {
+        log.info("About to accept the appointment with ID: " + appointmentId);
+        try {
+            fisClient.acceptAppointment(appointmentId, actorReference);
+            log.debug("Successfully accepted the appointment.");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be accepted.");
+        }
+    }
+
+    @PutMapping("/appointments/{appointmentId}/decline")
+    @ResponseStatus(HttpStatus.OK)
+    public void declineAppointment(@PathVariable String appointmentId, @RequestParam(value = "actorReference") String actorReference) {
+        log.info("About to decline the appointment with ID: " + appointmentId);
+        try {
+            fisClient.declineAppointment(appointmentId, actorReference);
+            log.debug("Successfully declined the appointment.");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be declined.");
+        }
+    }
+
+    @PutMapping("/appointments/{appointmentId}/tentative")
+    @ResponseStatus(HttpStatus.OK)
+    public void tentativelyAcceptAppointment(@PathVariable String appointmentId, @RequestParam(value = "actorReference") String actorReference) {
+        log.info("About to tentatively accept the appointment with ID: " + appointmentId);
+        try {
+            fisClient.tentativelyAcceptAppointment(appointmentId, actorReference);
+            log.debug("Successfully declined the appointment.");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be tentatively accepted.");
+        }
+    }
+
 
     @PutMapping("/appointments/{appointmentId}")
     @ResponseStatus(HttpStatus.OK)
