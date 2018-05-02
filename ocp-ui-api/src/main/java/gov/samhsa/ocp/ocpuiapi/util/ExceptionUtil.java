@@ -9,7 +9,6 @@ import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.UaaClientException;
 import gov.samhsa.ocp.ocpuiapi.service.exception.UserAuthenticationFailure;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 
 @Slf4j
 public final class ExceptionUtil {
@@ -73,21 +72,6 @@ public final class ExceptionUtil {
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 throw new DuplicateResourceFoundException(errorMessage);
-            default:
-                log.error("Fis client returned an unexpected instance of FeignException", fe);
-                throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
-        }
-    }
-
-    public static void handleFeignExceptionRelatedToResourceInactivation(FeignException fe, String logErrorMessage) {
-        int causedByStatus = fe.status();
-        String errorMessage = getErrorMessageFromFeignException(fe);
-        String logErrorMessageWithCode;
-        switch (causedByStatus) {
-            case 404:
-                logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
-                log.error(logErrorMessageWithCode, fe);
-                throw new ResourceNotFoundException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");

@@ -77,7 +77,7 @@ public class AppointmentController {
             log.debug("Successfully cancelled the appointment.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, "the appointment could not be cancelled.");
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be cancelled.");
         }
     }
 

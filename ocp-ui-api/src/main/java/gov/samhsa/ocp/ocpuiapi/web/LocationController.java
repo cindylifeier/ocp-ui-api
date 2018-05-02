@@ -131,7 +131,7 @@ public class LocationController {
             log.info("Successfully inactivated the location: " + locationId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the location was not inactivated");
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not inactivated");
         }
     }
 }

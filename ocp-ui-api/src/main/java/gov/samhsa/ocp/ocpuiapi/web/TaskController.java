@@ -76,7 +76,7 @@ public class TaskController {
             fisClient.deactivateTask(taskId);
             log.debug("Successfully cancelled the task.");
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, "Task could not be deactivated in the FHIR server");
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Task could not be deactivated in the FHIR server");
         }
     }
 

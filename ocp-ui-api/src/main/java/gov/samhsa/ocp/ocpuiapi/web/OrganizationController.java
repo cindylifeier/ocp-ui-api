@@ -114,7 +114,7 @@ public class OrganizationController {
             fisClient.inactivateOrganization(organizationId);
             log.info("Successfully inactivated the organization: " + organizationId);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the organization was not inactivated");
+            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the organization was not inactivated");
         }
     }
 
