@@ -29,8 +29,12 @@ import java.util.List;
 public class OrganizationController {
 
 
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public OrganizationController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     // Todo: Resolve endpoint conflicts with getOrganizationsByPractitioner
     @GetMapping("/organizations/all")
@@ -47,36 +51,28 @@ public class OrganizationController {
             OrganizationDto organization = fisClient.getOrganization(organizationId);
             log.info("Got response from FHIR server for get organization");
             return organization;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found found in the configured FHIR server for the given organization ID");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no organizations were found found in the configured FHIR server for the given organization ID");
             return null;
         }
     }
 
-    /**
-     * Example: http://localhost:8446/ocp-fis/organizations/search?searchType=name&searchValue=smith&showInactive=true&page=1&size=10
-     *
-     * @param searchType
-     * @param searchValue
-     * @param showInactive
-     * @param page
-     * @param size
-     * @return
-     */
     @GetMapping("/organizations/search")
     public PageDto<OrganizationDto> searchOrganizations(@RequestParam(value = "searchType", required = false) String searchType,
                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
                                                         @RequestParam(value = "showInactive", required = false) boolean showInactive,
                                                         @RequestParam(value = "page", required = false) Integer page,
                                                         @RequestParam(value = "size", required = false) Integer size,
-                                                        @RequestParam(value="showAll",required=false) boolean showAll) {
+                                                        @RequestParam(value = "showAll", required = false) boolean showAll) {
         log.info("Searching organizations from FHIR server");
         try {
-            PageDto<OrganizationDto> organizations = fisClient.searchOrganizations(searchType, searchValue, showInactive, page, size,showAll);
+            PageDto<OrganizationDto> organizations = fisClient.searchOrganizations(searchType, searchValue, showInactive, page, size, showAll);
             log.info("Got response from FHIR server for organization search");
             return organizations;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no organizations were found found in the configured FHIR server for the given searchType and searchValue");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no organizations were found found in the configured FHIR server for the given searchType and searchValue");
             return null;
         }
     }
@@ -88,8 +84,9 @@ public class OrganizationController {
         try {
             fisClient.createOrganization(organizationDto);
             log.info("Successfully created the organization");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the organization was not created");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the organization was not created");
         }
     }
 
@@ -101,8 +98,9 @@ public class OrganizationController {
         try {
             fisClient.updateOrganization(organizationId, organizationDto);
             log.info("Successfully updated the organization");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the organization was not updated");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the organization was not updated");
         }
     }
 
@@ -113,8 +111,9 @@ public class OrganizationController {
         try {
             fisClient.inactivateOrganization(organizationId);
             log.info("Successfully inactivated the organization: " + organizationId);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the organization was not inactivated");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the organization was not inactivated");
         }
     }
 
@@ -122,8 +121,9 @@ public class OrganizationController {
     public List<ReferenceDto> getOrganizationsByPractitioner(@RequestParam(value = "practitioner") String practitioner) {
         try {
             return fisClient.getOrganizationsByPractitioner(practitioner);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No organizations were found for the given practitioner Id");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no organizations were found for the given practitioner Id");
             return null;
         }
     }

@@ -17,16 +17,21 @@ import java.util.List;
 @RequestMapping("/ocp-fis/episode-of-cares")
 public class EpisodeOfCareController {
 
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public EpisodeOfCareController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @GetMapping
     private List<ReferenceDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
                                                  @RequestParam(value = "status", required = false) String status) {
         try {
             return fisClient.getEpisodeOfCares(patient, status);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No EpisodeOfCare was found for the given patient Id");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no EpisodeOfCare was found for the given patient Id");
             return null;
         }
     }

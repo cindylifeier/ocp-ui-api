@@ -41,7 +41,7 @@ public class AppointmentController {
             log.info("Successfully created an appointment");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the appointment was not created");
+            ExceptionUtil.handleFeignException(fe, "that the appointment was not created");
         }
     }
 
@@ -63,7 +63,7 @@ public class AppointmentController {
             return appointment;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Appointments were found in configured FHIR server for the given searchKey and searchValue");
+            ExceptionUtil.handleFeignException(fe, "that no Appointments were found in the configured FHIR server for the given searchKey and searchValue");
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class AppointmentController {
             log.debug("Successfully cancelled the appointment.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be cancelled.");
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be cancelled.");
         }
     }
 
@@ -90,7 +90,7 @@ public class AppointmentController {
             log.debug("Successfully accepted the appointment.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be accepted.");
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be accepted.");
         }
     }
 
@@ -103,7 +103,7 @@ public class AppointmentController {
             log.debug("Successfully declined the appointment.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be declined.");
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be declined.");
         }
     }
 
@@ -116,7 +116,7 @@ public class AppointmentController {
             log.debug("Successfully declined the appointment.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment could not be tentatively accepted.");
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be tentatively accepted.");
         }
     }
 
@@ -130,7 +130,7 @@ public class AppointmentController {
             log.info("Successfully updated the appointment ID: " + appointmentId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment was not updated");
+            ExceptionUtil.handleFeignException(fe, "that the appointment was not updated");
         }
     }
 
@@ -143,15 +143,15 @@ public class AppointmentController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "the appointment was not found");
+            ExceptionUtil.handleFeignException(fe, "that the appointment was not found");
             return null;
         }
     }
 
     @GetMapping("/patients/{patientId}/appointmentParticipants")
     public List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
-                                                             @RequestParam(value = "roles", required = false) List<String> roles,
-                                                             @RequestParam(value = "appointmentId", required = false) String appointmentId) {
+                                                                    @RequestParam(value = "roles", required = false) List<String> roles,
+                                                                    @RequestParam(value = "appointmentId", required = false) String appointmentId) {
 
         log.info("Fetching appointment participants from FHIR Server for the given PatientId: " + patientId);
         try {
@@ -160,7 +160,7 @@ public class AppointmentController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no participants were found for the given patient and the roles");
+            ExceptionUtil.handleFeignException(fe, "that no participants were found for the given patient and the roles");
             return null;
         }
     }

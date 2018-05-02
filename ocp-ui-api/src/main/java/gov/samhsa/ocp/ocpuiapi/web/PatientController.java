@@ -41,15 +41,16 @@ public class PatientController {
             Object patientDtos = fisClient.getPatients(practitioner, searchKey, searchValue, showInactive, pageNumber, pageSize);
             log.debug("Call to Feign Client: END");
             return patientDtos;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient  found in the configured FHIR server for the given searchType and searchValue");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Patient  found in the configured FHIR server for the given searchType and searchValue");
             return fe;
         }
     }
 
     @GetMapping("/search")
-    public Object searchPatientsByValue(@RequestParam(value = "type", defaultValue = "name",required = false) String key,
-                                        @RequestParam(value = "value",required = false) String value,
+    public Object searchPatientsByValue(@RequestParam(value = "type", defaultValue = "name", required = false) String key,
+                                        @RequestParam(value = "value", required = false) String value,
                                         @RequestParam(value = "organization", required = false) String organization,
                                         @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                                         @RequestParam(value = "page", required = false) Integer page,
@@ -59,8 +60,9 @@ public class PatientController {
             Object patientDtos = fisClient.getPatientsByValue(key, value, organization, showInactive, page, size, showAll);
             log.debug("Call to Feign Client: END");
             return patientDtos;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Patient found in the configured FHIR server for the given searchType and searchValue");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Patient found in the configured FHIR server for the given searchType and searchValue");
             return fe;
         }
     }
@@ -71,8 +73,9 @@ public class PatientController {
         try {
             fisClient.createPatient(patientDto);
             log.debug("Successfully created a patient");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Patient could not be created in FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Patient could not be created in FHIR server");
         }
     }
 
@@ -82,8 +85,9 @@ public class PatientController {
         try {
             fisClient.updatePatient(patientDto);
             log.debug("Successfully updated a patient");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Patient could not be updated in FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Patient could not be updated in FHIR server");
         }
     }
 
@@ -93,8 +97,9 @@ public class PatientController {
         try {
             log.debug("Successfully retrieved a patient with the given patientId : " + patientId);
             return fisClient.getPatientById(patientId);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Patient could not be retrieved for given patientId : " + patientId);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Patient could not be retrieved for given patientId : " + patientId);
             return fe;
         }
     }

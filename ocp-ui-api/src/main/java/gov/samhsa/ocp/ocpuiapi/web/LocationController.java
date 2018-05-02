@@ -60,7 +60,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
+            ExceptionUtil.handleFeignException(fe, "that no locations were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
     }
@@ -74,7 +74,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
+            ExceptionUtil.handleFeignException(fe, "that no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -88,7 +88,7 @@ public class LocationController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
+            ExceptionUtil.handleFeignException(fe, "that no child location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -103,7 +103,7 @@ public class LocationController {
             log.info("Successfully created a location");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the location was not created");
+            ExceptionUtil.handleFeignException(fe, "that the location was not created");
         }
     }
 
@@ -118,7 +118,7 @@ public class LocationController {
             log.info("Successfully updated the location ID: " + locationId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated");
+            ExceptionUtil.handleFeignException(fe, "that the location was not updated");
         }
     }
 
@@ -131,7 +131,7 @@ public class LocationController {
             log.info("Successfully inactivated the location: " + locationId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not inactivated");
+            ExceptionUtil.handleFeignException(fe, "that the location was not inactivated");
         }
     }
 }

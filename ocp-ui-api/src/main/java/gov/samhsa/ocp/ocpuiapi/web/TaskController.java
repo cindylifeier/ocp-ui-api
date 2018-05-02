@@ -26,8 +26,12 @@ import java.util.List;
 @RequestMapping("ocp-fis")
 @Slf4j
 public class TaskController {
+    final FisClient fisClient;
+
     @Autowired
-    FisClient fisClient;
+    public TaskController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,7 +41,7 @@ public class TaskController {
             fisClient.createTask(taskDto);
             log.info("Successfully created a task.");
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created");
+            ExceptionUtil.handleFeignException(fe, "that the activity definition was not created");
         }
     }
 
@@ -53,7 +57,7 @@ public class TaskController {
             log.info("Got Response from FHIR server for Tasks Search");
             return tasks;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Tasks were found in configured FHIR server for the given searchType and searchValue");
+            ExceptionUtil.handleFeignException(fe, "that no Tasks were found in configured FHIR server for the given searchType and searchValue");
             return null;
         }
     }
@@ -65,7 +69,7 @@ public class TaskController {
             fisClient.updateTask(taskId, taskDto);
             log.debug("Successfully updated a task");
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Task could not be updated in the FHIR server");
+            ExceptionUtil.handleFeignException(fe, "that the Task could not be updated in the FHIR server");
         }
     }
 
@@ -76,7 +80,7 @@ public class TaskController {
             fisClient.deactivateTask(taskId);
             log.debug("Successfully cancelled the task.");
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Task could not be deactivated in the FHIR server");
+            ExceptionUtil.handleFeignException(fe, "that the Task could not be deactivated in the FHIR server");
         }
     }
 
@@ -85,7 +89,7 @@ public class TaskController {
         try {
             return fisClient.getTaskById(taskId);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found");
+            ExceptionUtil.handleFeignException(fe, "that the Task could not be found");
             return null;
         }
     }
@@ -98,7 +102,7 @@ public class TaskController {
         try {
             return fisClient.getRelatedTasks(patient, definition, practitioner, organization);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Task could not be found for the given patientId");
+            ExceptionUtil.handleFeignException(fe, "that the Task could not be found for the given patientId");
             return null;
         }
     }
@@ -118,7 +122,7 @@ public class TaskController {
             log.info("Got Response from FHIR server for SubTasks Search");
             return tasks;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No SubTasks were found in configured FHIR server for the given practitioner/patient");
+            ExceptionUtil.handleFeignException(fe, "that the No SubTasks were found in configured FHIR server for the given practitioner/patient");
             return null;
         }
     }
@@ -133,7 +137,7 @@ public class TaskController {
         try {
             return fisClient.getUpcomingTasksByPractitionerAndRole(practitioner, searchKey, searchValue, pageNumber, pageSize);
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Upcoming task found.");
+            ExceptionUtil.handleFeignException(fe, "that no Upcoming task was found.");
             return null;
         }
     }

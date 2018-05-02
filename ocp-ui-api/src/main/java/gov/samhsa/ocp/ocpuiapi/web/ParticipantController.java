@@ -2,8 +2,8 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,27 +31,29 @@ public class ParticipantController {
     public PageDto<ParticipantSearchDto> getAllParticipants(@RequestParam(value = "patientId") String patientId,
                                                             @RequestParam(value = "member") String member,
                                                             @RequestParam(value = "value", required = false) String value,
-                                                            @RequestParam(value="organization", required=false) String organization,
+                                                            @RequestParam(value = "organization", required = false) String organization,
                                                             @RequestParam(value = "showInActive", defaultValue = "false") Boolean showInActive,
                                                             @RequestParam(value = "page", required = false) Integer page,
                                                             @RequestParam(value = "size", required = false) Integer size,
-                                                            @RequestParam(value="showAll",required=false) Boolean showAll) {
+                                                            @RequestParam(value = "showAll", required = false) Boolean showAll) {
         try {
-            return fisClient.getAllParticipants(patientId, member, value, organization, showInActive, page, size,showAll);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No participants were found for the given parameters");
+            return fisClient.getAllParticipants(patientId, member, value, organization, showInActive, page, size, showAll);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no participants were found for the given parameters");
             return null;
         }
     }
 
     @GetMapping
     public List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
-                                                          @RequestParam(value = "roles", required = false) List<String> roles,
-                                                          @RequestParam(value = "communication", required = false) String communication) {
+                                                                 @RequestParam(value = "roles", required = false) List<String> roles,
+                                                                 @RequestParam(value = "communication", required = false) String communication) {
         try {
             return fisClient.getCareTeamParticipants(patient, roles, communication);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No participants were found for the given patient and the roles");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no participants were found for the given patient and the roles");
             return null;
         }
     }

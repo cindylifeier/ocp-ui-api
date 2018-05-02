@@ -25,22 +25,28 @@ import java.util.List;
 @RequestMapping("ocp-fis")
 @Slf4j
 public class CommunicationController {
-    @Autowired
+    final
     FisClient fisClient;
+
+    @Autowired
+    public CommunicationController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @GetMapping("/communications/search")
     public Object getCommunications(@RequestParam(value = "statusList", required = false) List<String> statusList,
-                                  @RequestParam(value = "searchKey", required = false) String searchKey,
-                                  @RequestParam(value = "searchValue", required = false) String searchValue,
-                                  @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                  @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+                                    @RequestParam(value = "searchKey", required = false) String searchKey,
+                                    @RequestParam(value = "searchValue", required = false) String searchValue,
+                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                    @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Communications from FHIR server");
         try {
             Object communication = fisClient.getCommunications(statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Communications Search");
             return communication;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Communications were found in configured FHIR server for the given searchKey and searchValue");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Communications were found in the configured FHIR server for the given searchKey and searchValue");
             return null;
         }
     }
@@ -55,18 +61,19 @@ public class CommunicationController {
             log.info("Successfully created a communication.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the communication was not created");
+            ExceptionUtil.handleFeignException(fe, "that the communication was not created");
         }
     }
 
     @PutMapping("/communications/{communicationsId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCommunication(@PathVariable String communicationsId, @Valid @RequestBody CommunicationDto communicationDto){
-        try{
-            fisClient.updateCommunication(communicationsId,communicationDto);
+    public void updateCommunication(@PathVariable String communicationsId, @Valid @RequestBody CommunicationDto communicationDto) {
+        try {
+            fisClient.updateCommunication(communicationsId, communicationDto);
             log.debug("Successfully updated a communication");
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe,"Communication could not be updated in the FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Communication could not be updated in the FHIR server");
         }
     }
 
