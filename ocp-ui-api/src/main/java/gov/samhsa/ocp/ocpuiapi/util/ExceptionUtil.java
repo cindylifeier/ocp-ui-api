@@ -72,6 +72,10 @@ public final class ExceptionUtil {
                 logErrorMessageWithCode = "Fis client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 throw new DuplicateResourceFoundException(errorMessage);
+            case 412:
+                logErrorMessageWithCode = "Fis client returned a 412 - Precondition Failed status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new PreconditionFailedException(errorMessage);
             default:
                 log.error("Fis client returned an unexpected instance of FeignException", fe);
                 throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
@@ -97,7 +101,7 @@ public final class ExceptionUtil {
         }
     }
 
-    public static String getErrorMessageFromFeignException(FeignException fe) {
+    private static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
         String array[] = detailMessage.split("message");
         if (array.length > 1) {
