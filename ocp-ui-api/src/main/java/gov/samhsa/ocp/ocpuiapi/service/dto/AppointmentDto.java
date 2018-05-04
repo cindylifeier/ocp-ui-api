@@ -41,4 +41,5 @@ public class AppointmentDto {
     private boolean canAccept;
     private boolean canDecline;
     private boolean canTentativelyAccept;
+    private String requesterParticipationStatusCode;
 }
