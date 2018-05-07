@@ -58,8 +58,9 @@ public class LocationController {
             PageDto<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no locations were found in the configured FHIR server for the given OrganizationId");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no locations were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
     }
@@ -71,8 +72,9 @@ public class LocationController {
             LocationDto fisClientResponse = fisClient.getLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no location was found in the configured FHIR server for the given LocationId");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -84,8 +86,9 @@ public class LocationController {
             LocationDto fisClientResponse = fisClient.getChildLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no child location was found in the configured FHIR server for the given LocationId");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no child location was found in the configured FHIR server for the given LocationId");
             return null;
         }
     }
@@ -98,8 +101,9 @@ public class LocationController {
         try {
             fisClient.createLocation(organizationId, locationDto);
             log.info("Successfully created a location");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the location was not created");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the location was not created");
         }
     }
 
@@ -112,8 +116,9 @@ public class LocationController {
         try {
             fisClient.updateLocation(organizationId, locationId, locationDto);
             log.info("Successfully updated the location ID: " + locationId);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, " that the location was not updated");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the location was not updated");
         }
     }
 
@@ -124,8 +129,9 @@ public class LocationController {
         try {
             fisClient.inactivateLocation(locationId);
             log.info("Successfully inactivated the location: " + locationId);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, " that the location was not inactivated");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the location was not inactivated");
         }
     }
 }

@@ -41,12 +41,13 @@ public class AppointmentController {
             log.info("Successfully created an appointment");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the appointment was not created");
+            ExceptionUtil.handleFeignException(fe, "that the appointment was not created");
         }
     }
 
     @GetMapping("/appointments/search")
     public Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                  @RequestParam(value = "requesterReference", required = false) String requesterReference,
                                   @RequestParam(value = "patientId", required = false) String patientId,
                                   @RequestParam(value = "practitionerId", required = false) String practitionerId,
                                   @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -57,12 +58,12 @@ public class AppointmentController {
                                   @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Appointments from FHIR server");
         try {
-            Object appointment = fisClient.getAppointments(statusList, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc, pageNumber, pageSize);
+            Object appointment = fisClient.getAppointments(statusList, requesterReference, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Appointment Search");
             return appointment;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Appointments were found in configured FHIR server for the given searchKey and searchValue");
+            ExceptionUtil.handleFeignException(fe, "that no Appointments were found in the configured FHIR server for the given searchKey and searchValue");
             return null;
         }
     }
@@ -70,14 +71,55 @@ public class AppointmentController {
     @PutMapping("/appointments/{appointmentId}/cancel")
     @ResponseStatus(HttpStatus.OK)
     public void cancelAppointment(@PathVariable String appointmentId) {
+        log.info("About to cancel the appointment with ID: " + appointmentId);
         try {
             fisClient.cancelAppointment(appointmentId);
             log.debug("Successfully cancelled the appointment.");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceInactivation(fe, "the appointment could not be cancelled.");
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be cancelled.");
         }
     }
+
+    @PutMapping("/appointments/{appointmentId}/accept")
+    @ResponseStatus(HttpStatus.OK)
+    public void acceptAppointment(@PathVariable String appointmentId, @RequestParam(value = "actorReference") String actorReference) {
+        log.info("About to accept the appointment with ID: " + appointmentId);
+        try {
+            fisClient.acceptAppointment(appointmentId, actorReference);
+            log.debug("Successfully accepted the appointment.");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be accepted.");
+        }
+    }
+
+    @PutMapping("/appointments/{appointmentId}/decline")
+    @ResponseStatus(HttpStatus.OK)
+    public void declineAppointment(@PathVariable String appointmentId, @RequestParam(value = "actorReference") String actorReference) {
+        log.info("About to decline the appointment with ID: " + appointmentId);
+        try {
+            fisClient.declineAppointment(appointmentId, actorReference);
+            log.debug("Successfully declined the appointment.");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be declined.");
+        }
+    }
+
+    @PutMapping("/appointments/{appointmentId}/tentative")
+    @ResponseStatus(HttpStatus.OK)
+    public void tentativelyAcceptAppointment(@PathVariable String appointmentId, @RequestParam(value = "actorReference") String actorReference) {
+        log.info("About to tentatively accept the appointment with ID: " + appointmentId);
+        try {
+            fisClient.tentativelyAcceptAppointment(appointmentId, actorReference);
+            log.debug("Successfully declined the appointment.");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the appointment could not be tentatively accepted.");
+        }
+    }
+
 
     @PutMapping("/appointments/{appointmentId}")
     @ResponseStatus(HttpStatus.OK)
@@ -88,7 +130,7 @@ public class AppointmentController {
             log.info("Successfully updated the appointment ID: " + appointmentId);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "the appointment was not updated");
+            ExceptionUtil.handleFeignException(fe, "that the appointment was not updated");
         }
     }
 
@@ -101,15 +143,15 @@ public class AppointmentController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "the appointment was not found");
+            ExceptionUtil.handleFeignException(fe, "that the appointment was not found");
             return null;
         }
     }
 
     @GetMapping("/patients/{patientId}/appointmentParticipants")
     public List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable String patientId,
-                                                             @RequestParam(value = "roles", required = false) List<String> roles,
-                                                             @RequestParam(value = "appointmentId", required = false) String appointmentId) {
+                                                                    @RequestParam(value = "roles", required = false) List<String> roles,
+                                                                    @RequestParam(value = "appointmentId", required = false) String appointmentId) {
 
         log.info("Fetching appointment participants from FHIR Server for the given PatientId: " + patientId);
         try {
@@ -118,7 +160,7 @@ public class AppointmentController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "no participants were found for the given patient and the roles");
+            ExceptionUtil.handleFeignException(fe, "that no participants were found for the given patient and the roles");
             return null;
         }
     }
