@@ -20,15 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis/care-teams")
 @Slf4j
 public class CareTeamController {
 
+    private final FisClient fisClient;
+
     @Autowired
-    private FisClient fisClient;
+    public CareTeamController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,8 +40,9 @@ public class CareTeamController {
             fisClient.createCareTeam(careTeamDto);
             log.debug("Successfully created a CareTeam");
 
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, "Care Team could not be created in FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Care Team could not be created in the FHIR server");
         }
     }
 
@@ -49,8 +53,9 @@ public class CareTeamController {
             fisClient.updateCareTeam(careTeamId, careTeamDto);
             log.debug("Successfully updated a CareTeam");
 
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Care Team could not be updated in FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Care Team could not be updated in FHIR server");
         }
     }
 
@@ -65,8 +70,9 @@ public class CareTeamController {
             PageDto<CareTeamDto> careTeams = fisClient.searchCareTeams(statusList, searchType, searchValue, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Care Team Search");
             return careTeams;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No care Teams were found in configured FHIR server for the given searchType and searchValue");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Care Teams were found in the configured FHIR server for the given searchType and searchValue");
             return null;
         }
 
@@ -76,8 +82,9 @@ public class CareTeamController {
     public CareTeamDto getCareTeamByDto(@PathVariable String careTeamId) {
         try {
             return fisClient.getCareTeamById(careTeamId);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Care Team could not be found in the FHIR server");
             return null;
         }
     }
@@ -90,8 +97,9 @@ public class CareTeamController {
                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         try {
             return fisClient.getCareTeamsByPatient(patient, organization, status, pageNumber, pageSize);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "Care Team could not be found in FHIR server for the given search criteria");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Care Team could not be found in the FHIR server for the given search criteria");
             return null;
         }
     }

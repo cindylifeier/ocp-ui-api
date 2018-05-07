@@ -27,7 +27,7 @@ import java.util.List;
 public class ActivityDefinitionController {
     private final FisClient fisClient;
 
-    final static String ACTIVITY_DEFINITION_NOT_FOUND = "No activity definitions were found the for the given organizationId and/or other criteria";
+    private final String ACTIVITY_DEFINITION_NOT_FOUND = "that no Activity Definitions were found the for the given organizationId and/or other criteria";
 
     @Autowired
     public ActivityDefinitionController(FisClient fisClient) {
@@ -36,10 +36,10 @@ public class ActivityDefinitionController {
 
     @GetMapping("/organizations/{organizationId}/activity-definitions")
     public Object getAllActivityDefinitionsByOrganization(@PathVariable String organizationId,
-                                                                                @RequestParam(value = "searchKey", required = false) String searchKey,
-                                                                                @RequestParam(value = "searchValue", required = false) String searchValue,
-                                                                                @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                                                                @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+                                                          @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                          @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Fetching activity definitions from FHIR Server for the given OrganizationId: " + organizationId);
         try {
             Object fisClientResponse = fisClient.getAllActivityDefinitionsByOrganization(organizationId, searchKey, searchValue, pageNumber, pageSize);
@@ -47,7 +47,7 @@ public class ActivityDefinitionController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
+            ExceptionUtil.handleFeignException(fe, ACTIVITY_DEFINITION_NOT_FOUND);
             return null;
         }
     }
@@ -56,14 +56,14 @@ public class ActivityDefinitionController {
     @PostMapping("/organizations/{organizationId}/activity-definitions")
     @ResponseStatus(HttpStatus.CREATED)
     public void createActivityDefinition(@PathVariable String organizationId,
-                               @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto) {
+                                         @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto) {
         log.info("About to create a activity definition");
         try {
             fisClient.createActivityDefinition(organizationId, activityDefinitionDto);
             log.info("Successfully created a activity definition");
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the activity definition was not created");
+            ExceptionUtil.handleFeignException(fe, "that the activity definition was not created");
         }
     }
 
@@ -71,8 +71,9 @@ public class ActivityDefinitionController {
     public List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner) {
         try {
             return fisClient.getActivityDefinitionsByPractitioner(practitioner);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, ACTIVITY_DEFINITION_NOT_FOUND);
             return null;
         }
     }
@@ -81,8 +82,9 @@ public class ActivityDefinitionController {
     public ActivityDefinitionDto getActivityDefinitionById(@PathVariable String activityDefinitionId) {
         try {
             return fisClient.getActivityDefinitionById(activityDefinitionId);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, ACTIVITY_DEFINITION_NOT_FOUND);
             return null;
         }
     }
@@ -91,8 +93,9 @@ public class ActivityDefinitionController {
     public void updateActivityDefinition(@PathVariable String organizationId, @PathVariable String activityDefinitionId, @RequestBody ActivityDefinitionDto activityDefinitionDto) {
         try {
             fisClient.updateActivityDefinition(organizationId, activityDefinitionId, activityDefinitionDto);
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, ACTIVITY_DEFINITION_NOT_FOUND);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the activity definition was not updated");
         }
     }
 }

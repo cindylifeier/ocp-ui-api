@@ -4,36 +4,34 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis")
 @Slf4j
 public class ConsentController {
-    @Autowired
+    final
     FisClient fisClient;
+
+    @Autowired
+    public ConsentController(FisClient fisClient) {
+        this.fisClient = fisClient;
+    }
 
     @GetMapping("/consents")
     public Object getConsents(@RequestParam(value = "patient", required = false) String patient,
@@ -47,8 +45,9 @@ public class ConsentController {
             Object consents = fisClient.getConsents(patient, practitioner, status, generalDesignation, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Consents Search");
             return consents;
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "No Consents were found in configured FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Consents were found in configured FHIR server");
             return null;
         }
     }
@@ -62,7 +61,7 @@ public class ConsentController {
             return fisClientResponse;
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "the consent was not found");
+            ExceptionUtil.handleFeignException(fe, "that the consent was not found");
             return null;
         }
     }
@@ -74,8 +73,9 @@ public class ConsentController {
         try {
             fisClient.createConsent(consentDto);
             log.info("Successfully created a consent.");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceCreate(fe, " that the consent was not created");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the consent was not created");
         }
     }
 
@@ -85,8 +85,9 @@ public class ConsentController {
         try {
             fisClient.updateConsent(consent, consentDto);
             log.debug("Successfully updated a consent");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Consent could not be updated in the FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Consent could not be updated in the FHIR server");
         }
     }
 
@@ -96,29 +97,31 @@ public class ConsentController {
         try {
             fisClient.attestConsent(consentId);
             log.debug("Successfully active a consent");
-        } catch (FeignException fe) {
-            ExceptionUtil.handleFeignExceptionRelatedToResourceUpdate(fe, "Consent could not be activated in the FHIR server");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Consent could not be activated in the FHIR server");
         }
     }
 
     @GetMapping("/generalConsent/{patient}")
-    public GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable String patient){
-       try{
-           return fisClient.getRelatedFieldForGeneralConsent(patient);
-       }catch (FeignException fe){
-           ExceptionUtil.handleFeignExceptionRelatedToSearch(fe, "the consent was not found");
-           return null;
-       }
+    public GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable String patient) {
+        try {
+            return fisClient.getRelatedFieldForGeneralConsent(patient);
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the consent was not found");
+            return null;
+        }
     }
 
     @GetMapping("/actors")
-    public Object getActors(@RequestParam(value="patient",required = false) String patient,
-                                            @RequestParam(value="name", required=false) String name,
-                                           @RequestParam(value="actorType",required = false) String actorType,
-                                           @RequestParam(value="actorsAlreadyAssigned", required=false) List<String> actorsAlreadyAssigned,
-                                           @RequestParam(value="pageNumber",required = false) Integer pageNumber,
-                                           @RequestParam(value="pageSize",required = false) Integer pageSize){
-        return fisClient.getActors(patient,name, actorType, actorsAlreadyAssigned,pageNumber, pageSize);
+    public Object getActors(@RequestParam(value = "patient", required = false) String patient,
+                            @RequestParam(value = "name", required = false) String name,
+                            @RequestParam(value = "actorType", required = false) String actorType,
+                            @RequestParam(value = "actorsAlreadyAssigned", required = false) List<String> actorsAlreadyAssigned,
+                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        return fisClient.getActors(patient, name, actorType, actorsAlreadyAssigned, pageNumber, pageSize);
     }
 
 }

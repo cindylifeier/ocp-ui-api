@@ -383,6 +383,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/appointments/search", method = RequestMethod.GET)
     Object getAppointments(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                           @RequestParam(value = "requesterReference", required = false) String requesterReference,
                            @RequestParam(value = "patientId", required = false) String patientId,
                            @RequestParam(value = "practitionerId", required = false) String practitionerId,
                            @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -397,6 +398,18 @@ public interface FisClient {
 
     @RequestMapping(value = "/appointments/{appointmentId}/cancel", method = RequestMethod.PUT)
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
+
+    @RequestMapping(value = "/appointments/{appointmentId}/accept", method = RequestMethod.PUT)
+    void acceptAppointment(@PathVariable("appointmentId") String appointmentId,
+                           @RequestParam(value = "actorReference") String actorReference);
+
+    @RequestMapping(value = "/appointments/{appointmentId}/decline", method = RequestMethod.PUT)
+    void declineAppointment(@PathVariable("appointmentId") String appointmentId,
+                           @RequestParam(value = "actorReference") String actorReference);
+
+    @RequestMapping(value = "/appointments/{appointmentId}/tentative", method = RequestMethod.PUT)
+    void tentativelyAcceptAppointment(@PathVariable("appointmentId") String appointmentId,
+                           @RequestParam(value = "actorReference") String actorReference);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.PUT)
     void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
