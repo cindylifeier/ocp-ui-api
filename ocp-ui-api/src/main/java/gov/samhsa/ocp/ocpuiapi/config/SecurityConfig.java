@@ -106,6 +106,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/ocp-fis/participants/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/ocp-fis/episode-of-cares/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
+                        .antMatchers(HttpMethod.POST, "/smart/**").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .anyRequest().denyAll();
             }
         };
