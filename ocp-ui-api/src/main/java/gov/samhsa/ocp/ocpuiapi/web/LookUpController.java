@@ -707,6 +707,16 @@ public class LookUpController {
             }
         }
 
+        //Security Label
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.SECURITY_LABEL.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.SECURITY_LABEL);
+            try {
+                lookUpData.setSecurityLabel(lookupFisClient.getSecurityLabel());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.SECURITY_LABEL.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
         return lookUpData;
     }
 }

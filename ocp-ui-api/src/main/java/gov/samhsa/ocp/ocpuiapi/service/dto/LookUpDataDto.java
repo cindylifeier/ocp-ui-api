@@ -73,4 +73,5 @@ public class LookUpDataDto {
     List<ValueSetDto> securityRoleType;
     List<ValueSetDto> consentAction;
     List<ValueSetDto> purposeOfUse;
+    List<ValueSetDto> securityLabel;
 }

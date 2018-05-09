@@ -190,4 +190,7 @@ public interface LookUpFisClient {
 
     @RequestMapping(value="lookups/purpose-of-use",method= RequestMethod.GET)
     List<ValueSetDto> getPurposeOfUse();
+
+    @RequestMapping(value="lookups/security-label",method=RequestMethod.GET)
+    List<ValueSetDto> getSecurityLabel();
 }
