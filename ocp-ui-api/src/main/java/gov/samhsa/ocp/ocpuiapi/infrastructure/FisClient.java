@@ -393,6 +393,15 @@ public interface FisClient {
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value = "/appointments/search-with-no-pagination", method = RequestMethod.GET)
+    List<AppointmentDto> getAppointmentsWithNoPagination(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                           @RequestParam(value = "patientId", required = false) String patientId,
+                           @RequestParam(value = "practitionerId", required = false) String practitionerId,
+                           @RequestParam(value = "searchKey", required = false) String searchKey,
+                           @RequestParam(value = "searchValue", required = false) String searchValue,
+                           @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                           @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc);
+
     @RequestMapping(value = "/appointments", method = RequestMethod.POST)
     void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
 
