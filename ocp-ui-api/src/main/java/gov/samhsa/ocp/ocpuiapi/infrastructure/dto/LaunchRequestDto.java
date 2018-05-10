@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
@@ -10,4 +11,7 @@ public class LaunchRequestDto {
     private String patient;
     private String encounter;
     private String resource;
+    @JsonProperty("needPatientBanner")
+    private Boolean needPatientBanner;
+    private String intent;
 }

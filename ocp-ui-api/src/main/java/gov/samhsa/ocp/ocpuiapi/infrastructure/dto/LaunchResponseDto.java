@@ -12,6 +12,7 @@ public class LaunchResponseDto {
     private String organization;
     private String location;
     private String patient;
+    private String encounter;
     private String resource;
     @JsonProperty("need_patient_banner")
     private Boolean needPatientBanner;
