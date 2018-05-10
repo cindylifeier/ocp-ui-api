@@ -68,6 +68,26 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping("/appointments/search-with-no-pagination")
+    public List<AppointmentDto> getAppointmentsWithNoPagination(@RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                @RequestParam(value = "patientId", required = false) String patientId,
+                                                                @RequestParam(value = "practitionerId", required = false) String practitionerId,
+                                                                @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                                                                @RequestParam(value = "sortByStartTimeAsc", required = false, defaultValue = "true") Boolean sortByStartTimeAsc) {
+        log.info("Searching Appointments from FHIR server");
+        try {
+            List<AppointmentDto> appointmentList = fisClient.getAppointmentsWithNoPagination(statusList, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc);
+            log.info("Got Response from FHIR server for Appointment Search");
+            return appointmentList;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Appointments were found in the configured FHIR server for the given searchKey and searchValue");
+            return null;
+        }
+    }
+
     @PutMapping("/appointments/{appointmentId}/cancel")
     @ResponseStatus(HttpStatus.OK)
     public void cancelAppointment(@PathVariable String appointmentId) {
