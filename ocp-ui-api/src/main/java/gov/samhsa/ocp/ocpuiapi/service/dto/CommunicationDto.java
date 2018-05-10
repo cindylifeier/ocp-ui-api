@@ -47,5 +47,5 @@ public class CommunicationDto {
 
     private LocalDateTime sent;
     private LocalDateTime received;
-
+    private LocalDateTime lastUpdated;
 }
