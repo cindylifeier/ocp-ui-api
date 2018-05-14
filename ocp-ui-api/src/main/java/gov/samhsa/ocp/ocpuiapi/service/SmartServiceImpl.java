@@ -1,6 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
-import gov.samhsa.ocp.ocpuiapi.infrastructure.SmartAuthClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.SmartCoreClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.LaunchRequestDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.LaunchResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.JwtTokenKey;
@@ -13,7 +13,7 @@ public class SmartServiceImpl implements SmartService {
     @Autowired
     private JwtTokenExtractor jwtTokenExtractor;
     @Autowired
-    private SmartAuthClient smartAuthClient;
+    private SmartCoreClient smartCoreClient;
 
     @Override
     public LaunchResponseDto mergeAndSave(String launchId,
@@ -23,6 +23,6 @@ public class SmartServiceImpl implements SmartService {
         final String userId = jwtTokenExtractor.getValueByKey(JwtTokenKey.USER_ID).toString();
         Assert.hasText(userId, "user_id must have text");
         launchRequest.setUser(userId);
-        return smartAuthClient.mergeAndSave(launchId, launchRequest);
+        return smartCoreClient.mergeAndSave(launchId, launchRequest);
     }
 }

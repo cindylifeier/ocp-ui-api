@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 
-@FeignClient("smart-auth")
-public interface SmartAuthClient {
+@FeignClient("smart-core")
+public interface SmartCoreClient {
 
     @RequestMapping(value = "/launches/{launchId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
