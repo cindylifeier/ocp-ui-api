@@ -103,6 +103,18 @@ public class ConsentController {
         }
     }
 
+    @PutMapping("/consents/{consentId}/revocation")
+    @ResponseStatus(HttpStatus.OK)
+    public void revokeConsent(@PathVariable String consentId) {
+        try {
+            fisClient.revokeConsent(consentId);
+            log.debug("Successfully inactive a consent");
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Consent could not be inactivated in the FHIR server");
+        }
+    }
+
     @GetMapping("/generalConsent/{patient}")
     public GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable String patient) {
         try {
