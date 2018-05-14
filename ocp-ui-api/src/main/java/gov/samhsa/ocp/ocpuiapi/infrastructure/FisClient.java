@@ -377,6 +377,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
     List<ReferenceDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
+                                         @RequestParam(value = "organization", required = false) String organization,
                                          @RequestParam(value = "status", required = false) String status);
 
     //Appointment
