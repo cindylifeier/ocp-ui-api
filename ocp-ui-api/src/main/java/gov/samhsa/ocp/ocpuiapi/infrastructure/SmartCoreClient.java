@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @FeignClient("smart-core")
 public interface SmartCoreClient {
 
-    @RequestMapping(value = "/launches/{launchId}", method = RequestMethod.POST,
+    @RequestMapping(value = "/launch/{launchId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     LaunchResponseDto mergeAndSave(@PathVariable("launchId") String launchId,
                                    @Valid @RequestBody LaunchRequestDto launchRequest);
