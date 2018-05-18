@@ -28,12 +28,12 @@ public class OutlookCalendarServiceImpl implements OutlookCalendarService {
     public List<OutlookCalendarDto> getOutlookCalendarAppointments() {
         String outlookEmail = (String) jwtTokenExtractor.getValueByKey(JwtTokenKey.OUTLOOK_EMAIL);
         String outlookPassword = (String) jwtTokenExtractor.getValueByKey(JwtTokenKey.OUTLOOK_PASSWORD);
-        log.info("Searching for Outlook Appointments");
+        log.info("Searching for Outlook Appointments for email ID: " + outlookEmail);
         try {
             return fisClient.getOutlookCalendarAppointments(outlookEmail, outlookPassword);
         }
         catch (FeignException fe) {
-            ExceptionUtil.handleFeignException(fe, "that no for Outlook Appointments were found");
+            ExceptionUtil.handleFeignException(fe, "that no for Outlook Appointments were found for email ID: " + outlookEmail);
             return null;
         }
     }
