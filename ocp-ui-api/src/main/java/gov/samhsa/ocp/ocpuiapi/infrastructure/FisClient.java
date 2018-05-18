@@ -6,6 +6,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.EwsCalendarDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
@@ -434,6 +435,12 @@ public interface FisClient {
     List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable("patientId") String patientId,
                                                              @RequestParam(value = "roles", required = false) List<String> roles,
                                                              @RequestParam(value = "appointmentId", required = false) String appointmentId);
+
+    //EWS Calendar
+    @RequestMapping(value = "/EWS/calendar", method = RequestMethod.GET)
+    List<EwsCalendarDto> getEwsCalendarAppointments(@RequestParam(value = "emailAddress") String emailAddress,
+                                                    @RequestParam(value = "password") String password);
+
 
     //Communication
     @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
