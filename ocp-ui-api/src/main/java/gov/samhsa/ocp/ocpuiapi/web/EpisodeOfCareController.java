@@ -26,11 +26,11 @@ public class EpisodeOfCareController {
 
     @GetMapping
     private List<ReferenceDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
+                                                 @RequestParam(value = "organization", required = false) String organization,
                                                  @RequestParam(value = "status", required = false) String status) {
         try {
-            return fisClient.getEpisodeOfCares(patient, status);
-        }
-        catch (FeignException fe) {
+            return fisClient.getEpisodeOfCares(patient, organization, status);
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no EpisodeOfCare was found for the given patient Id");
             return null;
         }
