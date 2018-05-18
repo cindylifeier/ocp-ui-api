@@ -53,6 +53,9 @@ public interface FisClient {
     @RequestMapping(value = "/consents/{consentId}/attestation", method = RequestMethod.PUT)
     void attestConsent(@PathVariable("consentId") String consentId);
 
+    @RequestMapping(value = "/consents/{consentId}/revocation", method = RequestMethod.PUT)
+    void revokeConsent(@PathVariable("consentId") String consentId);
+
     @RequestMapping(value="/generalConsent/{patient}",method=RequestMethod.GET)
     GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable("patient") String patient);
 
