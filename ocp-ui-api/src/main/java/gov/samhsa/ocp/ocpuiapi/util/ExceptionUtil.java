@@ -22,6 +22,10 @@ public final class ExceptionUtil {
                 logErrorMessageWithCode = "Fis client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
                 throw new BadRequestException(errorMessage);
+            case 401:
+                logErrorMessageWithCode = "Fis client returned a 401 - UNAUTHORIZED status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new UserAuthenticationFailure(errorMessage);
             case 404:
                 logErrorMessageWithCode = "Fis client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
                 log.error(logErrorMessageWithCode, fe);
