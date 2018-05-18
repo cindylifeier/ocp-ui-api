@@ -380,6 +380,7 @@ public interface FisClient {
 
     @RequestMapping(value = "/episode-of-cares", method = RequestMethod.GET)
     List<ReferenceDto> getEpisodeOfCares(@RequestParam(value = "patient") String patient,
+                                         @RequestParam(value = "organization", required = false) String organization,
                                          @RequestParam(value = "status", required = false) String status);
 
     //Appointment
@@ -439,6 +440,7 @@ public interface FisClient {
     Object getCommunications(@RequestParam(value = "statusList", required = false) List<String> statusList,
                              @RequestParam(value = "searchKey", required = false) String searchKey,
                              @RequestParam(value = "searchValue", required = false) String searchValue,
+                             @RequestParam(value = "organization", required = false) String organization,
                              @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                              @RequestParam(value = "pageSize", required = false) Integer pageSize);
 

@@ -83,4 +83,8 @@ public class TaskDto {
     private ReferenceDto organization;
 
     int dateDiff;
+
+    private int totalSubtasks;
+
+    private int remainingSubtasks;
 }

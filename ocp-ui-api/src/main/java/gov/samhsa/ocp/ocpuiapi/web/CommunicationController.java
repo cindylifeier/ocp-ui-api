@@ -37,11 +37,12 @@ public class CommunicationController {
     public Object getCommunications(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                     @RequestParam(value = "searchKey", required = false) String searchKey,
                                     @RequestParam(value = "searchValue", required = false) String searchValue,
+                                    @RequestParam(value = "organization", required = false) String organization,
                                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                     @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Communications from FHIR server");
         try {
-            Object communication = fisClient.getCommunications(statusList, searchKey, searchValue, pageNumber, pageSize);
+            Object communication = fisClient.getCommunications(statusList, searchKey, searchValue, organization, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Communications Search");
             return communication;
         }
