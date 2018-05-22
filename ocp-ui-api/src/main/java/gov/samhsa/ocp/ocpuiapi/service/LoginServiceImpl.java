@@ -1,7 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
 import feign.FeignException;
-import gov.samhsa.ocp.ocpuiapi.config.OauthProperties;
+import gov.samhsa.ocp.ocpuiapi.config.OAuth2Properties;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.UaaFormEncodedClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.UaaRestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.AutologinResponseDto;
@@ -25,13 +25,13 @@ public class LoginServiceImpl implements LoginService {
 
     private final UaaFormEncodedClient uaaFormEncodedClient;
     private final UaaRestClient uaaRestClient;
-    private final OauthProperties oauthProperties;
+    private final OAuth2Properties oauth2Properties;
 
     @Autowired
-    public LoginServiceImpl(UaaFormEncodedClient uaaFormEncodedClient, UaaRestClient uaaRestClient, OauthProperties oauthProperties) {
+    public LoginServiceImpl(UaaFormEncodedClient uaaFormEncodedClient, UaaRestClient uaaRestClient, OAuth2Properties oauth2Properties) {
         this.uaaFormEncodedClient = uaaFormEncodedClient;
         this.uaaRestClient = uaaRestClient;
-        this.oauthProperties = oauthProperties;
+        this.oauth2Properties = oauth2Properties;
     }
 
     @Override
@@ -40,11 +40,11 @@ public class LoginServiceImpl implements LoginService {
         try {
             Map<String, String> formParams = buildPasswordGrantFormParams(credentialDto);
             final Object authData = uaaFormEncodedClient.getTokenUsingPasswordGrant(formParams);
-            OauthProperties.OauthClient ocpUiOauthClient = oauthProperties.getOauthClients().stream()
-                    .filter(oauthClient -> oauthClient.getClientId().equalsIgnoreCase(CLIENT_ID))
+            OAuth2Properties.OAuth2Client ocpUiOAuth2Client = oauth2Properties.getOauth2Clients().stream()
+                    .filter(oauth2Client -> oauth2Client.getClientId().equalsIgnoreCase(CLIENT_ID))
                     .findAny()
                     .orElseThrow(OauthClientConfigMissingException::new);;
-            final AutologinResponseDto autologin = uaaRestClient.getAutologin(credentialDto, "Basic " + Base64Utils.encodeToString(ocpUiOauthClient.getClientId().concat(":").concat(ocpUiOauthClient.getClientSecret()).getBytes(StandardCharsets.UTF_8)));
+            final AutologinResponseDto autologin = uaaRestClient.getAutologin(credentialDto, "Basic " + Base64Utils.encodeToString(ocpUiOAuth2Client.getClientId().concat(":").concat(ocpUiOAuth2Client.getClientSecret()).getBytes(StandardCharsets.UTF_8)));
             loginResponse = new LoginResponseDto(authData, autologin);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignExceptionFailToLogin(fe, "User authentication failure by using username: ".concat(credentialDto.getUsername()));
@@ -53,14 +53,14 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private Map<String, String> buildPasswordGrantFormParams(CredentialDto credentialDto) {
-        OauthProperties.OauthClient ocpUiOauthClient = oauthProperties.getOauthClients().stream()
-                .filter(oauthClient -> oauthClient.getClientId().equalsIgnoreCase(CLIENT_ID))
+        OAuth2Properties.OAuth2Client ocpUiOAuth2Client = oauth2Properties.getOauth2Clients().stream()
+                .filter(oauth2Client -> oauth2Client.getClientId().equalsIgnoreCase(CLIENT_ID))
                 .findAny()
                 .orElseThrow(OauthClientConfigMissingException::new);
 
         Map<String, String> formParams = new HashMap<>();
-        formParams.put("client_id", ocpUiOauthClient.getClientId());
-        formParams.put("client_secret", ocpUiOauthClient.getClientSecret());
+        formParams.put("client_id", ocpUiOAuth2Client.getClientId());
+        formParams.put("client_secret", ocpUiOAuth2Client.getClientSecret());
         formParams.put("grant_type", GRAND_TYPE);
         formParams.put("response_type", RESPONSE_TYPE);
         formParams.put("username", credentialDto.getUsername());
