@@ -1,7 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
 import gov.samhsa.ocp.ocpuiapi.service.LoginService;
-import gov.samhsa.ocp.ocpuiapi.service.dto.CredentialDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.CredentialDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
