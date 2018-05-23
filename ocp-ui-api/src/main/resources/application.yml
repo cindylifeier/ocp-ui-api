@@ -16,9 +16,9 @@ ocp:
   ocp-ui-api:
     oauth2:
       authorization-server-endpoint: http://localhost:8080/uaa
-      oauth2-clients:
-        - client-id: ocp-ui
-          client-secret: changeit
+      oauth2-client:
+        client-id: ocp-ui
+        client-secret: changeit
 ---
 # updates configuration for docker environment
 spring.profiles: docker
