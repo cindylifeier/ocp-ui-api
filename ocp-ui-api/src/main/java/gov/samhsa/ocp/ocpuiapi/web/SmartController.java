@@ -19,6 +19,11 @@ public class SmartController {
     @Autowired
     private SmartService smartService;
 
+    @PostMapping("/launch")
+    public LaunchResponseDto create(@Valid @RequestBody LaunchRequestDto launchRequest) {
+        return smartService.create(launchRequest);
+    }
+
     @PostMapping("/launch/{launchId}")
     public LaunchResponseDto mergeAndSave(@PathVariable("launchId") String launchId,
                                           @Valid @RequestBody LaunchRequestDto launchRequest) {
