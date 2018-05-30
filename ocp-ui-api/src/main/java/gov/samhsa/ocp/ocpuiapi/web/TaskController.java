@@ -115,10 +115,11 @@ public class TaskController {
                                             @RequestParam(value = "partOf", required = false) String partOf,
                                             @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks,
                                             @RequestParam(value = "isTodoList", required = false) Boolean isTodoList,
-                                            @RequestParam(value = "filterDate", required = false) DateRangeEnum filterDate) {
+                                            @RequestParam(value = "filterDate", required = false) DateRangeEnum filterDate,
+                                            @RequestParam(value = "statusList", required = false) List<String> statusList) {
         log.info("Searching Main and Sub taks from FHIR server");
         try {
-            List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitioner, patient, organization, definition, partOf, isUpcomingTasks, isTodoList, filterDate);
+            List<TaskDto> tasks = fisClient.getMainAndSubTasks(practitioner, patient, organization, definition, partOf, isUpcomingTasks, isTodoList, filterDate, statusList);
             log.info("Got Response from FHIR server for SubTasks Search");
             return tasks;
         } catch (FeignException fe) {
