@@ -1,5 +1,6 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.CredentialDto;
 import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
@@ -441,6 +442,8 @@ public interface FisClient {
     List<OutlookCalendarDto> getOutlookCalendarAppointments(@RequestParam(value = "emailAddress") String emailAddress,
                                                             @RequestParam(value = "password") String password);
 
+    @RequestMapping(value = "/outlook/login", method = RequestMethod.POST)
+    Object loginToOutlook(@RequestBody CredentialDto credentials);
 
     //Communication
     @RequestMapping(value = "/communications/search", method = RequestMethod.GET)
