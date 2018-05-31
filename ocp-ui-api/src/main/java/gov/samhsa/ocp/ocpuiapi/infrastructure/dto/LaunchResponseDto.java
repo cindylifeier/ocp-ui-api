@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LaunchResponseDto {
-    private String id;
+    private String launch;
     private String user;
     private String organization;
     private String location;

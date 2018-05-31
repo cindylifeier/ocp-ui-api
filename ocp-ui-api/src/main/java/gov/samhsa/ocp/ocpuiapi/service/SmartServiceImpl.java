@@ -8,12 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Objects;
+
 @Service
 public class SmartServiceImpl implements SmartService {
     @Autowired
     private JwtTokenExtractor jwtTokenExtractor;
     @Autowired
     private SmartCoreClient smartCoreClient;
+
+    @Override
+    public LaunchResponseDto create(LaunchRequestDto launchRequest) {
+        Assert.notNull(launchRequest, "launchRequest cannot be null");
+        final String userIdFromToken = jwtTokenExtractor.getValueByKey(JwtTokenKey.USER_ID).toString();
+        Assert.hasText(userIdFromToken, "no user in JWT token");
+        final String userIdFromRequest = launchRequest.getUser();
+        Assert.isTrue(Objects.isNull(userIdFromRequest) || userIdFromToken.equals(userIdFromRequest), "user in JWT token does not match with the launch request");
+        launchRequest.setUser(userIdFromToken);
+        return smartCoreClient.create(launchRequest);
+    }
 
     @Override
     public LaunchResponseDto mergeAndSave(String launchId,
