@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -24,8 +25,9 @@ public class OutlookCalendarController {
     }
 
     @GetMapping("/calendar")
-    public List<OutlookCalendarDto> getOutlookCalendarAppointments() {
-        return outlookCalendarService.getOutlookCalendarAppointments();
+    public List<OutlookCalendarDto> getOutlookCalendarAppointments(@RequestParam String emailAddress,
+                                                                   @RequestParam String password) {
+        return outlookCalendarService.getOutlookCalendarAppointments(emailAddress, password);
     }
 
     @PostMapping("/login")

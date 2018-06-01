@@ -6,6 +6,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.OutlookCalendarDto;
 import java.util.List;
 
 public interface OutlookCalendarService {
-    List<OutlookCalendarDto> getOutlookCalendarAppointments();
+    List<OutlookCalendarDto> getOutlookCalendarAppointments(String emailAddress, String password);
     void loginToOutlook(CredentialDto credentialDto);
 }
