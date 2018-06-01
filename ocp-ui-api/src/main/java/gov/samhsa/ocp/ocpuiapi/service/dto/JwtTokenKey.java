@@ -12,8 +12,6 @@ public enum JwtTokenKey {
     EMAIL("email"),
     AUTH_TIME("auth_time"),
     EXT_ATTR("ext_attr"),
-    OUTLOOK_EMAIL("outlook_email"),
-    OUTLOOK_PASSWORD("outlook_password"),
     EXP("exp");
 
     private final String name;
