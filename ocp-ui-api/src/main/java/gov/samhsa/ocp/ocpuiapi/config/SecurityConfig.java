@@ -34,13 +34,15 @@ public class SecurityConfig {
 
                         .antMatchers(HttpMethod.POST, "/ocp-fis/organizations/*/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/organizations/*/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_read')")
-                        .antMatchers(HttpMethod.PUT, "/ocp-fis/organizations/*/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_update')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_read')")
+                        .antMatchers(HttpMethod.PUT, "/ocp-fis/organizations/*/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_update')")
                         //.antMatchers(HttpMethod.PUT, "/ocp-fis/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_update')")
                         //.antMatchers(HttpMethod.DELETE, "/ocp-fis/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_delete')")
 
                         .antMatchers(HttpMethod.POST, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_read')")
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/outlook/login/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_read')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/outlook/calendar/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_read')")
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_delete')")
 

@@ -16,7 +16,7 @@ public enum JwtTokenKey {
 
     private final String name;
 
-    private JwtTokenKey(String s) {
+    JwtTokenKey(String s) {
         name = s;
     }
 
