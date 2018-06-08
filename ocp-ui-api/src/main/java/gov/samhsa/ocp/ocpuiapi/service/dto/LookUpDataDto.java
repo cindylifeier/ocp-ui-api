@@ -74,4 +74,7 @@ public class LookUpDataDto {
     List<ValueSetDto> consentAction;
     List<ValueSetDto> purposeOfUse;
     List<ValueSetDto> securityLabel;
+    List<ValueSetDto> policyholderRelationship;
+    List<ValueSetDto> fmStatus;
+    List<ValueSetDto> coverageType;
 }
