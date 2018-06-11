@@ -469,4 +469,7 @@ public interface FisClient {
     //Coverage
     @RequestMapping(value="/coverage",method = RequestMethod.POST)
     void createCoverage(@Valid @RequestBody CoverageDto coverageDto);
+
+    @RequestMapping(value="/patients/{patientId}/subscriber-options",method = RequestMethod.GET)
+    List<ReferenceDto> getSubscriberOptions(@PathVariable("patientId") String patientId);
 }

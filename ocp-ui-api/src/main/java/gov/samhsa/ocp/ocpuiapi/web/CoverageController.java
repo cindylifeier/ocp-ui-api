@@ -26,13 +26,18 @@ public class CoverageController {
     private FisClient fisClient;
 
     @PostMapping("/coverage")
-    public void createCoverage(@Valid @RequestBody CoverageDto coverageDto){
+    public void createCoverage(@Valid @RequestBody CoverageDto coverageDto) {
         log.info("About to create a coverage");
-        try{
+        try {
             fisClient.createCoverage(coverageDto);
             log.info("Successfully created a coverage");
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignException(fe,"that the coverage was not created");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the coverage was not created");
         }
+    }
+
+    @GetMapping("/patients/{patientId}/subscriber-options")
+    public List<ReferenceDto> getSubscriberOptions(@PathVariable String patientId){
+        return fisClient.getSubscriberOptions(patientId);
     }
 }
