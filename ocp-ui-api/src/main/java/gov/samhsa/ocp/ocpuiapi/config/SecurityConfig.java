@@ -104,6 +104,8 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_delete')")
 
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/coverage/**").permitAll()
+
                         //TODO: Secure Participant, EpisodeOfCare APIs
                         .antMatchers(HttpMethod.GET, "/ocp-fis/participants/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/ocp-fis/episode-of-cares/**").permitAll()
