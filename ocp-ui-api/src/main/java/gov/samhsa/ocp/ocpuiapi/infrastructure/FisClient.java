@@ -7,6 +7,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.CoverageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
@@ -464,4 +465,8 @@ public interface FisClient {
     //Resource
     @RequestMapping(value = "/delete/{resource}/{id}", method = RequestMethod.DELETE)
     void delete(@PathVariable("resource") String resource, @PathVariable("id") String id);
+
+    //Coverage
+    @RequestMapping(value="/coverage",method = RequestMethod.POST)
+    void createCoverage(@Valid @RequestBody CoverageDto coverageDto);
 }
