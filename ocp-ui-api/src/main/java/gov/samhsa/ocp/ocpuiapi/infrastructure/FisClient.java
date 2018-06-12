@@ -472,4 +472,9 @@ public interface FisClient {
 
     @RequestMapping(value="/patients/{patientId}/subscriber-options",method = RequestMethod.GET)
     List<ReferenceDto> getSubscriberOptions(@PathVariable("patientId") String patientId);
+
+    @RequestMapping(value="/patients/{patientId}/coverages",method = RequestMethod.GET)
+    Object getCoverages(@PathVariable("patientId") String patientId,
+                        @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                        @RequestParam(value="pageSize",required = false) Integer pageSize);
 }
