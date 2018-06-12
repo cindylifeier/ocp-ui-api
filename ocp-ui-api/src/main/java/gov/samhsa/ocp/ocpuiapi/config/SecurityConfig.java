@@ -39,6 +39,9 @@ public class SecurityConfig {
                         //.antMatchers(HttpMethod.PUT, "/ocp-fis/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_update')")
                         //.antMatchers(HttpMethod.DELETE, "/ocp-fis/activity-definitions/**").access("#oauth2.hasScopeMatching('ocpUiApi.activityDefinition_delete')")
 
+                        .antMatchers(HttpMethod.POST, "/ocp-fis/coverage/**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/patients/*/subscriber-options/**").permitAll()
+
                         .antMatchers(HttpMethod.POST, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_read')")
                         .antMatchers(HttpMethod.POST, "/ocp-fis/outlook/login/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_read')")
@@ -103,9 +106,6 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_read')")
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/tasks/**").access("#oauth2.hasScopeMatching('ocpUiApi.task_delete')")
-
-                        .antMatchers(HttpMethod.POST, "/ocp-fis/coverage/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/ocp-fis/patients/*/subscriber-options/**").permitAll()
 
                         //TODO: Secure Participant, EpisodeOfCare APIs
                         .antMatchers(HttpMethod.GET, "/ocp-fis/participants/**").permitAll()
