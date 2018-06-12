@@ -41,6 +41,7 @@ public class SecurityConfig {
 
                         .antMatchers(HttpMethod.POST, "/ocp-fis/coverage/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/ocp-fis/patients/*/subscriber-options/**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/patients/*/coverages/**").permitAll()
 
                         .antMatchers(HttpMethod.POST, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/appointments/**").access("#oauth2.hasScopeMatching('ocpUiApi.appointment_read')")
