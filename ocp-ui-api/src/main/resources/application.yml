@@ -19,6 +19,11 @@ ocp:
       oauth2-client:
         client-id: ocp-ui
         client-secret: changeit
+    smart:
+      embedded-apps:
+        client-ids:
+          - c2s-sof-ui
+          - quippe
 ---
 # updates configuration for docker environment
 spring.profiles: docker
