@@ -1,9 +1,11 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
+import gov.samhsa.ocp.ocpuiapi.config.SmartConfigProperties;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.LaunchRequestDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.LaunchResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,14 @@ public class SmartController {
 
     @Autowired
     private SmartService smartService;
+
+    @Autowired
+    private SmartConfigProperties smartConfigProperties;
+
+    @GetMapping("/app-shortcuts")
+    public SmartConfigProperties getAppShortcuts() {
+        return smartConfigProperties;
+    }
 
     @PostMapping("/launch")
     public LaunchResponseDto create(@Valid @RequestBody LaunchRequestDto launchRequest) {

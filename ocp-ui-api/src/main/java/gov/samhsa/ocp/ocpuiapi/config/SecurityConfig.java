@@ -113,6 +113,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/ocp-fis/episode-of-cares/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/config").permitAll()
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
+                        .antMatchers(HttpMethod.GET, "/smart/app-shortcuts").permitAll()
                         .antMatchers(HttpMethod.POST, "/smart/**").access("#oauth2.hasScopeMatching('ocp.role.smartUser')")
                         .anyRequest().denyAll();
             }
