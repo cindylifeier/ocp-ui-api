@@ -192,4 +192,13 @@ public interface LookUpFisClient {
 
     @RequestMapping(value = "lookups/security-label", method = RequestMethod.GET)
     List<ValueSetDto> getSecurityLabel();
+
+    @RequestMapping(value = "lookups/policyholder-relationship", method = RequestMethod.GET)
+    List<ValueSetDto> getPolicyholderRelationship();
+
+    @RequestMapping(value = "lookups/fm-status", method = RequestMethod.GET)
+    List<ValueSetDto> getFmStatus();
+
+    @RequestMapping(value = "lookups/coverage-type", method = RequestMethod.GET)
+    List<ValueSetDto> getCoverageType();
 }

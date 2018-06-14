@@ -717,6 +717,40 @@ public class LookUpController {
                 log.error("(" + LookUpTypeEnum.SECURITY_LABEL.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
             }
         }
+
+        //Policyholder Relationship
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.POLICYHOLDER_RELATIONSHIP.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.POLICYHOLDER_RELATIONSHIP);
+            try {
+                lookUpData.setPolicyholderRelationship(lookupFisClient.getPolicyholderRelationship());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.POLICYHOLDER_RELATIONSHIP.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Fm Status
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.FM_STATUS.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.FM_STATUS);
+            try {
+                lookUpData.setFmStatus(lookupFisClient.getFmStatus());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.FM_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
+        //Coverage Type
+        if(lookUpTypeList == null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.COVERAGE_TYPE.name()::equalsIgnoreCase)) {
+            log.info("Getting look up values for " + LookUpTypeEnum.COVERAGE_TYPE);
+            try {
+                lookUpData.setCoverageType(lookupFisClient.getCoverageType());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.COVERAGE_TYPE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }
