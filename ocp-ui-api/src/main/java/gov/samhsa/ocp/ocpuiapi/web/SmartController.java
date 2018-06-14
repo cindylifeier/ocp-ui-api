@@ -24,8 +24,8 @@ public class SmartController {
     @Autowired
     private SmartConfigProperties smartConfigProperties;
 
-    @GetMapping("/embedded-apps")
-    public SmartConfigProperties getEmbeddedApps() {
+    @GetMapping("/app-shortcuts")
+    public SmartConfigProperties getAppShortcuts() {
         return smartConfigProperties;
     }
 

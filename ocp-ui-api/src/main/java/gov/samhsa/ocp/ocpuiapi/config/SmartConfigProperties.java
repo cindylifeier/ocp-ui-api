@@ -14,12 +14,5 @@ import java.util.List;
 public class SmartConfigProperties {
     @Valid
     @NotNull
-    public EmbeddedApps embeddedApps;
-
-    @Data
-    public static class EmbeddedApps {
-        @Valid
-        @NotNull
-        public List<String> clientIds;
-    }
+    public List<String> clientIds;
 }
