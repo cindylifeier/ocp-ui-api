@@ -21,8 +21,9 @@ ocp:
         client-secret: changeit
     smart:
       client-ids:
-        - c2s_sof_ui
+        - c2s_sof_app
         - quippe
+        - bhworks
 ---
 # updates configuration for docker environment
 spring.profiles: docker
