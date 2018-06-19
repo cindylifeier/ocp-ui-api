@@ -24,6 +24,7 @@ ocp:
         - c2s_sof_app
         - quippe
         - bhworks
+        - 133b3843-5bc1-4293-938d-5debb071943a
 ---
 # updates configuration for docker environment
 spring.profiles: docker
