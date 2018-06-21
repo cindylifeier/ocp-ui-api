@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
+import gov.samhsa.ocp.ocpuiapi.service.UaaGroupService;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.UserContextDto;
 import lombok.extern.slf4j.Slf4j;
@@ -15,17 +16,22 @@ import java.security.Principal;
 public class UaaGroupController {
 
     @Autowired
-    OAuth2GroupRestClient oAuth2GroupRestClient;
+    UaaGroupService uaaGroupService;
 
     @GetMapping("/groups")
-    public Object getUserResource(Principal principal) {
-        return oAuth2GroupRestClient.getAllGroups();
+    public Object getAllGroups(Principal principal) {
+        return uaaGroupService.getAllGroups();
     }
 
-    @GetMapping("/users")
+    @GetMapping("/scopes")
+    public Object getAllScopes(Principal principal) {
+        return uaaGroupService.getAllScopes();
+    }
+
+    /*@GetMapping("/users")
     public Object getAllUsersByOrganization(Principal principal) {
         return oAuth2GroupRestClient.getAllUsersByOrganization();
-    }
+    }*/
 
 
 }
