@@ -119,6 +119,7 @@ public class SecurityConfig {
 
                         .antMatchers(HttpMethod.GET, "/groups").permitAll()
                         .antMatchers(HttpMethod.GET, "/users").permitAll()
+                        .antMatchers(HttpMethod.GET, "/scopes").permitAll()
                         .anyRequest().denyAll();
             }
         };
