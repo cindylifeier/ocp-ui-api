@@ -12,6 +12,8 @@ security:
   oauth2:
     client:
       client-id: ocp-ui-api
+      client-secret: changeit
+      access-token-uri: http://localhost:8080/uaa/oauth/token
 ocp:
   ocp-ui-api:
     oauth2:
