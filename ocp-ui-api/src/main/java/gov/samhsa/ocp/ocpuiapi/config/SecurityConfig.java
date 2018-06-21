@@ -115,6 +115,10 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .antMatchers(HttpMethod.GET, "/smart/app-shortcuts").permitAll()
                         .antMatchers(HttpMethod.POST, "/smart/**").access("#oauth2.hasScopeMatching('ocp.role.smartUser')")
+
+
+                        .antMatchers(HttpMethod.GET, "/groups").permitAll()
+                        .antMatchers(HttpMethod.GET, "/users").permitAll()
                         .anyRequest().denyAll();
             }
         };
