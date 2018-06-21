@@ -26,7 +26,7 @@ public class PatientDto {
     @Valid
     private List<IdentifierDto> identifier;
 
-    private Optional<String> mpi;
+    private Optional<String> mrn;
 
     private boolean active;
 
