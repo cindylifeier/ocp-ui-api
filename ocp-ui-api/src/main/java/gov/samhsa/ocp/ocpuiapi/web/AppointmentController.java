@@ -53,12 +53,13 @@ public class AppointmentController {
                                   @RequestParam(value = "searchKey", required = false) String searchKey,
                                   @RequestParam(value = "searchValue", required = false) String searchValue,
                                   @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                                  @RequestParam(value = "filterDateOption", required = false) String filterDateOption,
                                   @RequestParam(value = "sortByStartTimeAsc", required = false, defaultValue = "true") Boolean sortByStartTimeAsc,
                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                   @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Appointments from FHIR server");
         try {
-            Object appointment = fisClient.getAppointments(statusList, requesterReference, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc, pageNumber, pageSize);
+            Object appointment = fisClient.getAppointments(statusList, requesterReference, patientId, practitionerId, searchKey, searchValue, showPastAppointments, filterDateOption, sortByStartTimeAsc, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Appointment Search");
             return appointment;
         }
