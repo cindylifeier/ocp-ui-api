@@ -58,4 +58,6 @@ public class PatientDto {
     Optional<String> organizationId;
 
     Optional<String> practitionerId;
+
+    Optional<List<String>> activityTypes;
 }
