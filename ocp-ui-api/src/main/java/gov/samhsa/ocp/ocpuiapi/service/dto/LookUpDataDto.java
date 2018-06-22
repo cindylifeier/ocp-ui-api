@@ -78,4 +78,5 @@ public class LookUpDataDto {
     List<ValueSetDto> fmStatus;
     List<ValueSetDto> coverageType;
     List<ValueSetDto> eocStatus;
+    List<ValueSetDto> eocType;
 }
