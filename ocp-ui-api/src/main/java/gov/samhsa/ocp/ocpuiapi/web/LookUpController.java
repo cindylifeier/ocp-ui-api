@@ -751,6 +751,17 @@ public class LookUpController {
             }
         }
 
+        //EOC Status
+        if(lookUpTypeList==null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.EOC_STATUS.name()::equalsIgnoreCase)){
+            log.info("Getting look up values for " + LookUpTypeEnum.EOC_STATUS);
+            try {
+                lookUpData.setEocStatus(lookupFisClient.getEocStatus());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.EOC_STATUS.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }

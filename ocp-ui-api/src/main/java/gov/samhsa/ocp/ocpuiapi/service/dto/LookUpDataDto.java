@@ -77,4 +77,5 @@ public class LookUpDataDto {
     List<ValueSetDto> policyholderRelationship;
     List<ValueSetDto> fmStatus;
     List<ValueSetDto> coverageType;
+    List<ValueSetDto> eocStatus;
 }
