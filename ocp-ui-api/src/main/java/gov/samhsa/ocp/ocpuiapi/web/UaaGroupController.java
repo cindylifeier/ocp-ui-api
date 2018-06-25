@@ -33,5 +33,10 @@ public class UaaGroupController {
         return oAuth2GroupRestClient.getAllUsersByOrganization();
     }*/
 
+    @GetMapping("/userinfos")
+    public Object getAllUserInfo(Principal principal) {
+        return uaaGroupService.getAllUsersByOrganization();
+    }
+
 
 }
