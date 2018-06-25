@@ -2,9 +2,13 @@ package gov.samhsa.ocp.ocpuiapi.service;
 
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupWrapperDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserWrapperDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.userinfo.UserInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,7 +31,22 @@ public class UaaGroupServiceImpl implements UaaGroupService {
         GroupWrapperDto wrapperScope = oAuth2GroupRestClient.getAllGroups();
 
         return wrapperScope.getResources().stream().filter(resource -> {
-            return resource.getDisplayName().contains("ocpUiApi");
+            return resource.getDisplayName().contains("ocpUiApi") || resource.getDisplayName().contains("smartUser");
         }).collect(toList());
+    }
+
+    public UserWrapperDto getAllUsers() {
+        UserWrapperDto wrapperUser = oAuth2GroupRestClient.getAllUsers();
+        return wrapperUser;
+    }
+
+    public List<UserInfoDto> getAllUserInfos() {
+        List<UserInfoDto> userInfoDtos = oAuth2GroupRestClient.getAllUserInfos();
+        return userInfoDtos;
+    }
+
+    public Object getAllUsersByOrganization() {
+        //TODO: Write business logic here..
+        return getAllUserInfos();
     }
 }
