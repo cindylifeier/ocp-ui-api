@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +69,7 @@ public class ActivityDefinitionController {
     }
 
     @GetMapping("/activity-definitions")
-    public List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner) {
+    public List<ActivityReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner) {
         try {
             return fisClient.getActivityDefinitionsByPractitioner(practitioner);
         }
