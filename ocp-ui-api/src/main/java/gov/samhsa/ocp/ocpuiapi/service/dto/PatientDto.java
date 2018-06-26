@@ -53,6 +53,8 @@ public class PatientDto {
 
     private String language;
 
+    private List<EpisodeOfCareDto> episodeOfCares;
+
     private Optional<List<FlagDto>> flags;
 
     Optional<String> organizationId;
