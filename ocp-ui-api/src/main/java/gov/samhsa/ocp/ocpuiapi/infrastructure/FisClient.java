@@ -397,6 +397,7 @@ public interface FisClient {
                            @RequestParam(value = "searchKey", required = false) String searchKey,
                            @RequestParam(value = "searchValue", required = false) String searchValue,
                            @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                           @RequestParam(value = "filterDateOption", required = false) String filterDateOption,
                            @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc,
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
