@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupWrapperDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserWrapperDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.userinfo.UserInfoDto;
@@ -48,5 +49,9 @@ public class UaaGroupServiceImpl implements UaaGroupService {
     public Object getAllUsersByOrganization() {
         //TODO: Write business logic here..
         return getAllUserInfos();
+    }
+
+    public void createGroup(GroupRequestDto groupRequestDto) {
+        oAuth2GroupRestClient.createGroup(groupRequestDto);
     }
 }
