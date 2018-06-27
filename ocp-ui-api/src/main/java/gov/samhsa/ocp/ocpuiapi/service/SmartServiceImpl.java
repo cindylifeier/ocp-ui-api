@@ -1,6 +1,8 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
+import gov.samhsa.ocp.ocpuiapi.config.SmartConfigProperties;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.SmartCoreClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.AppShortCutDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.LaunchRequestDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.LaunchResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.JwtTokenKey;
@@ -16,6 +18,9 @@ public class SmartServiceImpl implements SmartService {
     private JwtTokenExtractor jwtTokenExtractor;
     @Autowired
     private SmartCoreClient smartCoreClient;
+
+    @Autowired
+    private SmartConfigProperties smartConfigProperties;
 
     @Override
     public LaunchResponseDto create(LaunchRequestDto launchRequest) {
@@ -37,5 +42,11 @@ public class SmartServiceImpl implements SmartService {
         Assert.hasText(userId, "user_id must have text");
         launchRequest.setUser(userId);
         return smartCoreClient.mergeAndSave(launchId, launchRequest);
+    }
+
+    @Override
+    public AppShortCutDto getAppShortcuts() {
+        AppShortCutDto appShortCutDto = AppShortCutDto.builder().clientIds(smartConfigProperties.clientIds).patientClientIds(smartConfigProperties.patientClientIds).build();
+        return appShortCutDto;
     }
 }
