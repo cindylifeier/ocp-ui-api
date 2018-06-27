@@ -8,11 +8,7 @@ public interface UaaGroupService {
 
     public Object getAllScopes();
 
-    public Object getAllUsers();
-
-    public Object getAllUserInfos();
-
-    public Object getAllUsersByOrganization();
+    public Object getAllUsersByOrganizationId(String organizationId);
 
     public void createGroup(GroupRequestDto groupRequestDto);
 

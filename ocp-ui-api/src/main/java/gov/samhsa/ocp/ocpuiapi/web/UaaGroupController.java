@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,18 +25,18 @@ public class UaaGroupController {
     UaaGroupService uaaGroupService;
 
     @GetMapping("/groups")
-    public Object getAllGroups(Principal principal) {
+    public Object getAllGroups() {
         return uaaGroupService.getAllGroups();
     }
 
     @GetMapping("/scopes")
-    public Object getAllScopes(Principal principal) {
+    public Object getAllScopes() {
         return uaaGroupService.getAllScopes();
     }
 
-    @GetMapping("/userinfos")
-    public Object getAllUserInfo(Principal principal) {
-        return uaaGroupService.getAllUsersByOrganization();
+    @GetMapping("/users")
+    public Object getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId) {
+        return uaaGroupService.getAllUsersByOrganizationId(organizationId);
     }
 
     @PostMapping("/groups")

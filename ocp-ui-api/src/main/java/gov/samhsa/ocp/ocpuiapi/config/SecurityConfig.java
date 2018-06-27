@@ -123,7 +123,7 @@ public class SecurityConfig {
 
                         .antMatchers(HttpMethod.GET, "/users").permitAll()
                         .antMatchers(HttpMethod.GET, "/scopes").permitAll()
-                        .antMatchers(HttpMethod.GET, "/userinfos").permitAll()
+                        .antMatchers(HttpMethod.GET, "/users").permitAll()
                         .anyRequest().denyAll();
             }
         };

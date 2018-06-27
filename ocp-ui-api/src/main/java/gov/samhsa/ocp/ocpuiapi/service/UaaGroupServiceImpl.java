@@ -20,6 +20,7 @@ public class UaaGroupServiceImpl implements UaaGroupService {
     @Autowired
     OAuth2GroupRestClient oAuth2GroupRestClient;
 
+    @Override
     public Object getAllGroups() {
         GroupWrapperDto wrapperGroup = oAuth2GroupRestClient.getAllGroups();
 
@@ -28,6 +29,7 @@ public class UaaGroupServiceImpl implements UaaGroupService {
         }).collect(toList());
     }
 
+    @Override
     public Object getAllScopes() {
         GroupWrapperDto wrapperScope = oAuth2GroupRestClient.getAllGroups();
 
@@ -36,25 +38,17 @@ public class UaaGroupServiceImpl implements UaaGroupService {
         }).collect(toList());
     }
 
-    public UserWrapperDto getAllUsers() {
-        UserWrapperDto wrapperUser = oAuth2GroupRestClient.getAllUsers();
-        return wrapperUser;
+    @Override
+    public Object getAllUsersByOrganizationId(String organizationId) {
+        return oAuth2GroupRestClient.getUsersByOrganizationId(organizationId);
     }
 
-    public List<UserInfoDto> getAllUserInfos() {
-        List<UserInfoDto> userInfoDtos = oAuth2GroupRestClient.getAllUserInfos();
-        return userInfoDtos;
-    }
-
-    public Object getAllUsersByOrganization() {
-        //TODO: Write business logic here..
-        return getAllUserInfos();
-    }
-
+    @Override
     public void createGroup(GroupRequestDto groupRequestDto) {
         oAuth2GroupRestClient.createGroup(groupRequestDto);
     }
 
+    @Override
     public void updateGroup(String groupId, GroupRequestDto groupDto) {
         oAuth2GroupRestClient.updateGroup(groupId, groupDto);
     }
