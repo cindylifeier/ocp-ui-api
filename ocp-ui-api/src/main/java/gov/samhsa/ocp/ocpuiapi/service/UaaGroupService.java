@@ -16,4 +16,6 @@ public interface UaaGroupService {
 
     public void createGroup(GroupRequestDto groupRequestDto);
 
+    public void updateGroup(String groupId, GroupRequestDto groupRequestDto);
+
 }

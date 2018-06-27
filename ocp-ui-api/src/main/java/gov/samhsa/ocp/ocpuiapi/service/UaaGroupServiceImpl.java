@@ -54,4 +54,8 @@ public class UaaGroupServiceImpl implements UaaGroupService {
     public void createGroup(GroupRequestDto groupRequestDto) {
         oAuth2GroupRestClient.createGroup(groupRequestDto);
     }
+
+    public void updateGroup(String groupId, GroupRequestDto groupDto) {
+        oAuth2GroupRestClient.updateGroup(groupId, groupDto);
+    }
 }

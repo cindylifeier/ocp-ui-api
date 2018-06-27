@@ -1,15 +1,14 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
-import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
 import gov.samhsa.ocp.ocpuiapi.service.UaaGroupService;
-import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
-import gov.samhsa.ocp.ocpuiapi.service.dto.UserContextDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,11 +33,6 @@ public class UaaGroupController {
         return uaaGroupService.getAllScopes();
     }
 
-    /*@GetMapping("/users")
-    public Object getAllUsersByOrganization(Principal principal) {
-        return oAuth2GroupRestClient.getAllUsersByOrganization();
-    }*/
-
     @GetMapping("/userinfos")
     public Object getAllUserInfo(Principal principal) {
         return uaaGroupService.getAllUsersByOrganization();
@@ -50,5 +44,10 @@ public class UaaGroupController {
         uaaGroupService.createGroup(groupDto);
     }
 
+    @PutMapping("/groups/{groupId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateGroup(@PathVariable("groupId") String groupId, @Valid @RequestBody GroupRequestDto groupDto) {
+        uaaGroupService.updateGroup(groupId, groupDto);
+    }
 
 }
