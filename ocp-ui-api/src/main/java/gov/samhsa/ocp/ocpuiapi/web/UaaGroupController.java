@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
 import gov.samhsa.ocp.ocpuiapi.service.UaaGroupService;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 @Slf4j
@@ -49,6 +49,12 @@ public class UaaGroupController {
     @ResponseStatus(HttpStatus.OK)
     public void updateGroup(@PathVariable("groupId") String groupId, @Valid @RequestBody GroupRequestDto groupDto) {
         uaaGroupService.updateGroup(groupId, groupDto);
+    }
+
+    @PostMapping("/assign-role-to-user")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void assignRoleToUser(@Valid @RequestBody RoleToUserDto roleToUserDto) {
+        uaaGroupService.assignRoleToUser(roleToUserDto);
     }
 
 }

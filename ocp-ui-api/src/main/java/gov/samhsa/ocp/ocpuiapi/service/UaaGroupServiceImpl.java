@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupWrapperDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserWrapperDto;
@@ -51,5 +52,10 @@ public class UaaGroupServiceImpl implements UaaGroupService {
     @Override
     public void updateGroup(String groupId, GroupRequestDto groupDto) {
         oAuth2GroupRestClient.updateGroup(groupId, groupDto);
+    }
+
+    @Override
+    public void assignRoleToUser(RoleToUserDto roleToUserDto) {
+        oAuth2GroupRestClient.assignRoleToUser(roleToUserDto);
     }
 }
