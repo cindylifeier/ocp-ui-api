@@ -9,7 +9,7 @@ public interface UaaGroupService {
 
     public Object getAllScopes();
 
-    public Object getAllUsersByOrganizationId(String organizationId);
+    public Object getAllUsersByOrganizationId(String organizationId, String resource);
 
     public void createGroup(GroupRequestDto groupRequestDto);
 
