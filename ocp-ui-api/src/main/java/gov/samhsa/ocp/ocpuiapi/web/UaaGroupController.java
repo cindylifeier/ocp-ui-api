@@ -51,10 +51,10 @@ public class UaaGroupController {
         uaaGroupService.updateGroup(groupId, groupDto);
     }
 
-    @PostMapping("/assign-role-to-user")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void assignRoleToUser(@Valid @RequestBody RoleToUserDto roleToUserDto) {
-        uaaGroupService.assignRoleToUser(roleToUserDto);
+    @PutMapping("/users/{userId}/groups/{groupsId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void assignRoleToUser(@PathVariable("userId") String userId, @PathVariable("groupsId") String groupsId ) {
+        uaaGroupService.assignRoleToUser(RoleToUserDto.builder().groupId(groupsId).userId(userId).build());
     }
 
 }
