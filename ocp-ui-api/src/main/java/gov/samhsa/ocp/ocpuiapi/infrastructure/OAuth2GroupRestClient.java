@@ -18,8 +18,11 @@ import javax.validation.Valid;
 @FeignClient(name = "oauth2GroupRestClient", url = "${ocp.ocp-ui-api.oauth2.authorization-server-endpoint}", configuration = OAuth2FeignClientCredentialsConfig.class)
 public interface OAuth2GroupRestClient {
 
-    @RequestMapping(value = "/Groups?count=1000", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    GroupWrapperDto getAllGroups();
+    @RequestMapping(value = "/Groups/ocp-groups", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    Object getAllGroups();
+
+    @RequestMapping(value = "/Groups/ocp-scopes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    Object getAllScopes();
 
     @RequestMapping(value = "/Users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     UserWrapperDto getAllUsers();

@@ -23,20 +23,12 @@ public class UaaGroupServiceImpl implements UaaGroupService {
 
     @Override
     public Object getAllGroups() {
-        GroupWrapperDto wrapperGroup = oAuth2GroupRestClient.getAllGroups();
-
-        return wrapperGroup.getResources().stream().filter(resource -> {
-            return resource.getDisplayName().contains("ocp.role.") && !resource.getDisplayName().contains("ocpAdmin") && !resource.getDisplayName().contains("smartUser") && !resource.getDisplayName().contains("smartAdmin");
-        }).collect(toList());
+        return oAuth2GroupRestClient.getAllGroups();
     }
 
     @Override
     public Object getAllScopes() {
-        GroupWrapperDto wrapperScope = oAuth2GroupRestClient.getAllGroups();
-
-        return wrapperScope.getResources().stream().filter(resource -> {
-            return resource.getDisplayName().contains("ocpUiApi") || resource.getDisplayName().contains("smartUser");
-        }).collect(toList());
+        return oAuth2GroupRestClient.getAllScopes();
     }
 
     @Override
