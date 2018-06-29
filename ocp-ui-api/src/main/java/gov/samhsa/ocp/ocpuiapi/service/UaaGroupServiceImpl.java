@@ -62,8 +62,8 @@ public class UaaGroupServiceImpl implements UaaGroupService {
     }
 
     @Override
-    public Object getAllUsersByOrganizationId(String organizationId) {
-        return oAuth2GroupRestClient.getUsersByOrganizationId(organizationId);
+    public Object getAllUsersByOrganizationId(String organizationId, String resource) {
+        return oAuth2GroupRestClient.getUsersByOrganizationId(organizationId, resource);
     }
 
     @Override

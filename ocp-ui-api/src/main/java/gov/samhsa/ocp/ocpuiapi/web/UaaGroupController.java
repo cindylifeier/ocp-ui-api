@@ -35,8 +35,8 @@ public class UaaGroupController {
     }
 
     @GetMapping("/users")
-    public Object getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId) {
-        return uaaGroupService.getAllUsersByOrganizationId(organizationId);
+    public Object getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId, @RequestParam(value="resource") String resource) {
+        return uaaGroupService.getAllUsersByOrganizationId(organizationId, resource);
     }
 
     @PostMapping("/groups")
