@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.config.OAuth2FeignClientCredentialsConfig;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupWrapperDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserWrapperDto;
@@ -14,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @FeignClient(name = "oauth2GroupRestClient", url = "${ocp.ocp-ui-api.oauth2.authorization-server-endpoint}", configuration = OAuth2FeignClientCredentialsConfig.class)
 public interface OAuth2GroupRestClient {
 
     @RequestMapping(value = "/Groups/ocp-groups", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    Object getAllGroups();
+    List<GroupDto> getAllGroups();
 
     @RequestMapping(value = "/Groups/ocp-scopes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Object getAllScopes();

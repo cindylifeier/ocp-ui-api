@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupDto {
+public class GroupWithScopesDto {
 
     String id;
 
@@ -19,5 +19,5 @@ public class GroupDto {
 
     String description;
 
-    String scopeId;
+    List<String> scopes;
 }
