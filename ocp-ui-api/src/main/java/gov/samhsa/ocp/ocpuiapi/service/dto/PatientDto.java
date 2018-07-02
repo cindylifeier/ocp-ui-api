@@ -57,6 +57,8 @@ public class PatientDto {
 
     private Optional<List<FlagDto>> flags;
 
+    private Optional<List<CoverageDto>> coverageDtos;
+
     Optional<String> organizationId;
 
     Optional<String> practitionerId;
