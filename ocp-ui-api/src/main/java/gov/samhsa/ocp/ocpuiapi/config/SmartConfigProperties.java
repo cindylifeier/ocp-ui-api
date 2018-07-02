@@ -14,5 +14,8 @@ import java.util.List;
 public class SmartConfigProperties {
     @Valid
     @NotNull
+    public List<String> patientClientIds;
+    @Valid
+    @NotNull
     public List<String> clientIds;
 }
