@@ -26,6 +26,8 @@ public class PatientDto {
     @Valid
     private List<IdentifierDto> identifier;
 
+    private Optional<String> mrn;
+
     private boolean active;
 
     // Human Name (family, given name)
@@ -56,4 +58,6 @@ public class PatientDto {
     Optional<String> organizationId;
 
     Optional<String> practitionerId;
+
+    Optional<List<String>> activityTypes;
 }

@@ -39,8 +39,7 @@ public class AppointmentController {
         try {
             fisClient.createAppointment(appointmentDto);
             log.info("Successfully created an appointment");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment was not created");
         }
     }
@@ -53,16 +52,16 @@ public class AppointmentController {
                                   @RequestParam(value = "searchKey", required = false) String searchKey,
                                   @RequestParam(value = "searchValue", required = false) String searchValue,
                                   @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                                  @RequestParam(value = "filterDateOption", required = false) String filterDateOption,
                                   @RequestParam(value = "sortByStartTimeAsc", required = false, defaultValue = "true") Boolean sortByStartTimeAsc,
                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                   @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Searching Appointments from FHIR server");
         try {
-            Object appointment = fisClient.getAppointments(statusList, requesterReference, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc, pageNumber, pageSize);
+            Object appointment = fisClient.getAppointments(statusList, requesterReference, patientId, practitionerId, searchKey, searchValue, showPastAppointments, filterDateOption, sortByStartTimeAsc, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Appointment Search");
             return appointment;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no Appointments were found in the configured FHIR server for the given searchKey and searchValue");
             return null;
         }
@@ -81,8 +80,29 @@ public class AppointmentController {
             List<AppointmentDto> appointmentList = fisClient.getAppointmentsWithNoPagination(statusList, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc);
             log.info("Got Response from FHIR server for Appointment Search");
             return appointmentList;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Appointments were found in the configured FHIR server for the given searchKey and searchValue");
+            return null;
         }
-        catch (FeignException fe) {
+    }
+
+    @GetMapping("/appointments/Practitioner/{practitionerId}/include-care-team-patient")
+    public Object getAppointmentsByPractitionerAndAssignedCareTeamPatients(@PathVariable String practitionerId,
+                                                                           @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                           @RequestParam(value = "requesterReference", required = false) String requesterReference,
+                                                                           @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                           @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                           @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                                                                           @RequestParam(value = "filterDateOption", required = false) String filterDateOption,
+                                                                           @RequestParam(value = "sortByStartTimeAsc", required = false, defaultValue = "true") Boolean sortByStartTimeAsc,
+                                                                           @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        log.info("Searching Appointments from FHIR server");
+        try {
+            Object appointment = fisClient.getAppointmentsByPractitionerAndAssignedCareTeamPatients(practitionerId, statusList, requesterReference, searchKey, searchValue, showPastAppointments, filterDateOption, sortByStartTimeAsc, pageNumber, pageSize);
+            log.info("Got Response from FHIR server for Appointment Search");
+            return appointment;
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no Appointments were found in the configured FHIR server for the given searchKey and searchValue");
             return null;
         }
@@ -95,8 +115,7 @@ public class AppointmentController {
         try {
             fisClient.cancelAppointment(appointmentId);
             log.debug("Successfully cancelled the appointment.");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment could not be cancelled.");
         }
     }
@@ -108,8 +127,7 @@ public class AppointmentController {
         try {
             fisClient.acceptAppointment(appointmentId, actorReference);
             log.debug("Successfully accepted the appointment.");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment could not be accepted.");
         }
     }
@@ -121,8 +139,7 @@ public class AppointmentController {
         try {
             fisClient.declineAppointment(appointmentId, actorReference);
             log.debug("Successfully declined the appointment.");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment could not be declined.");
         }
     }
@@ -134,8 +151,7 @@ public class AppointmentController {
         try {
             fisClient.tentativelyAcceptAppointment(appointmentId, actorReference);
             log.debug("Successfully declined the appointment.");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment could not be tentatively accepted.");
         }
     }
@@ -148,8 +164,7 @@ public class AppointmentController {
         try {
             fisClient.updateAppointment(appointmentId, appointmentDto);
             log.info("Successfully updated the appointment ID: " + appointmentId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment was not updated");
         }
     }
@@ -161,8 +176,7 @@ public class AppointmentController {
             AppointmentDto fisClientResponse = fisClient.getAppointmentById(appointmentId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment was not found");
             return null;
         }
@@ -178,8 +192,7 @@ public class AppointmentController {
             List<ParticipantReferenceDto> fisClientResponse = fisClient.getAppointmentParticipants(patientId, roles, appointmentId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no participants were found for the given patient and the roles");
             return null;
         }

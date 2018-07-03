@@ -397,6 +397,7 @@ public interface FisClient {
                            @RequestParam(value = "searchKey", required = false) String searchKey,
                            @RequestParam(value = "searchValue", required = false) String searchValue,
                            @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                           @RequestParam(value = "filterDateOption", required = false) String filterDateOption,
                            @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc,
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
@@ -409,6 +410,18 @@ public interface FisClient {
                                                          @RequestParam(value = "searchValue", required = false) String searchValue,
                                                          @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
                                                          @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc);
+
+    @RequestMapping(value = "/appointments/Practitioner/{practitionerId}/include-care-team-patient", method = RequestMethod.GET)
+    Object getAppointmentsByPractitionerAndAssignedCareTeamPatients(@PathVariable("practitionerId") String practitionerId,
+                                                                    @RequestParam(value = "statusList", required = false) List<String> statusList,
+                                                                    @RequestParam(value = "requesterReference", required = false) String requesterReference,
+                                                                    @RequestParam(value = "searchKey", required = false) String searchKey,
+                                                                    @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                                    @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
+                                                                    @RequestParam(value = "filterDateOption", required = false) String filterDateOption,
+                                                                    @RequestParam(value = "sortByStartTimeAsc", required = false) Boolean sortByStartTimeAsc,
+                                                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/appointments", method = RequestMethod.POST)
     void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
@@ -467,14 +480,14 @@ public interface FisClient {
     void delete(@PathVariable("resource") String resource, @PathVariable("id") String id);
 
     //Coverage
-    @RequestMapping(value="/coverage",method = RequestMethod.POST)
+    @RequestMapping(value = "/coverage", method = RequestMethod.POST)
     void createCoverage(@Valid @RequestBody CoverageDto coverageDto);
 
-    @RequestMapping(value="/patients/{patientId}/subscriber-options",method = RequestMethod.GET)
+    @RequestMapping(value = "/patients/{patientId}/subscriber-options", method = RequestMethod.GET)
     List<ReferenceDto> getSubscriberOptions(@PathVariable("patientId") String patientId);
 
-    @RequestMapping(value="/patients/{patientId}/coverages",method = RequestMethod.GET)
+    @RequestMapping(value = "/patients/{patientId}/coverages", method = RequestMethod.GET)
     Object getCoverages(@PathVariable("patientId") String patientId,
                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                        @RequestParam(value="pageSize",required = false) Integer pageSize);
+                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 }
