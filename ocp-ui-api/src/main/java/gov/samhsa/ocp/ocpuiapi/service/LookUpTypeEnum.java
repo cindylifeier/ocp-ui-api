@@ -28,6 +28,8 @@ public enum LookUpTypeEnum {
     COVERAGE_TYPE,
     DATE_RANGE,
     DEFINITION_TOPIC,
+    EOC_STATUS,
+    EOC_TYPE,
     FLAG_CATEGORY,
     FLAG_STATUS,
     FM_STATUS,

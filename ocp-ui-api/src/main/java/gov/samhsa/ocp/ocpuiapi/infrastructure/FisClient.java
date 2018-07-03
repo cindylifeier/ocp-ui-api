@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.CredentialDto;
 import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
@@ -304,7 +305,7 @@ public interface FisClient {
                                   @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
 
     @RequestMapping(value = "/activity-definitions", method = RequestMethod.GET)
-    List<ReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
+    List<ActivityReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
 
     @RequestMapping(value = "/activity-definitions/{activityDefinitionId}", method = RequestMethod.GET)
     ActivityDefinitionDto getActivityDefinitionById(@PathVariable("activityDefinitionId") String activityDefinitionId);
