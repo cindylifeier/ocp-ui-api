@@ -117,14 +117,13 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.POST, "/smart/**").access("#oauth2.hasScopeMatching('ocp.role.smartUser')")
 
 
-                        .antMatchers(HttpMethod.GET, "/groups").permitAll()
-                        .antMatchers(HttpMethod.POST, "/groups").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/groups/**").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/users/**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/groups").access("#oauth2.hasScopeMatching('ocpUiApi.group_read')")
+                        .antMatchers(HttpMethod.GET, "/scopes").access("#oauth2.hasScopeMatching('ocpUiApi.group_read')")
+                        .antMatchers(HttpMethod.POST, "/groups").access("#oauth2.hasScopeMatching('ocpUiApi.group_create')")
+                        .antMatchers(HttpMethod.PUT, "/groups/**").access("#oauth2.hasScopeMatching('ocpUiApi.group_update')")
 
-                        .antMatchers(HttpMethod.GET, "/users").permitAll()
-                        .antMatchers(HttpMethod.GET, "/scopes").permitAll()
-                        .antMatchers(HttpMethod.GET, "/users").permitAll()
+                        .antMatchers(HttpMethod.GET, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_read')")
+                        .antMatchers(HttpMethod.PUT, "/users/**").access("#oauth2.hasScopeMatching('ocpUiApi.user_update')")
                         .anyRequest().denyAll();
             }
         };
