@@ -48,9 +48,10 @@ public class ParticipantController {
     @GetMapping
     public List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
                                                                  @RequestParam(value = "roles", required = false) List<String> roles,
+                                                                 @RequestParam(value="value", required=false) String name,
                                                                  @RequestParam(value = "communication", required = false) String communication) {
         try {
-            return fisClient.getCareTeamParticipants(patient, roles, communication);
+            return fisClient.getCareTeamParticipants(patient, roles,name, communication);
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no participants were found for the given patient and the roles");
