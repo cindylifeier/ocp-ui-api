@@ -206,6 +206,7 @@ public interface FisClient {
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
     List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
                                                           @RequestParam(value = "roles", required = false) List<String> roles,
+                                                          @RequestParam(value="value", required=false) String name,
                                                           @RequestParam(value = "communication", required = false) String communication);
 
     //HealthcareService
