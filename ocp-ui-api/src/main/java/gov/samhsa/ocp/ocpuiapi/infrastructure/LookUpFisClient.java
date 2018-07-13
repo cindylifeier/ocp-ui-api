@@ -201,4 +201,10 @@ public interface LookUpFisClient {
 
     @RequestMapping(value = "lookups/coverage-type", method = RequestMethod.GET)
     List<ValueSetDto> getCoverageType();
+
+    @RequestMapping(value="/lookups/eoc-status",method = RequestMethod.GET)
+    List<ValueSetDto> getEocStatus();
+
+    @RequestMapping(value="/lookups/eoc-type",method = RequestMethod.GET)
+    List<ValueSetDto> getEocType();
 }
