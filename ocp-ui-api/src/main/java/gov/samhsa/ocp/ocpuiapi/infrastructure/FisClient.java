@@ -15,6 +15,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OutlookCalendarDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
@@ -270,6 +271,12 @@ public interface FisClient {
     @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
     void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
 
+    @RequestMapping(value="/care-teams/{careTeamId}/add-related-person",method=RequestMethod.PUT)
+    void addRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
+
+    @RequestMapping(value="/care-teams/{careTeamId}/remove-related-person",method = RequestMethod.PUT)
+    void removeRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
+
     @RequestMapping(value = "/care-teams/search", method = RequestMethod.GET)
     PageDto<CareTeamDto> searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                          @RequestParam(value = "searchType", required = false) String searchType,
@@ -286,6 +293,11 @@ public interface FisClient {
                                                @RequestParam(value = "status", required = false) List<String> status,
                                                @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping(value="/care-teams/{careTeamId}/related-persons",method=RequestMethod.GET)
+    PageDto<ParticipantDto> getRelatedPersonsForEdit(@PathVariable("careTeamId") String careTeamId,
+                                                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     //Activity Definition
 

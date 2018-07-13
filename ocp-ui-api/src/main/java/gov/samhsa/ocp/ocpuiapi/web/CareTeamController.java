@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,28 @@ public class CareTeamController {
         }
     }
 
+    @PutMapping("/{careTeamId}/add-related-person")
+    @ResponseStatus(HttpStatus.OK)
+    public void addRealtedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
+        try{
+            fisClient.addRelatedPerson(careTeamId,participantDto);
+            log.debug("Successfully add related person");
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignException(fe,"that the Care Team could not be added in FHIR server");
+        }
+    }
+
+    @PutMapping("/{careTeamId}/remove-related-person")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeRelatedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
+        try{
+            fisClient.removeRelatedPerson(careTeamId,participantDto);
+            log.debug("Successfully remove related person");
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignException(fe,"that the Care Team could not be remove in FHIR server");
+        }
+    }
+
     @GetMapping("/search")
     public PageDto<CareTeamDto> searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                                 @RequestParam(value = "searchType", required = false) String searchType,
@@ -100,6 +123,18 @@ public class CareTeamController {
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the Care Team could not be found in the FHIR server for the given search criteria");
+            return null;
+        }
+    }
+
+    @GetMapping("/{careTeamId}/related-persons")
+    public PageDto<ParticipantDto> getRelatedPersonForEdit(@PathVariable String careTeamId,
+                                                           @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize){
+        try{
+            return fisClient.getRelatedPersonsForEdit(careTeamId,pageNumber,pageSize);
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignException(fe,"Related persons werent available");
             return null;
         }
     }
