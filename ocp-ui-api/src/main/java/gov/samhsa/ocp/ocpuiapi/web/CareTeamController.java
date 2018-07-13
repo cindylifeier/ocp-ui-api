@@ -60,7 +60,7 @@ public class CareTeamController {
         }
     }
 
-    @PutMapping("/{careTeamId}/add-relatedPerson")
+    @PutMapping("/{careTeamId}/add-related-person")
     @ResponseStatus(HttpStatus.OK)
     public void addRealtedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
         try{
@@ -71,7 +71,7 @@ public class CareTeamController {
         }
     }
 
-    @PutMapping("/{careTeamId}/remove-relatedPerson")
+    @PutMapping("/{careTeamId}/remove-related-person")
     @ResponseStatus(HttpStatus.OK)
     public void removeRelatedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
         try{
