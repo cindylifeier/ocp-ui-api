@@ -271,10 +271,10 @@ public interface FisClient {
     @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
     void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
 
-    @RequestMapping(value="/care-teams/{careTeamId}/add-relatedPerson",method=RequestMethod.PUT)
+    @RequestMapping(value="/care-teams/{careTeamId}/add-related-person",method=RequestMethod.PUT)
     void addRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
 
-    @RequestMapping(value="/care-teams/{careTeamId}/remove-relatedPerson",method = RequestMethod.PUT)
+    @RequestMapping(value="/care-teams/{careTeamId}/remove-related-person",method = RequestMethod.PUT)
     void removeRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
 
     @RequestMapping(value = "/care-teams/search", method = RequestMethod.GET)
