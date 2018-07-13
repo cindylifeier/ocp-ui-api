@@ -115,6 +115,15 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
                         .antMatchers(HttpMethod.GET, "/smart/app-shortcuts").permitAll()
                         .antMatchers(HttpMethod.POST, "/smart/**").access("#oauth2.hasScopeMatching('ocp.role.smartUser')")
+
+
+                        .antMatchers(HttpMethod.GET, "/groups").access("#oauth2.hasScopeMatching('ocpUiApi.group_read')")
+                        .antMatchers(HttpMethod.GET, "/scopes").access("#oauth2.hasScopeMatching('ocpUiApi.group_read')")
+                        .antMatchers(HttpMethod.POST, "/groups").access("#oauth2.hasScopeMatching('ocpUiApi.group_create')")
+                        .antMatchers(HttpMethod.PUT, "/groups/**").access("#oauth2.hasScopeMatching('ocpUiApi.group_update')")
+
+                        .antMatchers(HttpMethod.GET, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_read')")
+                        .antMatchers(HttpMethod.PUT, "/users/**").access("#oauth2.hasScopeMatching('ocpUiApi.user_update')")
                         .anyRequest().denyAll();
             }
         };
