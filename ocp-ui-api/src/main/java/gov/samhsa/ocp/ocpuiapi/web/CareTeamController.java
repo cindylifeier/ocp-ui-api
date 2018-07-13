@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,28 @@ public class CareTeamController {
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the Care Team could not be updated in FHIR server");
+        }
+    }
+
+    @PutMapping("/{careTeamId}/add-relatedPerson")
+    @ResponseStatus(HttpStatus.OK)
+    public void addRealtedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
+        try{
+            fisClient.addRelatedPerson(careTeamId,participantDto);
+            log.debug("Successfully add related person");
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignException(fe,"that the Care Team could not be added in FHIR server");
+        }
+    }
+
+    @PutMapping("/{careTeamId}/remove-relatedPerson")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeRelatedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
+        try{
+            fisClient.removeRelatedPerson(careTeamId,participantDto);
+            log.debug("Successfully remove related person");
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignException(fe,"that the Care Team could not be remove in FHIR server");
         }
     }
 

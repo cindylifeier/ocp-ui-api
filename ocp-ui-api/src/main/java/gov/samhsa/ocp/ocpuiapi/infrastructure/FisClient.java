@@ -15,6 +15,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OutlookCalendarDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
@@ -269,6 +270,12 @@ public interface FisClient {
 
     @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
     void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
+
+    @RequestMapping(value="/care-teams/{careTeamId}/add-relatedPerson",method=RequestMethod.PUT)
+    void addRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
+
+    @RequestMapping(value="/care-teams/{careTeamId}/remove-relatedPerson",method = RequestMethod.PUT)
+    void removeRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
 
     @RequestMapping(value = "/care-teams/search", method = RequestMethod.GET)
     PageDto<CareTeamDto> searchCareTeams(@RequestParam(value = "statusList", required = false) List<String> statusList,
