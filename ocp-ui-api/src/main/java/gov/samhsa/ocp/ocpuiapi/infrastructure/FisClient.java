@@ -294,6 +294,11 @@ public interface FisClient {
                                                @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @RequestMapping(value="/care-teams/{careTeamId}/related-persons",method=RequestMethod.GET)
+    PageDto<ParticipantDto> getRelatedPersonsForEdit(@PathVariable("careTeamId") String careTeamId,
+                                                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
     //Activity Definition
 
     @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.GET)

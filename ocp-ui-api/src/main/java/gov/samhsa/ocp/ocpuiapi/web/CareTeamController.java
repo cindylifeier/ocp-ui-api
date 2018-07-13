@@ -126,4 +126,16 @@ public class CareTeamController {
             return null;
         }
     }
+
+    @GetMapping("/{careTeamId}/related-persons")
+    public PageDto<ParticipantDto> getRelatedPersonForEdit(@PathVariable String careTeamId,
+                                                           @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize){
+        try{
+            return fisClient.getRelatedPersonsForEdit(careTeamId,pageNumber,pageSize);
+        }catch(FeignException fe){
+            ExceptionUtil.handleFeignException(fe,"Related persons werent available");
+            return null;
+        }
+    }
 }
