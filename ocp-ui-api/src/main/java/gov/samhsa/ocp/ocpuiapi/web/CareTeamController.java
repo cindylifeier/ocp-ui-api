@@ -41,8 +41,7 @@ public class CareTeamController {
             fisClient.createCareTeam(careTeamDto);
             log.debug("Successfully created a CareTeam");
 
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the Care Team could not be created in the FHIR server");
         }
     }
@@ -54,31 +53,30 @@ public class CareTeamController {
             fisClient.updateCareTeam(careTeamId, careTeamDto);
             log.debug("Successfully updated a CareTeam");
 
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the Care Team could not be updated in FHIR server");
         }
     }
 
     @PutMapping("/{careTeamId}/add-related-person")
     @ResponseStatus(HttpStatus.OK)
-    public void addRealtedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
-        try{
-            fisClient.addRelatedPerson(careTeamId,participantDto);
+    public void addRealtedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto) {
+        try {
+            fisClient.addRelatedPerson(careTeamId, participantDto);
             log.debug("Successfully add related person");
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignException(fe,"that the Care Team could not be added in FHIR server");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Care Team could not be added in FHIR server");
         }
     }
 
     @PutMapping("/{careTeamId}/remove-related-person")
     @ResponseStatus(HttpStatus.OK)
-    public void removeRelatedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto){
-        try{
-            fisClient.removeRelatedPerson(careTeamId,participantDto);
+    public void removeRelatedPerson(@PathVariable String careTeamId, @Valid @RequestBody ParticipantDto participantDto) {
+        try {
+            fisClient.removeRelatedPerson(careTeamId, participantDto);
             log.debug("Successfully remove related person");
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignException(fe,"that the Care Team could not be remove in FHIR server");
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the Care Team could not be remove in FHIR server");
         }
     }
 
@@ -93,8 +91,7 @@ public class CareTeamController {
             PageDto<CareTeamDto> careTeams = fisClient.searchCareTeams(statusList, searchType, searchValue, pageNumber, pageSize);
             log.info("Got Response from FHIR server for Care Team Search");
             return careTeams;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no Care Teams were found in the configured FHIR server for the given searchType and searchValue");
             return null;
         }
@@ -105,8 +102,7 @@ public class CareTeamController {
     public CareTeamDto getCareTeamByDto(@PathVariable String careTeamId) {
         try {
             return fisClient.getCareTeamById(careTeamId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the Care Team could not be found in the FHIR server");
             return null;
         }
@@ -120,21 +116,21 @@ public class CareTeamController {
                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         try {
             return fisClient.getCareTeamsByPatient(patient, organization, status, pageNumber, pageSize);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the Care Team could not be found in the FHIR server for the given search criteria");
             return null;
         }
     }
 
-    @GetMapping("/{careTeamId}/related-persons")
+    @GetMapping("/{careTeamId}/related-persons/search")
     public PageDto<ParticipantDto> getRelatedPersonForEdit(@PathVariable String careTeamId,
+                                                           @RequestParam(value = "name", required = false) String name,
                                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize){
-        try{
-            return fisClient.getRelatedPersonsForEdit(careTeamId,pageNumber,pageSize);
-        }catch(FeignException fe){
-            ExceptionUtil.handleFeignException(fe,"Related persons werent available");
+                                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        try {
+            return fisClient.getRelatedPersonsForEdit(careTeamId, name, pageNumber, pageSize);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "Related persons werent available");
             return null;
         }
     }

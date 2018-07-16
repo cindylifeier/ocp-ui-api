@@ -181,6 +181,7 @@ public interface FisClient {
                               @RequestParam(value = "value", required = false) String value,
                               @RequestParam(value = "organization", required = false) String organization,
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
+                              @RequestParam(value="showOpenAssignment",defaultValue = "false") boolean shownOpenAssignment,
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size,
                               @RequestParam(value = "showAll", required = false) Boolean showAll);
@@ -207,7 +208,7 @@ public interface FisClient {
     @RequestMapping(value = "/participants", method = RequestMethod.GET)
     List<ParticipantReferenceDto> getCareTeamParticipants(@RequestParam(value = "patient") String patient,
                                                           @RequestParam(value = "roles", required = false) List<String> roles,
-                                                          @RequestParam(value="value", required=false) String name,
+                                                          @RequestParam(value = "value", required = false) String name,
                                                           @RequestParam(value = "communication", required = false) String communication);
 
     //HealthcareService
@@ -271,10 +272,10 @@ public interface FisClient {
     @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
     void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
 
-    @RequestMapping(value="/care-teams/{careTeamId}/add-related-person",method=RequestMethod.PUT)
+    @RequestMapping(value = "/care-teams/{careTeamId}/add-related-person", method = RequestMethod.PUT)
     void addRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
 
-    @RequestMapping(value="/care-teams/{careTeamId}/remove-related-person",method = RequestMethod.PUT)
+    @RequestMapping(value = "/care-teams/{careTeamId}/remove-related-person", method = RequestMethod.PUT)
     void removeRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
 
     @RequestMapping(value = "/care-teams/search", method = RequestMethod.GET)
@@ -294,8 +295,9 @@ public interface FisClient {
                                                @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value="/care-teams/{careTeamId}/related-persons",method=RequestMethod.GET)
+    @RequestMapping(value = "/care-teams/{careTeamId}/related-persons/search", method = RequestMethod.GET)
     PageDto<ParticipantDto> getRelatedPersonsForEdit(@PathVariable("careTeamId") String careTeamId,
+                                                     @RequestParam(value = "name", required = false) String name,
                                                      @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                      @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
