@@ -2,9 +2,12 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextServiceImpl;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +28,10 @@ public class PatientController {
 
     private final FisClient fisClient;
 
-    public PatientController(FisClient fisClient) {
+    @Autowired
+    UserContextService userContextService;
+
+    public PatientController(FisClient fisClient, UserContextService userContextService) {
         this.fisClient = fisClient;
     }
 
@@ -57,7 +63,8 @@ public class PatientController {
                                         @RequestParam(value = "page", required = false) Integer page,
                                         @RequestParam(value = "size", required = false) Integer size,
                                         @RequestParam(value = "showAll", required = false) boolean showAll) {
-        try {
+
+         try {
             Object patientDtos = fisClient.getPatientsByValue(key, value, organization, showInactive, showOpenAssignment, page, size, showAll);
             log.debug("Call to Feign Client: END");
             return patientDtos;
@@ -72,7 +79,8 @@ public class PatientController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createPatient(@Valid @RequestBody PatientDto patientDto) {
         try {
-            fisClient.createPatient(patientDto);
+            String loggedInUser = userContextService.getUserFhirId();
+            fisClient.createPatient(patientDto, loggedInUser);
             log.debug("Successfully created a patient");
         }
         catch (FeignException fe) {

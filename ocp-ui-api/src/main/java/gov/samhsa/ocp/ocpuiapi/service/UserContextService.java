@@ -7,4 +7,5 @@ public interface UserContextService {
         String getUserResourceId();
         UserContextServiceImpl.UserType getUserResourceType();
         UserContextDto getUserContext();
+        String getUserFhirId();
 }

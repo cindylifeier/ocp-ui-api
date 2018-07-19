@@ -3,6 +3,8 @@ package gov.samhsa.ocp.ocpuiapi.service;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.JwtTokenKey;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.UserContextDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,5 +57,18 @@ public class UserContextServiceImpl implements UserContextService{
         }
         OrganizationDto organization = fisClient.getOrganization(getUserOrganizationId());
         return UserContextDto.builder().organization(organization).fhirResource(fhirResource).build();
+    }
+
+    @Override
+    public String getUserFhirId() {
+        String fhirId = "";
+        if(getUserResourceType().equals(UserType.PRACTITIONER)){
+            fhirId = "Practitioner/" + getUserResourceId();
+        }
+
+        if(getUserResourceType().equals(UserType.PATIENT)) {
+            fhirId = "Patient/" + getUserResourceId();
+        }
+        return fhirId;
     }
 }

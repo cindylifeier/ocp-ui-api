@@ -187,7 +187,7 @@ public interface FisClient {
                               @RequestParam(value = "showAll", required = false) Boolean showAll);
 
     @RequestMapping(value = "/patients", method = RequestMethod.POST)
-    void createPatient(@Valid @RequestBody PatientDto patientDto);
+    void createPatient(@Valid @RequestBody PatientDto patientDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/patients", method = RequestMethod.PUT)
     void updatePatient(@Valid @RequestBody PatientDto patientDto);
