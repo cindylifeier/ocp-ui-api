@@ -137,6 +137,17 @@ public interface FisClient {
                                                                    @RequestParam(value = "page", required = false) Integer page,
                                                                    @RequestParam(value = "size", required = false) Integer size);
 
+    @RequestMapping(value="/practitioners/{practitionerId}/assign", method = RequestMethod.PUT)
+    void assignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
+                                       @RequestParam(value="organizationId") String organizationId,
+                                       @RequestParam(value="locationId") String locationId);
+
+    @RequestMapping(value="/practitioners/{practitionerId}/unassign", method = RequestMethod.PUT)
+    void unassignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
+                                       @RequestParam(value="organizationId") String organizationId,
+                                       @RequestParam(value="locationId") String locationId);
+
+
     //Organization
     @RequestMapping(value = "/organizations/all", method = RequestMethod.GET)
     PageDto<OrganizationDto> getOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
