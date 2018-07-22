@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
@@ -38,6 +39,9 @@ public class PractitionerController {
 
     private final FisClient fisClient;
 
+    @Autowired
+    UserContextService userContextService;
+
     @GetMapping("/practitioners/search")
     public PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
                                                         @RequestParam(value = "searchValue", required = false) String searchValue,
@@ -63,7 +67,7 @@ public class PractitionerController {
     void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto) {
         try {
 
-            fisClient.createPractitioner(practitionerDto);
+            fisClient.createPractitioner(practitionerDto, userContextService.getUserFhirId());
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the practitioner was not created");
@@ -74,7 +78,7 @@ public class PractitionerController {
     @ResponseStatus(HttpStatus.OK)
     public void updatePractitioner(@PathVariable String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto) {
         try {
-            fisClient.updatePractitioner(practitionerId, practitionerDto);
+            fisClient.updatePractitioner(practitionerId, practitionerDto, userContextService.getUserFhirId());
 
         }
         catch (FeignException fe) {
