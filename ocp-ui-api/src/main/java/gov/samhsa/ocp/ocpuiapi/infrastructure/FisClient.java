@@ -152,7 +152,7 @@ public interface FisClient {
     void createPatient(@Valid @RequestBody PatientDto patientDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/patients", method = RequestMethod.PUT)
-    void updatePatient(@Valid @RequestBody PatientDto patientDto);
+    void updatePatient(@Valid @RequestBody PatientDto patientDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/patients/{patientId}", method = RequestMethod.GET)
     Object getPatientById(@PathVariable("patientId") String patientId);

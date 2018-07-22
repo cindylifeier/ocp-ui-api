@@ -92,7 +92,8 @@ public class PatientController {
     @ResponseStatus(HttpStatus.OK)
     public void updatePatient(@Valid @RequestBody PatientDto patientDto) {
         try {
-            fisClient.updatePatient(patientDto);
+            String loggedInUser = userContextService.getUserFhirId();
+            fisClient.updatePatient(patientDto, loggedInUser);
             log.debug("Successfully updated a patient");
         }
         catch (FeignException fe) {
