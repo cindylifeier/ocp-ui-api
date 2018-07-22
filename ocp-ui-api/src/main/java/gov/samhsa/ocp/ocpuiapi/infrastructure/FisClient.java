@@ -218,12 +218,14 @@ public interface FisClient {
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-services", method = RequestMethod.POST)
     void createHealthcareService(@PathVariable("organizationId") String organizationId,
-                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
+                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto,
+                                 @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-services/{healthcareServiceId}", method = RequestMethod.PUT)
     void updateHealthcareService(@PathVariable("organizationId") String organizationId,
                                  @PathVariable("healthcareServiceId") String healthcareServiceId,
-                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
+                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto,
+                                 @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/inactive", method = RequestMethod.PUT)
     void inactivateHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId);
