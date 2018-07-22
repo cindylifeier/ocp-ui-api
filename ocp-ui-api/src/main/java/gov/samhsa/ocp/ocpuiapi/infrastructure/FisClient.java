@@ -233,10 +233,10 @@ public interface FisClient {
     //CareTeam
 
     @RequestMapping(value = "/care-teams", method = RequestMethod.POST)
-    void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto);
+    void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
-    void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
+    void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/care-teams/{careTeamId}/add-related-person", method = RequestMethod.PUT)
     void addRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);

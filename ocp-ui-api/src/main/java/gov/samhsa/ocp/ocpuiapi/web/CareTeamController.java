@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
@@ -34,11 +35,14 @@ public class CareTeamController {
         this.fisClient = fisClient;
     }
 
+    @Autowired
+    UserContextService userContextService;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createCareTeam(@Valid @RequestBody CareTeamDto careTeamDto) {
         try {
-            fisClient.createCareTeam(careTeamDto);
+            fisClient.createCareTeam(careTeamDto, userContextService.getUserFhirId());
             log.debug("Successfully created a CareTeam");
 
         } catch (FeignException fe) {
@@ -50,7 +54,7 @@ public class CareTeamController {
     @ResponseStatus(HttpStatus.OK)
     public void updateCareTeam(@PathVariable String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto) {
         try {
-            fisClient.updateCareTeam(careTeamId, careTeamDto);
+            fisClient.updateCareTeam(careTeamId, careTeamDto, userContextService.getUserFhirId());
             log.debug("Successfully updated a CareTeam");
 
         } catch (FeignException fe) {
