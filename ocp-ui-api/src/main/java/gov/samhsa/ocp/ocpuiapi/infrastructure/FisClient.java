@@ -117,10 +117,10 @@ public interface FisClient {
                                                  @RequestParam(value = "showAll", required = false) boolean showAll);
 
     @RequestMapping(value = "/organizations", method = RequestMethod.POST)
-    void createOrganization(@Valid @RequestBody OrganizationDto organizationDto);
+    void createOrganization(@Valid @RequestBody OrganizationDto organizationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}", method = RequestMethod.PUT)
-    void updateOrganization(@PathVariable("organizationId") String organizationId, @Valid @RequestBody OrganizationDto organizationDto);
+    void updateOrganization(@PathVariable("organizationId") String organizationId, @Valid @RequestBody OrganizationDto organizationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}/inactive", method = RequestMethod.PUT)
     void inactivateOrganization(@PathVariable("organizationId") String organizationId);

@@ -21,7 +21,7 @@ public class UserContextServiceImpl implements UserContextService{
     JwtTokenExtractor jwtTokenExtractor;
 
     enum UserType {
-        PRACTITIONER, PATIENT
+        PRACTITIONER, PATIENT, OCPADMIN
     }
 
     @Override
@@ -37,6 +37,8 @@ public class UserContextServiceImpl implements UserContextService{
             return UserType.PRACTITIONER;
         if(extAttr.get("resource").toString().equalsIgnoreCase("Patient"))
             return UserType.PATIENT;
+        if(extAttr.get("resource").toString().equalsIgnoreCase("ocpAdmin"))
+            return UserType.OCPADMIN;
         return null;
     }
 
@@ -49,10 +51,11 @@ public class UserContextServiceImpl implements UserContextService{
     @Override
     public UserContextDto getUserContext() {
         Object fhirResource = null;
-        if(getUserResourceType().equals(UserType.PRACTITIONER)){
+        UserType resourceType = getUserResourceType();
+        if(resourceType.equals(UserType.PRACTITIONER)){
             fhirResource = fisClient.getPractitioner(getUserResourceId());
         }
-        if(getUserResourceType().equals(UserType.PATIENT)){
+        if(resourceType.equals(UserType.PATIENT)){
             fhirResource = fisClient.getPatientById(getUserResourceId());
         }
         OrganizationDto organization = fisClient.getOrganization(getUserOrganizationId());
@@ -62,13 +65,20 @@ public class UserContextServiceImpl implements UserContextService{
     @Override
     public String getUserFhirId() {
         String fhirId = "";
-        if(getUserResourceType().equals(UserType.PRACTITIONER)){
+        UserType resourceType = getUserResourceType();
+        if(resourceType.equals(UserType.PRACTITIONER)){
             fhirId = "Practitioner/" + getUserResourceId();
         }
 
-        if(getUserResourceType().equals(UserType.PATIENT)) {
+        if(resourceType.equals(UserType.PATIENT)) {
             fhirId = "Patient/" + getUserResourceId();
         }
+
+        if(resourceType.equals(UserType.OCPADMIN)) {
+            //TODO: Id has to be a valid fhir id. Currently ocpAdmin does not have a valid fhir id
+            fhirId = "Practitioner/323";
+        }
+
         return fhirId;
     }
 }
