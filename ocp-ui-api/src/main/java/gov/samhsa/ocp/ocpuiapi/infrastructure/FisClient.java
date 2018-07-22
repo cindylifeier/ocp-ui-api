@@ -59,12 +59,14 @@ public interface FisClient {
 
     @RequestMapping(value = "/organizations/{organizationId}/locations", method = RequestMethod.POST)
     void createLocation(@PathVariable("organizationId") String organizationId,
-                        @Valid @RequestBody LocationDto locationDto);
+                        @Valid @RequestBody LocationDto locationDto,
+                        @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}/locations/{locationId}", method = RequestMethod.PUT)
     void updateLocation(@PathVariable("organizationId") String organizationId,
                         @PathVariable("locationId") String locationId,
-                        @Valid @RequestBody LocationDto locationDto);
+                        @Valid @RequestBody LocationDto locationDto,
+                        @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/locations/{locationId}/inactive", method = RequestMethod.PUT)
     void inactivateLocation(@PathVariable("locationId") String locationId);

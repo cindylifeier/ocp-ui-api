@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -32,6 +33,9 @@ public class LocationController {
     public LocationController(FisClient fisClient) {
         this.fisClient = fisClient;
     }
+
+    @Autowired
+    UserContextService userContextService;
 
     @GetMapping("/locations")
     public PageDto<LocationDto> getAllLocations(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -99,7 +103,7 @@ public class LocationController {
                                @Valid @RequestBody LocationDto locationDto) {
         log.info("About to create a location");
         try {
-            fisClient.createLocation(organizationId, locationDto);
+            fisClient.createLocation(organizationId, locationDto, userContextService.getUserFhirId());
             log.info("Successfully created a location");
         }
         catch (FeignException fe) {
@@ -114,7 +118,7 @@ public class LocationController {
                                @Valid @RequestBody LocationDto locationDto) {
         log.info("About to update the location ID: " + locationId);
         try {
-            fisClient.updateLocation(organizationId, locationId, locationDto);
+            fisClient.updateLocation(organizationId, locationId, locationDto, userContextService.getUserFhirId());
             log.info("Successfully updated the location ID: " + locationId);
         }
         catch (FeignException fe) {
