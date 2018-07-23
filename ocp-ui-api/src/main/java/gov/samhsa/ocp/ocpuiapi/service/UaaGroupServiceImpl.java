@@ -100,28 +100,23 @@ public class UaaGroupServiceImpl implements UaaGroupService {
             uaaNameDto.setFamilyName(practitionerDto.getName().stream().findFirst().get().getLastName());
             uaaUserDto.setName(uaaNameDto);
             if(!practitionerDto.getTelecoms().isEmpty() && practitionerDto.getTelecoms()!=null){
-                practitionerDto.getTelecoms().stream().filter(pr->pr.getSystem().equals("email")).findAny().ifPresent(email->{
+                practitionerDto.getTelecoms().stream().filter(pr->pr.getSystem().get().equalsIgnoreCase("email")).findAny().ifPresent(email->{
                     EmailDto emailDto=new EmailDto();
                     emailDto.setValue(email.getValue().get());
-                    emailDto.setPrimary(true);
                     uaaUserDto.setEmails(Arrays.asList(emailDto));
                 });
             }
-            uaaUserDto.setActive(true);
-            uaaUserDto.setVerified(true);
-            uaaUserDto.setOrigin("");
             oAuth2GroupRestClient.createUser(uaaUserDto);
         }else {
-            PatientDto patientDto= (PatientDto) fisClient.getPatientById(userDto.getResourceId());
+            PatientDto patientDto= fisClient.getPatientById(userDto.getResourceId());
             UaaNameDto uaaNameDto=new UaaNameDto();
             uaaNameDto.setGivenName(patientDto.getName().stream().findFirst().get().getFirstName());
             uaaNameDto.setFamilyName(patientDto.getName().stream().findFirst().get().getLastName());
             uaaUserDto.setName(uaaNameDto);
             if(!patientDto.getTelecoms().isEmpty() && patientDto.getTelecoms()!=null){
-                patientDto.getTelecoms().stream().filter(pr->pr.getSystem().equals("email")).findAny().ifPresent(email->{
+                patientDto.getTelecoms().stream().filter(pr->pr.getSystem().get().equalsIgnoreCase("email")).findAny().ifPresent(email->{
                     EmailDto emailDto=new EmailDto();
                     emailDto.setValue(email.getValue().get());
-                    emailDto.setPrimary(true);
                     uaaUserDto.setEmails(Arrays.asList(emailDto));
                 });
             }
