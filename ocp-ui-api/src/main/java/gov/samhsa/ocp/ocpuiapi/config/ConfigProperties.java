@@ -17,6 +17,11 @@ import java.io.IOException;
 @ConfigurationProperties(prefix = "ocp.ocp-ui-api")
 @Data
 public class ConfigProperties {
+
+    @Valid
+    @NotNull
+    private Boolean isShowSampleUserLoginDetails;
+
     @Valid
     @NotNull
     private OAuth2 oauth2;

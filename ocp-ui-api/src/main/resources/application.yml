@@ -29,6 +29,7 @@ ocp:
         - 133b3843-5bc1-4293-938d-5debb071943a
       patient-client-ids:
         - c2s_sof_app
+    is-show-sample-user-login-details: false
 ---
 # updates configuration for docker environment
 spring.profiles: docker
