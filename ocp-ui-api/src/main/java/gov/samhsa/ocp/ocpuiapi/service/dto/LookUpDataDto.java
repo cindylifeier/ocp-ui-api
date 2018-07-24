@@ -68,10 +68,7 @@ public class LookUpDataDto {
     List<ValueSetDto> providerSpecialties;
     List<ValueSetDto> flagStatus;
     List<ValueSetDto> flagCategory;
-    List<ValueSetDto> consentStateCodes;
-    List<ValueSetDto> consentCategory;
     List<ValueSetDto> securityRoleType;
-    List<ValueSetDto> consentAction;
     List<ValueSetDto> purposeOfUse;
     List<ValueSetDto> securityLabel;
     List<ValueSetDto> policyholderRelationship;

@@ -7,9 +7,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.ConsentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CoverageDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.GeneralConsentRelatedFieldDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
@@ -36,42 +34,6 @@ import java.util.List;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
-
-    //Consent
-    @RequestMapping(value = "/consents", method = RequestMethod.GET)
-    Object getConsents(@RequestParam(value = "patient", required = false) String patient,
-                       @RequestParam(value = "practitioner", required = false) String practitioner,
-                       @RequestParam(value = "status", required = false) String status,
-                       @RequestParam(value = "generalDesignation", required = false) Boolean generalDesignation,
-                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
-
-    @RequestMapping(value = "/consents/{consentId}", method = RequestMethod.GET)
-    Object getConsentById(@PathVariable("consentId") String consentId);
-
-    @RequestMapping(value = "/consents", method = RequestMethod.POST)
-    void createConsent(@Valid @RequestBody ConsentDto consentDto);
-
-    @RequestMapping(value = "/consents/{consent}", method = RequestMethod.PUT)
-    void updateConsent(@PathVariable("consent") String consent, @Valid @RequestBody ConsentDto consentDto);
-
-    @RequestMapping(value = "/consents/{consentId}/attestation", method = RequestMethod.PUT)
-    void attestConsent(@PathVariable("consentId") String consentId);
-
-    @RequestMapping(value = "/consents/{consentId}/revocation", method = RequestMethod.PUT)
-    void revokeConsent(@PathVariable("consentId") String consentId);
-
-    @RequestMapping(value = "/generalConsent/{patient}", method = RequestMethod.GET)
-    GeneralConsentRelatedFieldDto getRelatedFieldForGeneralConsent(@PathVariable("patient") String patient);
-
-    @RequestMapping(value = "/actors", method = RequestMethod.GET)
-    Object getActors(@RequestParam(value = "patient", required = false) String patient,
-                     @RequestParam(value = "name", required = false) String name,
-                     @RequestParam(value = "actorType", required = false) String actorType,
-                     @RequestParam(value = "actorsAlreadyAssigned", required = false) List<String> actorsAlreadyAssigned,
-                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
-
     //Location
 
     @RequestMapping(value = "/locations", method = RequestMethod.GET)
@@ -193,7 +155,7 @@ public interface FisClient {
                               @RequestParam(value = "value", required = false) String value,
                               @RequestParam(value = "organization", required = false) String organization,
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
-                              @RequestParam(value="showOpenAssignment",defaultValue = "false") boolean shownOpenAssignment,
+                              @RequestParam(value = "showOpenAssignment", defaultValue = "false") boolean shownOpenAssignment,
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size,
                               @RequestParam(value = "showAll", required = false) Boolean showAll);

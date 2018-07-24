@@ -175,24 +175,6 @@ public interface LookUpFisClient {
     @RequestMapping(value = "lookups/flag-category", method = RequestMethod.GET)
     List<ValueSetDto> getFlagCategory();
 
-    @RequestMapping(value = "lookups/consent-state-codes", method = RequestMethod.GET)
-    List<ValueSetDto> getConsentStateCodes();
-
-    @RequestMapping(value = "lookups/consent-category", method = RequestMethod.GET)
-    List<ValueSetDto> getConsentCategory();
-
-    @RequestMapping(value = "lookups/security-role-type", method = RequestMethod.GET)
-    List<ValueSetDto> getSecurityRole();
-
-    @RequestMapping(value = "lookups/consent-action", method = RequestMethod.GET)
-    List<ValueSetDto> getConsentAction();
-
-    @RequestMapping(value = "lookups/purpose-of-use", method = RequestMethod.GET)
-    List<ValueSetDto> getPurposeOfUse();
-
-    @RequestMapping(value = "lookups/security-label", method = RequestMethod.GET)
-    List<ValueSetDto> getSecurityLabel();
-
     @RequestMapping(value = "lookups/policyholder-relationship", method = RequestMethod.GET)
     List<ValueSetDto> getPolicyholderRelationship();
 
