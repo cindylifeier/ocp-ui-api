@@ -346,10 +346,10 @@ public interface FisClient {
     //RelatedPerson
 
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
-    void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
+    void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}", method = RequestMethod.PUT)
-    void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto);
+    void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/related-persons/search", method = RequestMethod.GET)
     PageDto<RelatedPersonDto> searchRelatedPersons(
