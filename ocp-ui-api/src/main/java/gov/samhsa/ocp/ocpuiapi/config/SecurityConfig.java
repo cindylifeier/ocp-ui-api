@@ -29,6 +29,7 @@ public class SecurityConfig {
                 }
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.POST, "/login/**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/sample-user-login-details/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/ocp-fis/lookups/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
 
