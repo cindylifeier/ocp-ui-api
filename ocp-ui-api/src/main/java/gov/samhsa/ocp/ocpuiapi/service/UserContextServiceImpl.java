@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.service;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.JwtTokenKey;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.UserContextDto;
@@ -14,6 +15,7 @@ import java.util.Map;
 @Service
 public class UserContextServiceImpl implements UserContextService{
 
+    public static final String OMNIBUS_CARE_PLAN_SAMSHA = "Omnibus Care Plan (SAMSHA)";
     @Autowired
     FisClient fisClient;
 
@@ -33,12 +35,18 @@ public class UserContextServiceImpl implements UserContextService{
     @Override
     public UserType getUserResourceType() {
         Map extAttr = (Map) jwtTokenExtractor.getValueByKey(JwtTokenKey.EXT_ATTR);
-        if(extAttr.get("resource").toString().equalsIgnoreCase("Practitioner"))
+
+        String extAttrValue = extAttr.get("resource").toString();
+
+        if(extAttrValue.equalsIgnoreCase("Practitioner"))
             return UserType.PRACTITIONER;
-        if(extAttr.get("resource").toString().equalsIgnoreCase("Patient"))
+
+        if(extAttrValue.equalsIgnoreCase("Patient"))
             return UserType.PATIENT;
-        if(extAttr.get("resource").toString().equalsIgnoreCase("ocpAdmin"))
+
+        if(extAttrValue.equalsIgnoreCase("ocpAdmin"))
             return UserType.OCPADMIN;
+
         return null;
     }
 
@@ -75,8 +83,9 @@ public class UserContextServiceImpl implements UserContextService{
         }
 
         if(resourceType.equals(UserType.OCPADMIN)) {
-            //TODO: Id has to be a valid fhir id. Currently ocpAdmin does not have a valid fhir id
-            fhirId = "Practitioner/323";
+            //this organization must exist as part of application setup
+            PageDto<OrganizationDto> organizations = fisClient.searchOrganizations("name", OMNIBUS_CARE_PLAN_SAMSHA, true, 1, 1, true);
+            fhirId = "Organization/" + organizations.getElements().stream().findFirst().get().getLogicalId();
         }
 
         return fhirId;
