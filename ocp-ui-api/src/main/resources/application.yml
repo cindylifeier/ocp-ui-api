@@ -30,6 +30,8 @@ ocp:
       patient-client-ids:
         - c2s_sof_app
     is-show-sample-user-login-details: false
+    sample-file-for-login-details:
+      file-name: sample-user-login-details.pdf
 ---
 # updates configuration for docker environment
 spring.profiles: docker
