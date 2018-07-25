@@ -4,7 +4,6 @@ import gov.samhsa.ocp.ocpuiapi.config.OAuth2FeignClientCredentialsConfig;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupWrapperDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserWrapperDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
