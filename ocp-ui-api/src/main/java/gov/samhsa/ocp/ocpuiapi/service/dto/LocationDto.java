@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -22,4 +23,5 @@ public class LocationDto {
     private AddressDto address;
     private List<TelecomDto> telecoms;
     private List<IdentifierDto> identifiers;
+    private Optional<Boolean> assignToCurrentPractitioner;
 }
