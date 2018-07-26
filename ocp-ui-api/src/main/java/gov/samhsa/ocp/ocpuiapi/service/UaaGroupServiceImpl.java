@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.EmailDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaNameDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
@@ -12,6 +13,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupWithScopesDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserResourceDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,7 +108,15 @@ public class UaaGroupServiceImpl implements UaaGroupService {
                     uaaUserDto.setEmails(Arrays.asList(emailDto));
                 });
             }
-            oAuth2GroupRestClient.createUser(uaaUserDto);
+        UserResourceDto userResourceDto=    oAuth2GroupRestClient.createUser(uaaUserDto);
+
+
+            UaaUserInfoDto uaaUserInfoDto=new UaaUserInfoDto();
+            uaaUserInfoDto.setUser_id(Arrays.asList(userResourceDto.getId()));
+            uaaUserInfoDto.setResource(Arrays.asList(userDto.getResource()));
+            uaaUserInfoDto.setOrgId((Arrays.asList(userDto.getRoles().get(0).getOrgId())));
+            oAuth2GroupRestClient.createUserInfo(uaaUserInfoDto);
+
         }else {
             PatientDto patientDto= fisClient.getPatientById(userDto.getResourceId());
             UaaNameDto uaaNameDto=new UaaNameDto();
@@ -121,7 +131,14 @@ public class UaaGroupServiceImpl implements UaaGroupService {
                 });
             }
 
-            oAuth2GroupRestClient.createUser(uaaUserDto);
+           UserResourceDto userResourceDto = oAuth2GroupRestClient.createUser(uaaUserDto);
+
+            UaaUserInfoDto uaaUserInfoDto=new UaaUserInfoDto();
+            uaaUserInfoDto.setUser_id(Arrays.asList(userResourceDto.getId()));
+            uaaUserInfoDto.setResource(Arrays.asList(userDto.getResource()));
+            uaaUserInfoDto.setId(Arrays.asList(userDto.getResourceId()));
+            uaaUserInfoDto.setOrgId((Arrays.asList(userDto.getRoles().get(0).getOrgId())));
+            oAuth2GroupRestClient.createUserInfo(uaaUserInfoDto);
         }
 
     }
