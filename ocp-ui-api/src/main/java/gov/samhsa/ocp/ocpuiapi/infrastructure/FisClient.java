@@ -155,6 +155,7 @@ public interface FisClient {
                               @RequestParam(value = "value", required = false) String value,
                               @RequestParam(value = "organization", required = false) String organization,
                               @RequestParam(value = "assigned", required = false) Boolean assigned,
+                              @RequestParam(value="associatedCareTeamPractitioner",required = false) String careTeamPractitioner,
                               @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                               @RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size,

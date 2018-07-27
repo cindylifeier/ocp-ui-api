@@ -53,12 +53,13 @@ public class PatientController {
                                         @RequestParam(value = "value", required = false) String value,
                                         @RequestParam(value = "organization", required = false) String organization,
                                         @RequestParam(value = "assigned", required = false) Boolean assigned,
+                                        @RequestParam(value="associatedCareTeamPractitioner", required = false) String careTeamPractitioner,
                                         @RequestParam(value = "showInactive", defaultValue = "false") boolean showInactive,
                                         @RequestParam(value = "page", required = false) Integer page,
                                         @RequestParam(value = "size", required = false) Integer size,
                                         @RequestParam(value = "showAll", required = false) boolean showAll) {
         try {
-            Object patientDtos = fisClient.getPatientsByValue(key, value, organization, assigned, showInactive, page, size, showAll);
+            Object patientDtos = fisClient.getPatientsByValue(key, value, organization, assigned, careTeamPractitioner, showInactive, page, size, showAll);
             log.debug("Call to Feign Client: END");
             return patientDtos;
         }
