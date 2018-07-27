@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
 
 @Data
 @Builder
@@ -17,7 +16,7 @@ public class UserDto {
 
    private String resourceId;
 
-   private String userName;
+   private String username;
 
    private String password;
 

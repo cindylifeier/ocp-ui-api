@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupMemberDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserResourceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserWrapperDto;
@@ -48,4 +49,7 @@ public interface OAuth2GroupRestClient {
 
     @RequestMapping(value="/userinfo",method = RequestMethod.POST)
     void createUserInfo(@Valid @RequestBody UaaUserInfoDto uaaUserInfoDto);
+
+    @RequestMapping(value="/Groups/{groupId}/members",method = RequestMethod.POST)
+    void addGroupMember(@PathVariable("groupId") String groupId, @Valid @RequestBody GroupMemberDto groupMemberDto);
 }
