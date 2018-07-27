@@ -51,15 +51,15 @@ public class LocationController {
                                                            @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                            @RequestParam(value = "searchKey", required = false) String searchKey,
                                                            @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                           @RequestParam(value = "assignedToPractitioner", required = false) String assignedToPractitioner,
                                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.info("Fetching locations from FHIR Server for the given OrganizationId: " + organizationId);
         try {
-            PageDto<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, statusList, searchKey, searchValue, pageNumber, pageSize);
+            PageDto<LocationDto> fisClientResponse = fisClient.getLocationsByOrganization(organizationId, statusList, searchKey, searchValue, assignedToPractitioner, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no locations were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
@@ -72,8 +72,7 @@ public class LocationController {
             LocationDto fisClientResponse = fisClient.getLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
@@ -86,8 +85,7 @@ public class LocationController {
             LocationDto fisClientResponse = fisClient.getChildLocation(locationId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no child location was found in the configured FHIR server for the given LocationId");
             return null;
         }
@@ -101,8 +99,7 @@ public class LocationController {
         try {
             fisClient.createLocation(organizationId, locationDto);
             log.info("Successfully created a location");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the location was not created");
         }
     }
@@ -116,8 +113,7 @@ public class LocationController {
         try {
             fisClient.updateLocation(organizationId, locationId, locationDto);
             log.info("Successfully updated the location ID: " + locationId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the location was not updated");
         }
     }
@@ -129,8 +125,7 @@ public class LocationController {
         try {
             fisClient.inactivateLocation(locationId);
             log.info("Successfully inactivated the location: " + locationId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the location was not inactivated");
         }
     }
