@@ -118,6 +118,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/groups/**").access("#oauth2.hasScopeMatching('ocpUiApi.group_update')")
 
                         .antMatchers(HttpMethod.GET, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_read')")
+                        .antMatchers(HttpMethod.POST, "/users").permitAll()
                         .antMatchers(HttpMethod.PUT, "/users/**").access("#oauth2.hasScopeMatching('ocpUiApi.user_update')")
                         .anyRequest().denyAll();
             }
