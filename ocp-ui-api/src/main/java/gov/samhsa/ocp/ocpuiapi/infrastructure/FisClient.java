@@ -464,10 +464,10 @@ public interface FisClient {
                              @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/communications", method = RequestMethod.POST)
-    void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
+    void createCommunication(@Valid @RequestBody CommunicationDto communicationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/communications/{communicationsId}", method = RequestMethod.PUT)
-    void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
+    void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     //Resource
     @RequestMapping(value = "/delete/{resource}/{id}", method = RequestMethod.DELETE)

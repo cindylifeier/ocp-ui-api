@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ public class CommunicationController {
         this.fisClient = fisClient;
     }
 
+    @Autowired
+    UserContextService userContextService;
+
     @GetMapping("/communications/search")
     public Object getCommunications(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                     @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -58,7 +62,7 @@ public class CommunicationController {
     public void createCommunication(@Valid @RequestBody CommunicationDto communicationDto) {
         log.info("About to create a communication");
         try {
-            fisClient.createCommunication(communicationDto);
+            fisClient.createCommunication(communicationDto, userContextService.getUserFhirId());
             log.info("Successfully created a communication.");
         }
         catch (FeignException fe) {
@@ -70,7 +74,7 @@ public class CommunicationController {
     @ResponseStatus(HttpStatus.OK)
     public void updateCommunication(@PathVariable String communicationsId, @Valid @RequestBody CommunicationDto communicationDto) {
         try {
-            fisClient.updateCommunication(communicationsId, communicationDto);
+            fisClient.updateCommunication(communicationsId, communicationDto, userContextService.getUserFhirId());
             log.debug("Successfully updated a communication");
         }
         catch (FeignException fe) {
