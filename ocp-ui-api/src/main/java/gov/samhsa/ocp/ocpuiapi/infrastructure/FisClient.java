@@ -306,7 +306,7 @@ public interface FisClient {
     //Task
 
     @RequestMapping(value = "/tasks", method = RequestMethod.POST)
-    void createTask(@Valid @RequestBody TaskDto taskDto);
+    void createTask(@Valid @RequestBody TaskDto taskDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/tasks/search", method = RequestMethod.GET)
     Object searchTasks(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -323,7 +323,7 @@ public interface FisClient {
                               @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.PUT)
-    void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
+    void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/tasks/{taskId}/deactivate", method = RequestMethod.PUT)
     void deactivateTask(@PathVariable("taskId") String taskId);
