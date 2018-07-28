@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
@@ -35,6 +36,9 @@ public class OrganizationController {
     public OrganizationController(FisClient fisClient) {
         this.fisClient = fisClient;
     }
+
+    @Autowired
+    UserContextService userContextService;
 
     // Todo: Resolve endpoint conflicts with getOrganizationsByPractitioner
     @GetMapping("/organizations/all")
@@ -82,7 +86,7 @@ public class OrganizationController {
     public void createOrganization(@Valid @RequestBody OrganizationDto organizationDto) {
         log.info("About to create a organization");
         try {
-            fisClient.createOrganization(organizationDto);
+            fisClient.createOrganization(organizationDto, userContextService.getUserFhirId());
             log.info("Successfully created the organization");
         }
         catch (FeignException fe) {
@@ -96,7 +100,7 @@ public class OrganizationController {
 
         log.info("About to update the organization");
         try {
-            fisClient.updateOrganization(organizationId, organizationDto);
+            fisClient.updateOrganization(organizationId, organizationDto, userContextService.getUserFhirId());
             log.info("Successfully updated the organization");
         }
         catch (FeignException fe) {

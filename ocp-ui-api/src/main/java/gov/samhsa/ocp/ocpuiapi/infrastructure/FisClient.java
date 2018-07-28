@@ -60,12 +60,14 @@ public interface FisClient {
 
     @RequestMapping(value = "/organizations/{organizationId}/locations", method = RequestMethod.POST)
     void createLocation(@PathVariable("organizationId") String organizationId,
-                        @Valid @RequestBody LocationDto locationDto);
+                        @Valid @RequestBody LocationDto locationDto,
+                        @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}/locations/{locationId}", method = RequestMethod.PUT)
     void updateLocation(@PathVariable("organizationId") String organizationId,
                         @PathVariable("locationId") String locationId,
-                        @Valid @RequestBody LocationDto locationDto);
+                        @Valid @RequestBody LocationDto locationDto,
+                        @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/locations/{locationId}/inactive", method = RequestMethod.PUT)
     void inactivateLocation(@PathVariable("locationId") String locationId);
@@ -81,10 +83,10 @@ public interface FisClient {
                                                  @RequestParam(value = "showAll", required = false) Boolean showAll);
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.POST)
-    void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto);
+    void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.PUT)
-    void updatePractitioner(@PathVariable("practitionerId") String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto);
+    void updatePractitioner(@PathVariable("practitionerId") String practitionerId, @Valid @RequestBody PractitionerDto practitionerDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/practitioners/{practitionerId}", method = RequestMethod.GET)
     PractitionerDto getPractitioner(@PathVariable("practitionerId") String practitionerId);
@@ -129,10 +131,10 @@ public interface FisClient {
                                                  @RequestParam(value = "showAll", required = false) boolean showAll);
 
     @RequestMapping(value = "/organizations", method = RequestMethod.POST)
-    void createOrganization(@Valid @RequestBody OrganizationDto organizationDto);
+    void createOrganization(@Valid @RequestBody OrganizationDto organizationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}", method = RequestMethod.PUT)
-    void updateOrganization(@PathVariable("organizationId") String organizationId, @Valid @RequestBody OrganizationDto organizationDto);
+    void updateOrganization(@PathVariable("organizationId") String organizationId, @Valid @RequestBody OrganizationDto organizationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}/inactive", method = RequestMethod.PUT)
     void inactivateOrganization(@PathVariable("organizationId") String organizationId);
@@ -161,10 +163,10 @@ public interface FisClient {
                               @RequestParam(value = "showAll", required = false) Boolean showAll);
 
     @RequestMapping(value = "/patients", method = RequestMethod.POST)
-    void createPatient(@Valid @RequestBody PatientDto patientDto);
+    void createPatient(@Valid @RequestBody PatientDto patientDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/patients", method = RequestMethod.PUT)
-    void updatePatient(@Valid @RequestBody PatientDto patientDto);
+    void updatePatient(@Valid @RequestBody PatientDto patientDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/patients/{patientId}", method = RequestMethod.GET)
     PatientDto getPatientById(@PathVariable("patientId") String patientId);
@@ -228,12 +230,14 @@ public interface FisClient {
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-services", method = RequestMethod.POST)
     void createHealthcareService(@PathVariable("organizationId") String organizationId,
-                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
+                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto,
+                                 @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organization/{organizationId}/healthcare-services/{healthcareServiceId}", method = RequestMethod.PUT)
     void updateHealthcareService(@PathVariable("organizationId") String organizationId,
                                  @PathVariable("healthcareServiceId") String healthcareServiceId,
-                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto);
+                                 @Valid @RequestBody HealthcareServiceDto healthcareServiceDto,
+                                 @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/healthcare-services/{healthcareServiceId}/inactive", method = RequestMethod.PUT)
     void inactivateHealthcareService(@PathVariable("healthcareServiceId") String healthcareServiceId);
@@ -241,10 +245,10 @@ public interface FisClient {
     //CareTeam
 
     @RequestMapping(value = "/care-teams", method = RequestMethod.POST)
-    void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto);
+    void createCareTeam(@Valid @RequestBody CareTeamDto createTeamDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/care-teams/{careTeamId}", method = RequestMethod.PUT)
-    void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto);
+    void updateCareTeam(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody CareTeamDto careTeamDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/care-teams/{careTeamId}/add-related-person", method = RequestMethod.PUT)
     void addRelatedPerson(@PathVariable("careTeamId") String careTeamId, @Valid @RequestBody ParticipantDto participantDto);
@@ -302,7 +306,7 @@ public interface FisClient {
     //Task
 
     @RequestMapping(value = "/tasks", method = RequestMethod.POST)
-    void createTask(@Valid @RequestBody TaskDto taskDto);
+    void createTask(@Valid @RequestBody TaskDto taskDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/tasks/search", method = RequestMethod.GET)
     Object searchTasks(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -319,7 +323,7 @@ public interface FisClient {
                               @RequestParam(value = "isUpcomingTasks", required = false) Boolean isUpcomingTasks);
 
     @RequestMapping(value = "/tasks/{taskId}", method = RequestMethod.PUT)
-    void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto);
+    void updateTask(@PathVariable("taskId") String taskId, @Valid @RequestBody TaskDto taskDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/tasks/{taskId}/deactivate", method = RequestMethod.PUT)
     void deactivateTask(@PathVariable("taskId") String taskId);
@@ -354,10 +358,10 @@ public interface FisClient {
     //RelatedPerson
 
     @RequestMapping(value = "/related-persons", method = RequestMethod.POST)
-    void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto);
+    void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/related-persons/{relatedPersonId}", method = RequestMethod.PUT)
-    void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto);
+    void updateRelatedPerson(@PathVariable("relatedPersonId") String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/related-persons/search", method = RequestMethod.GET)
     PageDto<RelatedPersonDto> searchRelatedPersons(
