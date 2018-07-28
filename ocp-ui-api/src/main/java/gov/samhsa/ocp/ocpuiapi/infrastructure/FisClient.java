@@ -418,7 +418,7 @@ public interface FisClient {
                                                                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/appointments", method = RequestMethod.POST)
-    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
+    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/appointments/{appointmentId}/cancel", method = RequestMethod.PUT)
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
@@ -436,7 +436,7 @@ public interface FisClient {
                                       @RequestParam(value = "actorReference") String actorReference);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.PUT)
-    void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
+    void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.GET)
     AppointmentDto getAppointmentById(@PathVariable("appointmentId") String appointmentId);

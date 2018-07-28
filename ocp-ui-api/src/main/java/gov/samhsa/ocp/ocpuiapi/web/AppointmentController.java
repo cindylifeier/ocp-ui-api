@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -32,12 +33,15 @@ public class AppointmentController {
         this.fisClient = fisClient;
     }
 
+    @Autowired
+    UserContextService userContextService;
+
     @PostMapping("/appointments")
     @ResponseStatus(HttpStatus.CREATED)
     public void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto) {
         log.info("About to create an appointment");
         try {
-            fisClient.createAppointment(appointmentDto);
+            fisClient.createAppointment(appointmentDto, userContextService.getUserFhirId());
             log.info("Successfully created an appointment");
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment was not created");
@@ -162,7 +166,7 @@ public class AppointmentController {
     public void updateAppointment(@PathVariable String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto) {
         log.info("About to update the appointment ID: " + appointmentId);
         try {
-            fisClient.updateAppointment(appointmentId, appointmentDto);
+            fisClient.updateAppointment(appointmentId, appointmentDto, userContextService.getUserFhirId());
             log.info("Successfully updated the appointment ID: " + appointmentId);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the appointment was not updated");
