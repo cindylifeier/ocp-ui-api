@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CoverageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -27,11 +28,14 @@ public class CoverageController {
     @Autowired
     private FisClient fisClient;
 
+    @Autowired
+    UserContextService userContextService;
+
     @PostMapping("/coverage")
     public void createCoverage(@Valid @RequestBody CoverageDto coverageDto) {
         log.info("About to create a coverage");
         try {
-            fisClient.createCoverage(coverageDto);
+            fisClient.createCoverage(coverageDto, userContextService.getUserFhirId());
             log.info("Successfully created a coverage");
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the coverage was not created");
