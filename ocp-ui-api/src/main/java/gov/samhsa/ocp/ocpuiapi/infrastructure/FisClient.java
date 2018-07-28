@@ -290,12 +290,14 @@ public interface FisClient {
 
     @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.POST)
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
-                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto,
+                                  @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}/activity-definitions/{activityDefinitionId}", method = RequestMethod.PUT)
     void updateActivityDefinition(@PathVariable("organizationId") String organizationId,
                                   @PathVariable("activityDefinitionId") String activityDefinitionId,
-                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto,
+                                  @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/activity-definitions", method = RequestMethod.GET)
     List<ActivityReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
