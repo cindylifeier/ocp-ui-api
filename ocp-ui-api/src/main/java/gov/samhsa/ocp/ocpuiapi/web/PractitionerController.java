@@ -55,8 +55,7 @@ public class PractitionerController {
             PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, organization, showInactive, page, size, showAll);
             log.info("Got response from FHIR server for practitioner search");
             return practitioners;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioners were found in the configured FHIR server for the given searchType and searchValue");
             return null;
         }
@@ -80,8 +79,7 @@ public class PractitionerController {
         try {
             fisClient.updatePractitioner(practitionerId, practitionerDto, userContextService.getUserFhirId());
 
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the practitioner was not updated");
         }
     }
@@ -90,8 +88,7 @@ public class PractitionerController {
     public PractitionerDto getPractitioner(@PathVariable String practitionerId) {
         try {
             return fisClient.getPractitioner(practitionerId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioner was found");
             return null;
         }
@@ -103,8 +100,7 @@ public class PractitionerController {
                                                                              @RequestParam(value = "role", required = false) String role) {
         try {
             return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization, role);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioner was found in the organization for the given practitioner");
             return null;
         }
@@ -117,10 +113,31 @@ public class PractitionerController {
                                                                           @RequestParam(value = "size", required = false) Integer size) {
         try {
             return fisClient.getPractitionersByOrganizationAndRole(organization, role, page, size);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioner was found for the given organization and the role (if provided) ");
             return null;
+        }
+    }
+
+    @PutMapping(value = "/practitioners/{practitionerId}/assign")
+    void assignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
+                                       @RequestParam(value = "organizationId") String organizationId,
+                                       @RequestParam(value = "locationId") String locationId) {
+        try {
+            fisClient.assignLocationToPractitioner(practitionerId, organizationId, locationId);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the location was not assigned");
+        }
+    }
+
+    @PutMapping(value = "/practitioners/{practitionerId}/unassign")
+    void unassignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
+                                         @RequestParam(value = "organizationId") String organizationId,
+                                         @RequestParam(value = "locationId") String locationId) {
+        try {
+            fisClient.unassignLocationToPractitioner(practitionerId, organizationId, locationId);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the location was not unassigned");
         }
     }
 }

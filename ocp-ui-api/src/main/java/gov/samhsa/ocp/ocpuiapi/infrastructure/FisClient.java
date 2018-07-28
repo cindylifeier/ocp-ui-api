@@ -48,6 +48,7 @@ public interface FisClient {
                                                     @RequestParam(value = "statusList", required = false) List<String> statusList,
                                                     @RequestParam(value = "searchKey", required = false) String searchKey,
                                                     @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                    @RequestParam(value="assignedToPractitioner", required = false) String assignedToPractitioner,
                                                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
@@ -100,6 +101,17 @@ public interface FisClient {
                                                                    @RequestParam(value = "role", required = false) String role,
                                                                    @RequestParam(value = "page", required = false) Integer page,
                                                                    @RequestParam(value = "size", required = false) Integer size);
+
+    @RequestMapping(value="/practitioners/{practitionerId}/assign", method = RequestMethod.PUT)
+    void assignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
+                                       @RequestParam(value="organizationId") String organizationId,
+                                       @RequestParam(value="locationId") String locationId);
+
+    @RequestMapping(value="/practitioners/{practitionerId}/unassign", method = RequestMethod.PUT)
+    void unassignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
+                                       @RequestParam(value="organizationId") String organizationId,
+                                       @RequestParam(value="locationId") String locationId);
+
 
     //Organization
     @RequestMapping(value = "/organizations/all", method = RequestMethod.GET)
