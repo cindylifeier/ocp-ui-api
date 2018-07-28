@@ -1,9 +1,13 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.config.OAuth2FeignClientCredentialsConfig;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupMemberDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserResourceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserWrapperDto;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
@@ -40,4 +44,12 @@ public interface OAuth2GroupRestClient {
     @RequestMapping(value = "/assign-role-to-user", method = RequestMethod.POST)
     void assignRoleToUser(@Valid @RequestBody RoleToUserDto roleToUserDto);
 
+    @RequestMapping(value="/Users",method=RequestMethod.POST)
+    UserResourceDto createUser(@Valid @RequestBody UaaUserDto uaaUserDto);
+
+    @RequestMapping(value="/userinfo",method = RequestMethod.POST)
+    void createUserInfo(@Valid @RequestBody UaaUserInfoDto uaaUserInfoDto);
+
+    @RequestMapping(value="/Groups/{groupId}/members",method = RequestMethod.POST)
+    void addGroupMember(@PathVariable("groupId") String groupId, @Valid @RequestBody GroupMemberDto groupMemberDto);
 }

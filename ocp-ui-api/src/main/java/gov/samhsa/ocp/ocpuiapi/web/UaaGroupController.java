@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import gov.samhsa.ocp.ocpuiapi.service.UaaGroupService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,12 @@ public class UaaGroupController {
     @ResponseStatus(HttpStatus.OK)
     public void assignRoleToUser(@PathVariable("userId") String userId, @PathVariable("groupId") String groupId ) {
         uaaGroupService.assignRoleToUser(RoleToUserDto.builder().groupId(groupId).userId(userId).build());
+    }
+
+    @PostMapping("/users")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createUser(@Valid @RequestBody UserDto userDto){
+        uaaGroupService.createUser(userDto);
     }
 
 }
