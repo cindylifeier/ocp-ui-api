@@ -290,12 +290,14 @@ public interface FisClient {
 
     @RequestMapping(value = "/organizations/{organizationId}/activity-definitions", method = RequestMethod.POST)
     void createActivityDefinition(@PathVariable("organizationId") String organizationId,
-                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto,
+                                  @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/organizations/{organizationId}/activity-definitions/{activityDefinitionId}", method = RequestMethod.PUT)
     void updateActivityDefinition(@PathVariable("organizationId") String organizationId,
                                   @PathVariable("activityDefinitionId") String activityDefinitionId,
-                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto);
+                                  @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto,
+                                  @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/activity-definitions", method = RequestMethod.GET)
     List<ActivityReferenceDto> getActivityDefinitionsByPractitioner(@RequestParam(value = "practitioner") String practitioner);
@@ -418,7 +420,7 @@ public interface FisClient {
                                                                     @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/appointments", method = RequestMethod.POST)
-    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto);
+    void createAppointment(@Valid @RequestBody AppointmentDto appointmentDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/appointments/{appointmentId}/cancel", method = RequestMethod.PUT)
     void cancelAppointment(@PathVariable("appointmentId") String appointmentId);
@@ -436,7 +438,7 @@ public interface FisClient {
                                       @RequestParam(value = "actorReference") String actorReference);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.PUT)
-    void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto);
+    void updateAppointment(@PathVariable("appointmentId") String appointmentId, @Valid @RequestBody AppointmentDto appointmentDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/appointments/{appointmentId}", method = RequestMethod.GET)
     AppointmentDto getAppointmentById(@PathVariable("appointmentId") String appointmentId);
@@ -464,10 +466,10 @@ public interface FisClient {
                              @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/communications", method = RequestMethod.POST)
-    void createCommunication(@Valid @RequestBody CommunicationDto communicationDto);
+    void createCommunication(@Valid @RequestBody CommunicationDto communicationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/communications/{communicationsId}", method = RequestMethod.PUT)
-    void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto);
+    void updateCommunication(@PathVariable("communicationsId") String communicationsId, @Valid @RequestBody CommunicationDto communicationDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     //Resource
     @RequestMapping(value = "/delete/{resource}/{id}", method = RequestMethod.DELETE)
@@ -475,7 +477,7 @@ public interface FisClient {
 
     //Coverage
     @RequestMapping(value = "/coverage", method = RequestMethod.POST)
-    void createCoverage(@Valid @RequestBody CoverageDto coverageDto);
+    void createCoverage(@Valid @RequestBody CoverageDto coverageDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
 
     @RequestMapping(value = "/patients/{patientId}/subscriber-options", method = RequestMethod.GET)
     List<ReferenceDto> getSubscriberOptions(@PathVariable("patientId") String patientId);
