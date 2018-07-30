@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import lombok.extern.slf4j.Slf4j;
@@ -26,16 +27,20 @@ public class RelatedPersonController {
     @Autowired
     FisClient fisClient;
 
+
+    @Autowired
+    UserContextService userContextService;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createRelatedPerson(@Valid @RequestBody RelatedPersonDto relatedPersonDto) {
-        fisClient.createRelatedPerson(relatedPersonDto);
+        fisClient.createRelatedPerson(relatedPersonDto, userContextService.getUserFhirId());
     }
 
     @PutMapping("/{relatedPersonId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateRelatedPerson(@PathVariable String relatedPersonId, @Valid @RequestBody RelatedPersonDto relatedPersonDto) {
-        fisClient.updateRelatedPerson(relatedPersonId, relatedPersonDto);
+        fisClient.updateRelatedPerson(relatedPersonId, relatedPersonDto, userContextService.getUserFhirId());
     }
 
     @GetMapping("/search")

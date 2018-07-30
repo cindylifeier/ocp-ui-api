@@ -29,6 +29,7 @@ public class SecurityConfig {
                 }
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.POST, "/login/**").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/change-password").access("#oauth2.hasScopeMatching('password.write')")
                         .antMatchers(HttpMethod.GET, "/sample-user-login-details/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/ocp-fis/lookups/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/user-context").access("#oauth2.hasScopeMatching('ocp.role.*')")
@@ -117,6 +118,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/groups/**").access("#oauth2.hasScopeMatching('ocpUiApi.group_update')")
 
                         .antMatchers(HttpMethod.GET, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_read')")
+                        .antMatchers(HttpMethod.POST, "/users").permitAll()
                         .antMatchers(HttpMethod.PUT, "/users/**").access("#oauth2.hasScopeMatching('ocpUiApi.user_update')")
                         .anyRequest().denyAll();
             }

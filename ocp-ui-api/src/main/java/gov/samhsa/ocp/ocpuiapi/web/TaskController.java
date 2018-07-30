@@ -3,6 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -33,12 +34,15 @@ public class TaskController {
         this.fisClient = fisClient;
     }
 
+    @Autowired
+    UserContextService userContextService;
+
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.CREATED)
     public void createTask(@Valid @RequestBody TaskDto taskDto) {
         log.info("About to create a task");
         try {
-            fisClient.createTask(taskDto);
+            fisClient.createTask(taskDto, userContextService.getUserFhirId());
             log.info("Successfully created a task.");
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the activity definition was not created");
@@ -66,7 +70,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public void updateTask(@PathVariable String taskId, @Valid @RequestBody TaskDto taskDto) {
         try {
-            fisClient.updateTask(taskId, taskDto);
+            fisClient.updateTask(taskId, taskDto, userContextService.getUserFhirId());
             log.debug("Successfully updated a task");
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the Task could not be updated in the FHIR server");

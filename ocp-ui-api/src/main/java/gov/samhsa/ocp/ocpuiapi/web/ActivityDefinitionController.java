@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
@@ -35,6 +36,9 @@ public class ActivityDefinitionController {
         this.fisClient = fisClient;
     }
 
+    @Autowired
+    UserContextService userContextService;
+
     @GetMapping("/organizations/{organizationId}/activity-definitions")
     public Object getAllActivityDefinitionsByOrganization(@PathVariable String organizationId,
                                                           @RequestParam(value = "searchKey", required = false) String searchKey,
@@ -60,7 +64,7 @@ public class ActivityDefinitionController {
                                          @Valid @RequestBody ActivityDefinitionDto activityDefinitionDto) {
         log.info("About to create a activity definition");
         try {
-            fisClient.createActivityDefinition(organizationId, activityDefinitionDto);
+            fisClient.createActivityDefinition(organizationId, activityDefinitionDto, userContextService.getUserFhirId());
             log.info("Successfully created a activity definition");
         }
         catch (FeignException fe) {
@@ -93,7 +97,7 @@ public class ActivityDefinitionController {
     @PutMapping("/organizations/{organizationId}/activity-definitions/{activityDefinitionId}")
     public void updateActivityDefinition(@PathVariable String organizationId, @PathVariable String activityDefinitionId, @RequestBody ActivityDefinitionDto activityDefinitionDto) {
         try {
-            fisClient.updateActivityDefinition(organizationId, activityDefinitionId, activityDefinitionDto);
+            fisClient.updateActivityDefinition(organizationId, activityDefinitionId, activityDefinitionDto, userContextService.getUserFhirId());
         }
         catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the activity definition was not updated");

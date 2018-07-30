@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -32,6 +33,9 @@ public class HealthcareServiceController {
     public HealthcareServiceController(FisClient fisClient) {
         this.fisClient = fisClient;
     }
+
+    @Autowired
+    UserContextService userContextService;
 
     @GetMapping("/healthcare-services")
     public PageDto<HealthcareServiceDto> getAllHealthcareServices(@RequestParam(value = "statusList", required = false) List<String> statusList,
@@ -136,7 +140,7 @@ public class HealthcareServiceController {
                                         @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
         log.info("About to create a Healthcare Service");
         try {
-            fisClient.createHealthcareService(organizationId, healthcareServiceDto);
+            fisClient.createHealthcareService(organizationId, healthcareServiceDto, userContextService.getUserFhirId());
             log.info("Successfully created the healthcare service");
         }
         catch (FeignException fe) {
@@ -151,7 +155,7 @@ public class HealthcareServiceController {
                                         @Valid @RequestBody HealthcareServiceDto healthcareServiceDto) {
         log.info("About to update the Healthcare Service ID: " + healthcareServiceId);
         try {
-            fisClient.updateHealthcareService(organizationId, healthcareServiceId, healthcareServiceDto);
+            fisClient.updateHealthcareService(organizationId, healthcareServiceId, healthcareServiceDto, userContextService.getUserFhirId());
             log.info("Successfully updated the healthcare service ID:" + healthcareServiceId);
         }
         catch (FeignException fe) {
