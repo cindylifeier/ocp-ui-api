@@ -66,4 +66,6 @@ public class PatientDto {
     Optional<String> practitionerId;
 
     Optional<List<String>> activityTypes;
+
+    Optional<Boolean> canViewPatientDetail;
 }
