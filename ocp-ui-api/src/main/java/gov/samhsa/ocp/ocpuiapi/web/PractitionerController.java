@@ -67,8 +67,7 @@ public class PractitionerController {
         try {
 
             fisClient.createPractitioner(practitionerDto, userContextService.getUserFhirId());
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the practitioner was not created");
         }
     }
@@ -97,9 +96,10 @@ public class PractitionerController {
     @GetMapping("/practitioners/practitioner-references")
     public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner", required = false) String practitioner,
                                                                              @RequestParam(value = "organization", required = false) String organization,
+                                                                             @RequestParam(value = "location", required = false) String location,
                                                                              @RequestParam(value = "role", required = false) String role) {
         try {
-            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization, role);
+            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization, location, role);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioner was found in the organization for the given practitioner");
             return null;
@@ -121,8 +121,8 @@ public class PractitionerController {
 
     @PutMapping(value = "/practitioners/{practitionerId}/assign")
     void assignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
-                                       @RequestParam(value = "organizationId") String organizationId,
-                                       @RequestParam(value = "locationId") String locationId) {
+                                      @RequestParam(value = "organizationId") String organizationId,
+                                      @RequestParam(value = "locationId") String locationId) {
         try {
             fisClient.assignLocationToPractitioner(practitionerId, organizationId, locationId);
         } catch (FeignException fe) {
@@ -132,8 +132,8 @@ public class PractitionerController {
 
     @PutMapping(value = "/practitioners/{practitionerId}/unassign")
     void unassignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
-                                         @RequestParam(value = "organizationId") String organizationId,
-                                         @RequestParam(value = "locationId") String locationId) {
+                                        @RequestParam(value = "organizationId") String organizationId,
+                                        @RequestParam(value = "locationId") String locationId) {
         try {
             fisClient.unassignLocationToPractitioner(practitionerId, organizationId, locationId);
         } catch (FeignException fe) {

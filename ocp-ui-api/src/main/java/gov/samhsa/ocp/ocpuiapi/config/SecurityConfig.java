@@ -71,7 +71,9 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/organization/*/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_update')")
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/healthcare-services/*/inactive/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/healthcare-services/**").access("#oauth2.hasScopeMatching('ocpUiApi.healthcareService_delete')")
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/healthcare-service-references/**").permitAll()
 
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/location-references/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/ocp-fis/organizations/*/locations/**").access("#oauth2.hasScopeMatching('ocpUiApi.location_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/locations/**").access("#oauth2.hasScopeMatching('ocpUiApi.location_read')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/organizations/*/locations/**").access("#oauth2.hasScopeMatching('ocpUiApi.location_read')")
@@ -88,10 +90,12 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/patients/**").access("#oauth2.hasScopeMatching('ocpUiApi.patient_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/patients/**").access("#oauth2.hasScopeMatching('ocpUiApi.patient_delete')")
 
+                        .antMatchers(HttpMethod.GET, "/ocp-fis/practitioners/practitioner-references/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/ocp-fis/practitioners/**").access("#oauth2.hasScopeMatching('ocpUiApi.practitioner_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/practitioners/**").access("#oauth2.hasScopeMatching('ocpUiApi.practitioner_read')")
                         .antMatchers(HttpMethod.PUT, "/ocp-fis/practitioners/**").access("#oauth2.hasScopeMatching('ocpUiApi.practitioner_update')")
                         .antMatchers(HttpMethod.DELETE, "/ocp-fis/practitioners/**").access("#oauth2.hasScopeMatching('ocpUiApi.practitioner_delete')")
+
 
                         .antMatchers(HttpMethod.POST, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_create')")
                         .antMatchers(HttpMethod.GET, "/ocp-fis/related-persons/**").access("#oauth2.hasScopeMatching('ocpUiApi.relatedPerson_read')")

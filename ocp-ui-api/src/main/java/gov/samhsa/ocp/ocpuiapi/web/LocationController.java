@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +132,16 @@ public class LocationController {
             log.info("Successfully inactivated the location: " + locationId);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the location was not inactivated");
+        }
+    }
+
+    @GetMapping("/location-references")
+    public List<ReferenceDto> getAllLocationReferences(@RequestParam(value = "healthcareService") String healthcareService) {
+        try {
+            return fisClient.getAllLocationReferences(healthcareService);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the location was not fetched");
+            return null;
         }
     }
 }
