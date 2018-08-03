@@ -1,17 +1,29 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
 import feign.FeignException;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.UaaUserTokenRestClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.EmailDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaNameDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.JwtTokenKey;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ResetPasswordRequestDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupMemberDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserResourceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,6 +34,10 @@ public class UaaUsersServiceImpl implements UaaUsersService {
     private final JwtTokenExtractor jwtTokenExtractor;
     private final UaaUserTokenRestClient uaaUserTokenRestClient;
     private final OAuth2GroupRestClient oAuth2GroupRestClient;
+
+
+    @Autowired
+    FisClient fisClient;
 
     @Autowired
     public UaaUsersServiceImpl(JwtTokenExtractor jwtTokenExtractor, UaaUserTokenRestClient uaaUserTokenRestClient, OAuth2GroupRestClient oAuth2GroupRestClient) {
@@ -56,5 +72,70 @@ public class UaaUsersServiceImpl implements UaaUsersService {
             ExceptionUtil.handleFeignExceptionFailToLogin(fe, "Reset User password failure for userId: ".concat(userId));
         }
         return changePasswordResponseDto;
+    }
+
+    @Override
+    public void assignRoleToUser(RoleToUserDto roleToUserDto) {
+        oAuth2GroupRestClient.assignRoleToUser(roleToUserDto);
+    }
+
+    @Override
+    public void createUser(UserDto userDto) {
+        try {
+            //Create user in UAA
+            UaaUserDto uaaUserDto = new UaaUserDto();
+            uaaUserDto.setUserName(userDto.getUsername());
+            uaaUserDto.setPassword(userDto.getPassword());
+            uaaUserDto.setActive(true);
+            uaaUserDto.setVerified(true);
+
+            if (userDto.getResource().equalsIgnoreCase("Practitioner")) {
+                PractitionerDto practitionerDto = fisClient.getPractitioner(userDto.getResourceId());
+                UaaNameDto uaaNameDto = new UaaNameDto();
+                uaaNameDto.setGivenName(practitionerDto.getName().stream().findFirst().get().getFirstName());
+                uaaNameDto.setFamilyName(practitionerDto.getName().stream().findFirst().get().getLastName());
+                uaaUserDto.setName(uaaNameDto);
+                if (!practitionerDto.getTelecoms().isEmpty() && practitionerDto.getTelecoms() != null) {
+                    practitionerDto.getTelecoms().stream().filter(pr -> pr.getSystem().get().equalsIgnoreCase("email")).findAny().ifPresent(email -> {
+                        EmailDto emailDto = new EmailDto();
+                        emailDto.setValue(email.getValue().get());
+                        uaaUserDto.setEmails(Arrays.asList(emailDto));
+                    });
+                }
+            } else {
+                PatientDto patientDto = fisClient.getPatientById(userDto.getResourceId());
+                UaaNameDto uaaNameDto = new UaaNameDto();
+                uaaNameDto.setGivenName(patientDto.getName().stream().findFirst().get().getFirstName());
+                uaaNameDto.setFamilyName(patientDto.getName().stream().findFirst().get().getLastName());
+                uaaUserDto.setName(uaaNameDto);
+                if (!patientDto.getTelecoms().isEmpty() && patientDto.getTelecoms() != null) {
+                    patientDto.getTelecoms().stream().filter(pr -> pr.getSystem().get().equalsIgnoreCase("email")).findAny().ifPresent(email -> {
+                        EmailDto emailDto = new EmailDto();
+                        emailDto.setValue(email.getValue().get());
+                        uaaUserDto.setEmails(Arrays.asList(emailDto));
+                    });
+                }
+            }
+            UserResourceDto userResourceDto = oAuth2GroupRestClient.createUser(uaaUserDto);
+
+            //Create userinfo in UAA
+            UaaUserInfoDto uaaUserInfoDto = new UaaUserInfoDto();
+            uaaUserInfoDto.setUser_id(Arrays.asList(userResourceDto.getId()));
+            uaaUserInfoDto.setResource(Arrays.asList(userDto.getResource()));
+            uaaUserInfoDto.setId(Arrays.asList(userDto.getResourceId()));
+            uaaUserInfoDto.setOrgId((Arrays.asList(userDto.getRoles().get(0).getOrgId())));
+            oAuth2GroupRestClient.createUserInfo(uaaUserInfoDto);
+
+            //Assign user to role group
+            oAuth2GroupRestClient.addGroupMember(userDto.getRoles().get(0).getRole(), GroupMemberDto.builder().origin("uaa").type("USER").value(userResourceDto.getId()).build());
+        } catch (
+                FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "Failed to create user for FHIR resource: " + userDto.getResource() + "/" + userDto.getResourceId() + "with username" + userDto.getUsername());
+        }
+    }
+
+    @Override
+    public Object getAllUsersByOrganizationId(String organizationId, String resource) {
+        return oAuth2GroupRestClient.getUsersByOrganizationId(organizationId, resource);
     }
 }
