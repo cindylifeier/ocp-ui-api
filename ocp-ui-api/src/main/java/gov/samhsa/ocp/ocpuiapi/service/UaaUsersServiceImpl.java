@@ -130,7 +130,7 @@ public class UaaUsersServiceImpl implements UaaUsersService {
             oAuth2GroupRestClient.addGroupMember(userDto.getRoles().get(0).getRole(), GroupMemberDto.builder().origin("uaa").type("USER").value(userResourceDto.getId()).build());
         } catch (
                 FeignException fe) {
-            ExceptionUtil.handleFeignException(fe, "Failed to create user for FHIR resource: " + userDto.getResource() + "/" + userDto.getResourceId() + "with username" + userDto.getUsername());
+            ExceptionUtil.handleUaaException(fe, "Failed to create user for FHIR resource: " + userDto.getResource() + "/" + userDto.getResourceId() + "with username" + userDto.getUsername());
         }
     }
 
