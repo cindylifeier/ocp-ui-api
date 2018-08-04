@@ -1,9 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.web;
 
 import gov.samhsa.ocp.ocpuiapi.service.UaaGroupService;
-import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
-import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,11 +32,6 @@ public class UaaGroupController {
         return uaaGroupService.getAllScopes();
     }
 
-    @GetMapping("/users")
-    public Object getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId, @RequestParam(value="resource") String resource) {
-        return uaaGroupService.getAllUsersByOrganizationId(organizationId, resource);
-    }
-
     @PostMapping("/groups")
     @ResponseStatus(HttpStatus.CREATED)
     public void createGroup(@Valid @RequestBody GroupRequestDto groupDto) {
@@ -52,16 +44,6 @@ public class UaaGroupController {
         uaaGroupService.updateGroup(groupId, groupDto);
     }
 
-    @PutMapping("/users/{userId}/groups/{groupId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void assignRoleToUser(@PathVariable("userId") String userId, @PathVariable("groupId") String groupId ) {
-        uaaGroupService.assignRoleToUser(RoleToUserDto.builder().groupId(groupId).userId(userId).build());
-    }
 
-    @PostMapping("/users")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@Valid @RequestBody UserDto userDto){
-        uaaGroupService.createUser(userDto);
-    }
 
 }

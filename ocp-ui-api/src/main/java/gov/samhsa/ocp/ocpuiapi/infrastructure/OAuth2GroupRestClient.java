@@ -3,6 +3,8 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 import gov.samhsa.ocp.ocpuiapi.config.OAuth2FeignClientCredentialsConfig;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordResponseDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ResetPasswordRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupMemberDto;
@@ -33,7 +35,7 @@ public interface OAuth2GroupRestClient {
     UserWrapperDto getAllUsers();
 
     @RequestMapping(value = "/userinfos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    Object getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId, @RequestParam(value="resource", required = true) String resource);
+    Object getUsersByOrganizationId(@RequestParam(value = "organizationId", required = true) String organizationId, @RequestParam(value = "resource", required = true) String resource);
 
     @RequestMapping(value = "/Groups/ocp", method = RequestMethod.POST)
     void createGroup(@Valid @RequestBody GroupRequestDto groupDto);
@@ -44,12 +46,15 @@ public interface OAuth2GroupRestClient {
     @RequestMapping(value = "/assign-role-to-user", method = RequestMethod.POST)
     void assignRoleToUser(@Valid @RequestBody RoleToUserDto roleToUserDto);
 
-    @RequestMapping(value="/Users",method=RequestMethod.POST)
+    @RequestMapping(value = "/Users", method = RequestMethod.POST)
     UserResourceDto createUser(@Valid @RequestBody UaaUserDto uaaUserDto);
 
-    @RequestMapping(value="/userinfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/userinfo", method = RequestMethod.POST)
     void createUserInfo(@Valid @RequestBody UaaUserInfoDto uaaUserInfoDto);
 
-    @RequestMapping(value="/Groups/{groupId}/members",method = RequestMethod.POST)
+    @RequestMapping(value = "/Groups/{groupId}/members", method = RequestMethod.POST)
     void addGroupMember(@PathVariable("groupId") String groupId, @Valid @RequestBody GroupMemberDto groupMemberDto);
+
+    @RequestMapping(value = "/Users/{userId}/password", method = RequestMethod.PUT)
+    ChangePasswordResponseDto resetPassword(@PathVariable("userId") String userId, ResetPasswordRequestDto resetPasswordRequestDto);
 }

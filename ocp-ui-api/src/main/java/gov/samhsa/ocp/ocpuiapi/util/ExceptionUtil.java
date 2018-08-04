@@ -63,6 +63,37 @@ public final class ExceptionUtil {
         }
     }
 
+    public static void handleUaaException(FeignException fe, String logErrorMessage) {
+        int causedByStatus = fe.status();
+        String errorMessage = fe.getMessage();
+        String logErrorMessageWithCode;
+        switch (causedByStatus) {
+            case 400:
+                logErrorMessageWithCode = "UAA client returned a 400 - BAD REQUEST status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new BadRequestException(errorMessage);
+            case 401:
+                logErrorMessageWithCode = "UAA client returned a 401 - UNAUTHORIZED status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new UserAuthenticationFailure(errorMessage);
+            case 404:
+                logErrorMessageWithCode = "UAA client returned a 404 - NOT FOUND status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new ResourceNotFoundException(errorMessage);
+            case 409:
+                logErrorMessageWithCode = "UAA client returned a 409 - CONFLICT status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new DuplicateResourceFoundException(errorMessage);
+            case 412:
+                logErrorMessageWithCode = "UAA client returned a 412 - Precondition Failed status, indicating " + logErrorMessage;
+                log.error(logErrorMessageWithCode, fe);
+                throw new PreconditionFailedException(errorMessage);
+            default:
+                log.error("UAA client returned an unexpected instance of FeignException", fe);
+                throw new FisClientInterfaceException("An unknown error occurred while attempting to communicate with Fis Client");
+        }
+    }
+
     private static String getErrorMessageFromFeignException(FeignException fe) {
         String detailMessage = fe.getMessage();
         String array[] = detailMessage.split("message");
