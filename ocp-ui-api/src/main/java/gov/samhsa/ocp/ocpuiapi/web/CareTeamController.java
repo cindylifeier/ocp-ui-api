@@ -29,14 +29,13 @@ import java.util.List;
 public class CareTeamController {
 
     private final FisClient fisClient;
+    private final UserContextService userContextService;
 
     @Autowired
-    public CareTeamController(FisClient fisClient) {
+    public CareTeamController(FisClient fisClient, UserContextService userContextService) {
         this.fisClient = fisClient;
+        this.userContextService = userContextService;
     }
-
-    @Autowired
-    UserContextService userContextService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

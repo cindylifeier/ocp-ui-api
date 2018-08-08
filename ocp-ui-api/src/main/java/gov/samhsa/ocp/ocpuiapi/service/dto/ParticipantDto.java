@@ -14,8 +14,8 @@ import java.util.Optional;
 public class ParticipantDto {
 
     private String roleCode;
-
     private String roleDisplay;
+    private String roleSystem;
 
     private String startDate;
 
