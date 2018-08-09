@@ -6,6 +6,7 @@ import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,16 @@ public class CareTeamController {
             return fisClient.getRelatedPersonsForEdit(careTeamId, name, pageNumber, pageSize);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "Related persons werent available");
+            return null;
+        }
+    }
+
+    @GetMapping("/participant-references")
+    public List<ReferenceDto> getParticipantMemberFromCareTeam(@RequestParam(value="patient") String patient) {
+        try {
+            return fisClient.getParticipantMemberFromCareTeam(patient);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "Participant references weren't available");
             return null;
         }
     }
