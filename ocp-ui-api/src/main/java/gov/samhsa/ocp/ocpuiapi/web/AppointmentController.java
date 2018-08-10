@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -198,6 +199,47 @@ public class AppointmentController {
             return fisClientResponse;
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no participants were found for the given patient and the roles");
+            return null;
+        }
+    }
+
+    @GetMapping(value = "/appointments/healthcare-service-references")
+    public List<AppointmentParticipantReferenceDto> getHealthcareServiceReferences(@RequestParam(value = "resourceType") String searchType,
+                                                                                   @RequestParam(value = "resourceValue") String searchValue) {
+        try {
+            List<AppointmentParticipantReferenceDto> fisClientResponse = fisClient.getHealthcareServiceReferences(searchType, searchValue);
+            log.info("Got response from FHIR server...");
+            return fisClientResponse;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "That no healthcare services were found");
+            return null;
+        }
+    }
+
+
+    @GetMapping(value = "/appointments/location-references")
+    public List<AppointmentParticipantReferenceDto> getAllLocationReferences(@RequestParam(value = "resourceType") String resourceType,
+                                                                             @RequestParam(value = "resourceValue") String resourceValue) {
+        try {
+            List<AppointmentParticipantReferenceDto> fisClientResponse = fisClient.getAllLocationReferences(resourceType, resourceValue);
+            log.info("Got response from FHIR server...");
+            return fisClientResponse;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "That no locations were found");
+            return null;
+        }
+
+    }
+
+    @GetMapping(value = "/appointments/practitioner-references")
+    public List<AppointmentParticipantReferenceDto> getPractitionersReferences(@RequestParam(value = "resourceType") String resourceType,
+                                                                               @RequestParam(value = "resourceValue") String resourceValue) {
+        try {
+            List<AppointmentParticipantReferenceDto> fisClientResponse = fisClient.getPractitionersReferences(resourceType, resourceValue);
+            log.info("Got response from FHIR server...");
+            return fisClientResponse;
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "That no practitioners were found");
             return null;
         }
     }

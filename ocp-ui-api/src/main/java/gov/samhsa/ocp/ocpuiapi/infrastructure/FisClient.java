@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CareTeamDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CommunicationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.CoverageDto;
@@ -460,6 +461,19 @@ public interface FisClient {
     List<ParticipantReferenceDto> getAppointmentParticipants(@PathVariable("patientId") String patientId,
                                                              @RequestParam(value = "roles", required = false) List<String> roles,
                                                              @RequestParam(value = "appointmentId", required = false) String appointmentId);
+
+    @RequestMapping(value="/appointments/healthcare-service-references",method = RequestMethod.GET)
+    List<AppointmentParticipantReferenceDto> getHealthcareServiceReferences(@RequestParam(value="resourceType") String resourceType,
+                                                                            @RequestParam(value="resourceValue") String resourceValue);
+
+
+    @RequestMapping(value="/appointments/location-references",method = RequestMethod.GET)
+    List<AppointmentParticipantReferenceDto> getAllLocationReferences(@RequestParam(value="resourceType") String resourceType,
+                                                                      @RequestParam(value="resourceValue") String resourceValue);
+
+    @RequestMapping(value="/appointments/practitioner-references", method=RequestMethod.GET)
+    List<AppointmentParticipantReferenceDto> getPractitionersReferences(@RequestParam(value="resourceType") String resourceType,
+                                                                        @RequestParam(value="resourceValue") String resourceValue);
 
     //EWS Calendar
     @RequestMapping(value = "/outlook/calendar", method = RequestMethod.GET)
