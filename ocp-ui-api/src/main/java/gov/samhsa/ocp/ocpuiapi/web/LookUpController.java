@@ -707,6 +707,17 @@ public class LookUpController {
             }
         }
 
+        //Contact Purpose
+        if(lookUpTypeList==null || lookUpTypeList.size()==0 || lookUpTypeList.stream().anyMatch(LookUpTypeEnum.CONTACTPURPOSE.name()::equalsIgnoreCase)){
+            log.info("Getting look up values for " + LookUpTypeEnum.CONTACTPURPOSE);
+            try {
+                lookUpData.setContactPurpose(lookupFisClient.getContactPurpose());
+            }
+            catch (FeignException fe) {
+                log.error("(" + LookUpTypeEnum.CONTACTPURPOSE.name() + ")" + NO_LOOKUPS_FOUND_MESSAGE);
+            }
+        }
+
         return lookUpData;
     }
 }
