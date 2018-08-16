@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
@@ -22,22 +23,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @RestController
 @Slf4j
 @RequestMapping("ocp-fis")
 public class PractitionerController {
 
+    public static final String FHIR_CAREMANAGER_ROLE = "CAREMNGR";
+    public static final String FHIR_CARECOORDINATOR_ROLE = "171M00000X";
+    public static final String UAA_CAREMANAGER = "careManager";
+    public static final String UAA_CARECOORDINATOR = "careCoordinator";
+    private final FisClient fisClient;
+    private final OAuth2GroupRestClient oAuth2GroupRestClient;
+
     @Autowired
-    public PractitionerController(FisClient fisClient) {
+    public PractitionerController(FisClient fisClient, OAuth2GroupRestClient oAuth2GroupRestClient) {
         this.fisClient = fisClient;
+        this.oAuth2GroupRestClient = oAuth2GroupRestClient;
     }
 
     public enum SearchType {
         identifier, name
     }
-
-    private final FisClient fisClient;
 
     @Autowired
     UserContextService userContextService;
@@ -99,7 +110,29 @@ public class PractitionerController {
                                                                              @RequestParam(value = "organization", required = false) String organization,
                                                                              @RequestParam(value = "role", required = false) String role) {
         try {
-            return fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization, role);
+            List<ReferenceDto> fhirPractitioners = fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization, role);
+            List<ReferenceDto> filteredPractitioners = fhirPractitioners;
+
+            if (practitioner == null && organization != null && role != null) {
+                //uaaPractitioners will only contain those who have a given role (careCoordinator or careManager)
+                String uaaRole = "";
+                if (role.equals(FHIR_CAREMANAGER_ROLE)) {
+                    uaaRole = UAA_CAREMANAGER;
+                } else if (role.equals(FHIR_CARECOORDINATOR_ROLE)) {
+                    uaaRole = UAA_CARECOORDINATOR;
+                }
+
+                List<String> uaaPrractitioners = oAuth2GroupRestClient.retrievePractitionersByOrganizationAndRole(organization, uaaRole);
+
+                //filter fhirPractitioiners to only include UAA practitioners in result
+                Set<String> fhirSet = fhirPractitioners.stream().map(ref -> ref.getReference()).collect(toSet());
+                Set<String> uaaSet = uaaPrractitioners.stream().collect(toSet());
+
+                fhirSet.retainAll(uaaSet);
+                filteredPractitioners = fhirPractitioners.stream().filter(ref -> fhirSet.contains(ref.getReference())).collect(toList());
+            }
+            return filteredPractitioners;
+
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioner was found in the organization for the given practitioner");
             return null;
