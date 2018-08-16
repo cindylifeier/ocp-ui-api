@@ -135,7 +135,7 @@ public class UaaUsersServiceImpl implements UaaUsersService {
     }
 
     @Override
-    public Object getAllUsersByOrganizationId(String organizationId, String resource) {
+    public List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getAllUsersByOrganizationId(String organizationId, String resource) {
         return oAuth2GroupRestClient.getUsersByOrganizationId(organizationId, resource);
     }
 }

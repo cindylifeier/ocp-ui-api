@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -51,7 +52,7 @@ public class UaaUsersController {
     }
 
     @GetMapping("/users")
-    public Object getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId, @RequestParam(value="resource") String resource) {
+    public List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId, @RequestParam(value="resource") String resource) {
         return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource);
     }
 }
