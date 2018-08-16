@@ -76,4 +76,5 @@ public class LookUpDataDto {
     List<ValueSetDto> coverageType;
     List<ValueSetDto> eocStatus;
     List<ValueSetDto> eocType;
+    List<ValueSetDto> contactPurpose;
 }

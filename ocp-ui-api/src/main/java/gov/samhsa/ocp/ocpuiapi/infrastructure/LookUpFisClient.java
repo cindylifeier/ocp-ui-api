@@ -189,4 +189,7 @@ public interface LookUpFisClient {
 
     @RequestMapping(value="/lookups/eoc-type",method = RequestMethod.GET)
     List<ValueSetDto> getEocType();
+
+    @RequestMapping(value="/lookups/contact-purpose",method = RequestMethod.GET)
+    List<ValueSetDto> getContactPurpose();
 }
