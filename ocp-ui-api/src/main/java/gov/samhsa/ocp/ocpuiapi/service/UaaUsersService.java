@@ -6,8 +6,6 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ResetPasswordRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
 
-import java.util.List;
-
 public interface UaaUsersService {
     ChangePasswordResponseDto changePassword(ChangePasswordRequestDto changePasswordRequestDto);
 
@@ -17,5 +15,7 @@ public interface UaaUsersService {
 
     public void createUser(UserDto userDto);
 
-    public List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getAllUsersByOrganizationId(String organizationId, String resource);
+    public Object getAllUsersByOrganizationId(String organizationId, String resource);
+
+    public Object getUserByFhirResouce(String resourceId, String resource);
 }

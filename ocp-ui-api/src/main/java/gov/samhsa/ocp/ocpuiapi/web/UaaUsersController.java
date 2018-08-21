@@ -6,6 +6,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ResetPasswordRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
+import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @RestController
@@ -52,7 +52,11 @@ public class UaaUsersController {
     }
 
     @GetMapping("/users")
-    public List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getUsersByOrganizationId(@RequestParam(value="organizationId", required = true) String organizationId, @RequestParam(value="resource") String resource) {
-        return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource);
+    public Object getUsers(@RequestParam(value="organizationId", required = false) String organizationId, @RequestParam(value="resource") String resource, @RequestParam(value="resourceId", required = false) String resourceId) {
+        if (organizationId != null && resource != null)
+            return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource);
+        if (resourceId != null && resource != null)
+            return uaaUsersService.getUserByFhirResouce(resourceId, resource);
+        throw new BadRequestException("Please provide valid criteria");
     }
 }

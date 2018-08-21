@@ -3,7 +3,6 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure;
 import gov.samhsa.ocp.ocpuiapi.config.OAuth2FeignClientCredentialsConfig;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
-import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ResetPasswordRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
@@ -36,7 +35,7 @@ public interface OAuth2GroupRestClient {
     UserWrapperDto getAllUsers();
 
     @RequestMapping(value = "/userinfos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    List<UserDto> getUsersByOrganizationId(@RequestParam(value = "organizationId", required = true) String organizationId, @RequestParam(value = "resource", required = true) String resource);
+    Object getUsers(@RequestParam(value = "organizationId") String organizationId, @RequestParam(value = "resource", required = true) String resource, @RequestParam(value = "resourceId") String resourceId);
 
     @RequestMapping(value = "/Groups/ocp", method = RequestMethod.POST)
     void createGroup(@Valid @RequestBody GroupRequestDto groupDto);
@@ -58,4 +57,8 @@ public interface OAuth2GroupRestClient {
 
     @RequestMapping(value = "/Users/{userId}/password", method = RequestMethod.PUT)
     ChangePasswordResponseDto resetPassword(@PathVariable("userId") String userId, ResetPasswordRequestDto resetPasswordRequestDto);
+
+    @RequestMapping(value = "/practitionerByOrganizationAndRole", method = RequestMethod.GET)
+    List<String> retrievePractitionersByOrganizationAndRole(@RequestParam(required = true, value = "organization") String organizationId, @RequestParam(required = false, value = "role") String uaaRole);
+
 }
