@@ -2,7 +2,10 @@ package gov.samhsa.ocp.ocpuiapi.infrastructure.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ValueSetDto;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -26,10 +29,10 @@ public class UserDto {
     String info;
 
     @JsonProperty("role")
-    String role;
+    List<ValueSetDto> role;
 
     @JsonIgnore
-    public UserDto(String id, String givenName, String familyName, String displayName, String description, String info, String role) {
+    public UserDto(String id, String givenName, String familyName, String displayName, String description, String info, List<ValueSetDto> role) {
         this.id = id;
         this.givenName = givenName;
         this.familyName = familyName;
