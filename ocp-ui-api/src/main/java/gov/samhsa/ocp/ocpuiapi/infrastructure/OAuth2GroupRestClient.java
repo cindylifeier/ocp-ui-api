@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "oauth2GroupRestClient", url = "${ocp.ocp-ui-api.oauth2.authorization-server-endpoint}", configuration = OAuth2FeignClientCredentialsConfig.class)
 public interface OAuth2GroupRestClient {
@@ -58,4 +59,8 @@ public interface OAuth2GroupRestClient {
 
     @RequestMapping(value = "/Users/{userId}/password", method = RequestMethod.PUT)
     ChangePasswordResponseDto resetPassword(@PathVariable("userId") String userId, ResetPasswordRequestDto resetPasswordRequestDto);
+
+    @RequestMapping(value = "/practitionerByOrganizationAndRole", method = RequestMethod.GET)
+    List<String> retrievePractitionersByOrganizationAndRole(@RequestParam(required = true, value = "organization") String organizationId, @RequestParam(required = false, value = "role") String uaaRole);
+
 }

@@ -19,7 +19,7 @@ public class LocationDto {
 
     private String status;
     private String name;
-    private String physicalType;
+    private ValueSetDto physicalType;
     private AddressDto address;
     private List<TelecomDto> telecoms;
     private List<IdentifierDto> identifiers;
