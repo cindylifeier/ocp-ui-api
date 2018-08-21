@@ -35,6 +35,7 @@ public class PatientDto {
 
     @NotEmpty
     private String genderCode;
+    private String genderDisplayString;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
     private LocalDate birthDate;
@@ -52,6 +53,7 @@ public class PatientDto {
     private List<TelecomDto> telecoms;
 
     private String language;
+    private String languageDisplayString;
 
     private List<EpisodeOfCareDto> episodeOfCares;
 
