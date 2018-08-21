@@ -149,7 +149,7 @@ public class UaaUsersServiceImpl implements UaaUsersService {
                     List<PractitionerRoleDto> roles = practitionerDto.getPractitionerRoles();
 
                     roles.stream().findFirst().ifPresent(role -> {
-                        dto.setRole(role.getCode().stream().findFirst().get().getCode());
+                        dto.setRole(role.getCode());
                     });
                 }
             }
