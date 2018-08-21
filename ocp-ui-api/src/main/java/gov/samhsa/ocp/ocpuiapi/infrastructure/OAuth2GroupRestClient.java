@@ -35,7 +35,7 @@ public interface OAuth2GroupRestClient {
     UserWrapperDto getAllUsers();
 
     @RequestMapping(value = "/userinfos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    Object getUsers(@RequestParam(value = "organizationId") String organizationId, @RequestParam(value = "resource", required = true) String resource, @RequestParam(value = "resourceId") String resourceId);
+    List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getUsers(@RequestParam(value = "organizationId") String organizationId, @RequestParam(value = "resource", required = true) String resource, @RequestParam(value = "resourceId") String resourceId);
 
     @RequestMapping(value = "/Groups/ocp", method = RequestMethod.POST)
     void createGroup(@Valid @RequestBody GroupRequestDto groupDto);
