@@ -31,19 +31,19 @@ public class UaaUsersServiceImpl implements UaaUsersService {
 
     private static final String OCP_ROLE_ORGANIZATION_ADMINISTRATOR = "ocp.role.organizationAdministrator";
     private static final String OCP_ROLE_OCP_ADMIN = "ocp.role.ocpAdmin";
+    private static final String PRACTITIONER = "Practitioner";
+    private static final String PATIENT = "Patient";
     private final JwtTokenExtractor jwtTokenExtractor;
     private final UaaUserTokenRestClient uaaUserTokenRestClient;
     private final OAuth2GroupRestClient oAuth2GroupRestClient;
-
-
-    @Autowired
-    FisClient fisClient;
+    private final FisClient fisClient;
 
     @Autowired
-    public UaaUsersServiceImpl(JwtTokenExtractor jwtTokenExtractor, UaaUserTokenRestClient uaaUserTokenRestClient, OAuth2GroupRestClient oAuth2GroupRestClient) {
+    public UaaUsersServiceImpl(JwtTokenExtractor jwtTokenExtractor, UaaUserTokenRestClient uaaUserTokenRestClient, OAuth2GroupRestClient oAuth2GroupRestClient, FisClient fisClient) {
         this.jwtTokenExtractor = jwtTokenExtractor;
         this.uaaUserTokenRestClient = uaaUserTokenRestClient;
         this.oAuth2GroupRestClient = oAuth2GroupRestClient;
+        this.fisClient = fisClient;
     }
 
     @Override
@@ -136,6 +136,11 @@ public class UaaUsersServiceImpl implements UaaUsersService {
 
     @Override
     public Object getAllUsersByOrganizationId(String organizationId, String resource) {
-        return oAuth2GroupRestClient.getUsersByOrganizationId(organizationId, resource);
+        return oAuth2GroupRestClient.getUsers(organizationId, resource,null);
+    }
+
+    @Override
+    public Object getUserByFhirResouce(String resourceId, String resource) {
+        return oAuth2GroupRestClient.getUsers(null, resource, resourceId);
     }
 }
