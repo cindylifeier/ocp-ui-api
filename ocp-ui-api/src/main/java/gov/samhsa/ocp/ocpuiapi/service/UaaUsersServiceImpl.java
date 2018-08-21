@@ -9,8 +9,10 @@ import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaNameDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.JwtTokenKey;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PatientDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerRoleDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ResetPasswordRequestDto;
@@ -136,6 +138,23 @@ public class UaaUsersServiceImpl implements UaaUsersService {
 
     @Override
     public List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getAllUsersByOrganizationId(String organizationId, String resource) {
-        return oAuth2GroupRestClient.getUsersByOrganizationId(organizationId, resource);
+        PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(null, null, organizationId, true, null, null, true);
+        List<PractitionerDto> fhirPractitioners = practitioners.getElements();
+        List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> uaaPractitioners = oAuth2GroupRestClient.getUsersByOrganizationId(organizationId, resource);
+
+        for (gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto dto : uaaPractitioners) {
+
+            for (PractitionerDto practitionerDto : fhirPractitioners) {
+                if (dto.getInfo().contains(practitionerDto.getLogicalId())) {
+                    List<PractitionerRoleDto> roles = practitionerDto.getPractitionerRoles();
+
+                    roles.stream().findFirst().ifPresent(role -> {
+                        dto.setRole(role.getCode().stream().findFirst().get().getCode());
+                    });
+                }
+            }
+        }
+
+        return uaaPractitioners;
     }
 }
