@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @FeignClient(name = "oauth2GroupRestClient", url = "${ocp.ocp-ui-api.oauth2.authorization-server-endpoint}", configuration = OAuth2FeignClientCredentialsConfig.class)
 public interface OAuth2GroupRestClient {
@@ -36,7 +35,7 @@ public interface OAuth2GroupRestClient {
     UserWrapperDto getAllUsers();
 
     @RequestMapping(value = "/userinfos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    Object getUsersByOrganizationId(@RequestParam(value = "organizationId", required = true) String organizationId, @RequestParam(value = "resource", required = true) String resource);
+    Object getUsers(@RequestParam(value = "organizationId") String organizationId, @RequestParam(value = "resource", required = true) String resource, @RequestParam(value = "resourceId") String resourceId);
 
     @RequestMapping(value = "/Groups/ocp", method = RequestMethod.POST)
     void createGroup(@Valid @RequestBody GroupRequestDto groupDto);
