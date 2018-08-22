@@ -124,9 +124,10 @@ public class PractitionerController {
     @GetMapping("/practitioners/practitioner-references")
     public List<ReferenceDto> getPractitionersInOrganizationByPractitionerId(@RequestParam(value = "practitioner", required = false) String practitioner,
                                                                              @RequestParam(value = "organization", required = false) String organization,
+                                                                             @RequestParam(value = "location", required = false) String location,
                                                                              @RequestParam(value = "role", required = false) String role) {
         try {
-            List<ReferenceDto> fhirPractitioners = fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization, role);
+            List<ReferenceDto> fhirPractitioners = fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization,location, role);
             List<ReferenceDto> filteredPractitioners = fhirPractitioners;
 
             if (practitioner == null && organization != null && role != null) {
@@ -170,8 +171,8 @@ public class PractitionerController {
 
     @PutMapping(value = "/practitioners/{practitionerId}/assign")
     void assignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
-                                       @RequestParam(value = "organizationId") String organizationId,
-                                       @RequestParam(value = "locationId") String locationId) {
+                                      @RequestParam(value = "organizationId") String organizationId,
+                                      @RequestParam(value = "locationId") String locationId) {
         try {
             fisClient.assignLocationToPractitioner(practitionerId, organizationId, locationId);
         } catch (FeignException fe) {
@@ -181,8 +182,8 @@ public class PractitionerController {
 
     @PutMapping(value = "/practitioners/{practitionerId}/unassign")
     void unassignLocationToPractitioner(@PathVariable("practitionerId") String practitionerId,
-                                         @RequestParam(value = "organizationId") String organizationId,
-                                         @RequestParam(value = "locationId") String locationId) {
+                                        @RequestParam(value = "organizationId") String organizationId,
+                                        @RequestParam(value = "locationId") String locationId) {
         try {
             fisClient.unassignLocationToPractitioner(practitionerId, organizationId, locationId);
         } catch (FeignException fe) {

@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,7 @@ public class HealthcareServiceController {
             PageDto<HealthcareServiceDto> fisClientResponse = fisClient.getAllHealthcareServicesByOrganization(organizationId, assignedToLocationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no healthcare services were found in the configured FHIR server for the given OrganizationId");
             return null;
         }
@@ -82,8 +82,7 @@ public class HealthcareServiceController {
             PageDto<HealthcareServiceDto> fisClientResponse = fisClient.getAllHealthcareServicesByLocation(organizationId, locationId, statusList, searchKey, searchValue, pageNumber, pageSize);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no healthcare services were found in the configured FHIR server for the given LocationId");
             return null;
         }
@@ -96,8 +95,7 @@ public class HealthcareServiceController {
             HealthcareServiceDto fisClientResponse = fisClient.getHealthcareService(healthcareServiceId);
             log.info("Got response from FHIR Server...");
             return fisClientResponse;
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no location was found in the configured FHIR server for the given LocationId");
             return null;
         }
@@ -112,8 +110,7 @@ public class HealthcareServiceController {
         log.info("About to assign location(s) to the healthcare service...");
         try {
             fisClient.assignLocationsToHealthcareService(healthcareServiceId, organizationId, locationIdList);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the location(s) were not assigned to the healthcare service.");
         }
         log.info("Successfully assigned all location(s) to the healthcare service.");
@@ -127,8 +124,7 @@ public class HealthcareServiceController {
         log.info("About to unassign location(s) from the healthcare service...");
         try {
             fisClient.unassignLocationFromHealthcareService(healthcareServiceId, organizationId, locationIdList);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the location(s) were not unassigned from the healthcare service.");
         }
         log.info("Successfully unassigned all location(s) from the healthcare service.");
@@ -142,8 +138,7 @@ public class HealthcareServiceController {
         try {
             fisClient.createHealthcareService(organizationId, healthcareServiceDto, userContextService.getUserFhirId());
             log.info("Successfully created the healthcare service");
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the healthcare service was not created");
         }
     }
@@ -157,8 +152,7 @@ public class HealthcareServiceController {
         try {
             fisClient.updateHealthcareService(organizationId, healthcareServiceId, healthcareServiceDto, userContextService.getUserFhirId());
             log.info("Successfully updated the healthcare service ID:" + healthcareServiceId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the healthcare service was not updated");
         }
     }
@@ -170,9 +164,19 @@ public class HealthcareServiceController {
         try {
             fisClient.inactivateHealthcareService(healthcareServiceId);
             log.info("Successfully inactivated the healthcare service ID:" + healthcareServiceId);
-        }
-        catch (FeignException fe) {
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the healthcare service was not inactivated");
+        }
+    }
+
+    @GetMapping("/healthcare-service-references")
+    public List<ReferenceDto> getHealthcareServiceReferences(@RequestParam(value = "organization", required = false) String organization) {
+        log.info("About to get references to healthcare service");
+        try {
+            return fisClient.getAllHealthcareServicesReferences(organization);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that the healthcare service cannot be fetched");
+            return null;
         }
     }
 }
