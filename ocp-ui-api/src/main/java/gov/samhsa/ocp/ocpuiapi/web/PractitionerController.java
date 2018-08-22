@@ -7,6 +7,7 @@ import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ReferenceDto;
+import gov.samhsa.ocp.ocpuiapi.service.exception.ResourceNotFoundException;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,21 @@ public class PractitionerController {
             return fisClient.getPractitioner(practitionerId);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioner was found");
+            return null;
+        }
+    }
+
+    @GetMapping(value="practitioners/find")
+    public PractitionerDto findPractitioner(@RequestParam(value="organization", required = false) String organization,
+                                            @RequestParam(value="firstName") String firstName,
+                                            @RequestParam(value="middleName",required = false)String middleName,
+                                            @RequestParam(value="lastName") String lastName,
+                                            @RequestParam(value="identifierType") String identifierType,
+                                            @RequestParam(value="identifier") String identifier){
+        try{
+            return fisClient.findPractitioner(organization,firstName,middleName,lastName,identifierType,identifier);
+        }catch (FeignException fe){
+            ExceptionUtil.handleFeignException(fe,"practitioner was not found");
             return null;
         }
     }

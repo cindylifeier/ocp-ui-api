@@ -118,6 +118,14 @@ public interface FisClient {
                                         @RequestParam(value = "locationId") String locationId);
 
 
+    @RequestMapping(value="practitioners/find" ,method = RequestMethod.GET)
+    public PractitionerDto findPractitioner(@RequestParam(value="organization", required = false) String organization,
+                                            @RequestParam(value="firstName") String firstName,
+                                            @RequestParam(value="middleName",required = false)String middleName,
+                                            @RequestParam(value="lastName") String lastName,
+                                            @RequestParam(value="identifierType") String identifierType,
+                                            @RequestParam(value="identifier") String identifier);
+
     //Organization
     @RequestMapping(value = "/organizations/all", method = RequestMethod.GET)
     PageDto<OrganizationDto> getOrganizations(@RequestParam(value = "showInactive", required = false) boolean showInactive,
