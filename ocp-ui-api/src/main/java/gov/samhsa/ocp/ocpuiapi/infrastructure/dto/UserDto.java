@@ -13,6 +13,12 @@ public class UserDto {
     @JsonProperty("id")
     String id;
 
+    @JsonProperty("username")
+    String username;
+
+    @JsonProperty("groupId")
+    String groupId;
+
     @JsonProperty("givenName")
     String givenName;
 
@@ -32,7 +38,7 @@ public class UserDto {
     List<ValueSetDto> role;
 
     @JsonIgnore
-    public UserDto(String id, String givenName, String familyName, String displayName, String description, String info, List<ValueSetDto> role) {
+    public UserDto(String id, String givenName, String familyName, String displayName, String description, String info, List<ValueSetDto> role, String username, String groupId) {
         this.id = id;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -40,6 +46,8 @@ public class UserDto {
         this.description = description;
         this.info = info;
         this.role = role;
+        this.username = username;
+        this.groupId = groupId;
     }
 
     //dummy constructor needed for "json parse error"
