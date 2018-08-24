@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.config.OAuth2FeignClientCredentialsConfig;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.ManageUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordResponseDto;
@@ -35,7 +36,7 @@ public interface OAuth2GroupRestClient {
     UserWrapperDto getAllUsers();
 
     @RequestMapping(value = "/userinfos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getUsers(@RequestParam(value = "organizationId") String organizationId, @RequestParam(value = "resource", required = true) String resource, @RequestParam(value = "resourceId") String resourceId);
+    List<ManageUserDto> getUsers(@RequestParam(value = "organizationId") String organizationId, @RequestParam(value = "resource", required = true) String resource, @RequestParam(value = "resourceId") String resourceId);
 
     @RequestMapping(value = "/Groups/ocp", method = RequestMethod.POST)
     void createGroup(@Valid @RequestBody GroupRequestDto groupDto);
