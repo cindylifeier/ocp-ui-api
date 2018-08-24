@@ -162,4 +162,9 @@ public class UaaUsersServiceImpl implements UaaUsersService {
     public Object getUserByFhirResouce(String resourceId, String resource) {
         return oAuth2GroupRestClient.getUsers(null, resource, resourceId);
     }
+
+    @Override
+    public void deleteUser(String userId) {
+        oAuth2GroupRestClient.deleteUser(userId);
+    }
 }
