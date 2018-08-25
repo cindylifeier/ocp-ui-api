@@ -1,10 +1,12 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.UaaUserTokenRestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.EmailDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.ManageUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaNameDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UaaUserInfoDto;
@@ -18,6 +20,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ChangePasswordResponseDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.ResetPasswordRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.RoleToUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupMemberDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.Info;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserResourceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
@@ -25,8 +28,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UaaUsersServiceImpl implements UaaUsersService {
@@ -137,29 +146,69 @@ public class UaaUsersServiceImpl implements UaaUsersService {
     }
 
     @Override
-    public List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> getAllUsersByOrganizationId(String organizationId, String resource) {
+    public List<ManageUserDto> getAllUsersByOrganizationId(String organizationId, String resource) {
         PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(null, null, organizationId, true, null, null, true);
         List<PractitionerDto> fhirPractitioners = practitioners.getElements();
-        List<gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto> uaaPractitioners = oAuth2GroupRestClient.getUsers(organizationId, resource, null);
+        List<ManageUserDto> uaaPractitioners = oAuth2GroupRestClient.getUsers(organizationId, resource, null);
 
-        for (gov.samhsa.ocp.ocpuiapi.infrastructure.dto.UserDto dto : uaaPractitioners) {
+        Map<String, ManageUserDto> map = new HashMap<>();
 
-            for (PractitionerDto practitionerDto : fhirPractitioners) {
-                if (dto.getInfo().contains(practitionerDto.getLogicalId())) {
-                    List<PractitionerRoleDto> roles = practitionerDto.getPractitionerRoles();
-
-                    roles.stream().findFirst().ifPresent(role -> {
-                        dto.setRole(role.getCode());
-                    });
-                }
-            }
+        for(ManageUserDto uaaUser : uaaPractitioners) {
+            String uaaId = this.convertUaaUserToId(uaaUser);
+            map.put(uaaId, uaaUser);
         }
 
-        return uaaPractitioners;
+      List<ManageUserDto> mappedUaaUsers = new ArrayList<>();
+        for (PractitionerDto fhirUser : fhirPractitioners) {
+            ManageUserDto uaaUser = map.get(fhirUser.getLogicalId());
+
+            //some users do not have corresponding account in UAA
+            if (uaaUser == null) {
+                //just create empty ones
+                uaaUser = new ManageUserDto();
+                uaaUser.setId(new Random().nextInt(100000) + "");
+
+                if(fhirUser.getName().get(0) != null) {
+                    uaaUser.setGivenName(fhirUser.getName().get(0).getFirstName());
+                }
+
+                if(fhirUser.getName().get(0) != null) {
+                    uaaUser.setFamilyName(fhirUser.getName().get(0).getLastName());
+                }
+
+                uaaUser.setGroupId("NA");
+                uaaUser.setDisplayName("NA");
+                uaaUser.setDescription("NA");
+                uaaUser.setInfo("NA");
+            }
+
+            Optional<PractitionerRoleDto> role = fhirUser.getPractitionerRoles().stream().findFirst();
+
+            if (role.isPresent()) {
+                uaaUser.setRole(role.get().getCode());
+            }
+
+            mappedUaaUsers.add(uaaUser);
+        }
+
+        return mappedUaaUsers;
     }
 
     @Override
     public Object getUserByFhirResouce(String resourceId, String resource) {
         return oAuth2GroupRestClient.getUsers(null, resource, resourceId);
+    }
+
+    private String convertUaaUserToId(ManageUserDto user) {
+        try {
+            String info = user.getInfo();
+            ObjectMapper mapper = new ObjectMapper();
+
+            Info infoObj = mapper.readValue(info, Info.class);
+            return infoObj.getUserAttributes().getId().stream().findFirst().get();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
