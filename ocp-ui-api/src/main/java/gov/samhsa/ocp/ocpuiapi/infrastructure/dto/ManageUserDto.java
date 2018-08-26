@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserDto {
+public class ManageUserDto {
 
     @JsonProperty("id")
     String id;
@@ -38,7 +38,7 @@ public class UserDto {
     List<ValueSetDto> role;
 
     @JsonIgnore
-    public UserDto(String id, String givenName, String familyName, String displayName, String description, String info, List<ValueSetDto> role, String username, String groupId) {
+    public ManageUserDto(String id, String givenName, String familyName, String displayName, String description, String info, List<ValueSetDto> role, String username, String groupId) {
         this.id = id;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -51,7 +51,7 @@ public class UserDto {
     }
 
     //dummy constructor needed for "json parse error"
-    public UserDto() {
+    public ManageUserDto() {
 
     }
 
