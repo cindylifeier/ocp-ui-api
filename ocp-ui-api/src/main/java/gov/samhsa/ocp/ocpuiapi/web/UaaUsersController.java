@@ -9,6 +9,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.user.UserDto;
 import gov.samhsa.ocp.ocpuiapi.service.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,12 @@ public class UaaUsersController {
     @ResponseStatus(HttpStatus.OK)
     public void assignRoleToUser(@PathVariable("userId") String userId, @PathVariable("groupId") String groupId ) {
         uaaUsersService.assignRoleToUser(RoleToUserDto.builder().groupId(groupId).userId(userId).build());
+    }
+
+    @DeleteMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable("userId") String userId) {
+        uaaUsersService.deleteUser(userId);
     }
 
     @GetMapping("/users")

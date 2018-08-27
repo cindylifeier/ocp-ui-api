@@ -62,4 +62,7 @@ public interface OAuth2GroupRestClient {
     @RequestMapping(value = "/practitionerByOrganizationAndRole", method = RequestMethod.GET)
     List<String> retrievePractitionersByOrganizationAndRole(@RequestParam(required = true, value = "organization") String organizationId, @RequestParam(required = false, value = "role") String uaaRole);
 
+    @RequestMapping(value = "/Users/{userId}", method = RequestMethod.DELETE)
+    void deleteUser(@PathVariable("userId") String userId);
+
 }
