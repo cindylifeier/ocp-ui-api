@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("ocp-fis")
@@ -82,5 +83,22 @@ public class CommunicationController {
         }
     }
 
+    @GetMapping("/communications")
+    public Object getCommunications(@RequestParam(value = "patient") String patient,
+                                    @RequestParam(value = "topic") String topic,
+                                    @RequestParam(value = "resourceType") String resourceType,
+                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                    @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        log.info("Searching Communications from FHIR server");
+        try {
+            Object communication = fisClient.getCommunicationsByTopic(patient, topic, resourceType, pageNumber, pageSize);
+            log.info("Got Response from FHIR server for Communications Search based on patient and topic");
+            return communication;
+        }
+        catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "that no Communications were found in the configured FHIR server for the given patient, topic and resourceType");
+            return null;
+        }
+    }
 
 }
