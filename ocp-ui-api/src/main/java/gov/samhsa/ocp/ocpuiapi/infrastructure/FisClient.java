@@ -24,6 +24,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.RelatedPersonDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.TaskDto;
 import gov.samhsa.ocp.ocpuiapi.web.PractitionerController;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "ocp-fis", url = "${ribbon.listOfServers}")
 public interface FisClient {
@@ -201,6 +203,13 @@ public interface FisClient {
                                                           @RequestParam(value = "roles", required = false) List<String> roles,
                                                           @RequestParam(value = "value", required = false) String name,
                                                           @RequestParam(value = "communication", required = false) String communication);
+
+    @RequestMapping(value="/communications", method = RequestMethod.GET)
+    public PageDto<CommunicationDto> getCommunicationsByTopic(@RequestParam(value = "patient") String patient,
+                                                       @RequestParam(value = "topic") String topic,
+                                                       @RequestParam(value = "resourceType") String resourceType,
+                                                       @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                       @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
 
     //HealthcareService
@@ -420,8 +429,8 @@ public interface FisClient {
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value = "/appointments/search-with-no-pagination", method = RequestMethod.GET)
-    List<AppointmentDto> getAppointmentsWithNoPagination(@RequestParam(value = "statusList", required = false) List<String> statusList,
+    @RequestMapping(value = "/appointments/not-declined-and-not-paginated", method = RequestMethod.GET)
+    List<AppointmentDto> getNonDeclinedAppointmentsWithNoPagination(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                                          @RequestParam(value = "patientId", required = false) String patientId,
                                                          @RequestParam(value = "practitionerId", required = false) String practitionerId,
                                                          @RequestParam(value = "searchKey", required = false) String searchKey,

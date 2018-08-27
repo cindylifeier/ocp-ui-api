@@ -72,7 +72,7 @@ public class AppointmentController {
         }
     }
 
-    @GetMapping("/appointments/search-with-no-pagination")
+    @GetMapping("/appointments/not-declined-and-not-paginated")
     public List<AppointmentDto> getAppointmentsWithNoPagination(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                                                 @RequestParam(value = "patientId", required = false) String patientId,
                                                                 @RequestParam(value = "practitionerId", required = false) String practitionerId,
@@ -80,13 +80,13 @@ public class AppointmentController {
                                                                 @RequestParam(value = "searchValue", required = false) String searchValue,
                                                                 @RequestParam(value = "showPastAppointments", required = false) Boolean showPastAppointments,
                                                                 @RequestParam(value = "sortByStartTimeAsc", required = false, defaultValue = "true") Boolean sortByStartTimeAsc) {
-        log.info("Searching Appointments from FHIR server");
+        log.info("Searching Calendar Appointments from FHIR server");
         try {
-            List<AppointmentDto> appointmentList = fisClient.getAppointmentsWithNoPagination(statusList, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc);
-            log.info("Got Response from FHIR server for Appointment Search");
+            List<AppointmentDto> appointmentList = fisClient.getNonDeclinedAppointmentsWithNoPagination(statusList, patientId, practitionerId, searchKey, searchValue, showPastAppointments, sortByStartTimeAsc);
+            log.info("Got Response from FHIR server for Calendar Appointment Search");
             return appointmentList;
         } catch (FeignException fe) {
-            ExceptionUtil.handleFeignException(fe, "that no Appointments were found in the configured FHIR server for the given searchKey and searchValue");
+            ExceptionUtil.handleFeignException(fe, "that no Calendar Appointments were found in the configured FHIR server for the given searchKey and searchValue");
             return null;
         }
     }
