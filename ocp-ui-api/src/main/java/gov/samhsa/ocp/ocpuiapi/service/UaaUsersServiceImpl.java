@@ -195,7 +195,7 @@ public class UaaUsersServiceImpl implements UaaUsersService {
     }
 
     @Override
-    public Object getUserByFhirResouce(String resourceId, String resource) {
+    public List<ManageUserDto> getUserByFhirResouce(String resourceId, String resource) {
         return oAuth2GroupRestClient.getUsers(null, resource, resourceId);
     }
 
