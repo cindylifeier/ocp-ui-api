@@ -211,4 +211,9 @@ public class UaaUsersServiceImpl implements UaaUsersService {
             return null;
         }
     }
+
+    @Override
+    public void deleteUser(String userId) {
+        oAuth2GroupRestClient.deleteUser(userId);
+    }
 }

@@ -125,6 +125,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_read')")
                         .antMatchers(HttpMethod.POST, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_create')")
                         .antMatchers(HttpMethod.PUT, "/users/**").access("#oauth2.hasScopeMatching('ocpUiApi.user_update')")
+                        .antMatchers(HttpMethod.DELETE, "/users/**").access("#oauth2.hasScopeMatching('ocpUiApi.user_delete')")
                         .anyRequest().denyAll();
             }
         };

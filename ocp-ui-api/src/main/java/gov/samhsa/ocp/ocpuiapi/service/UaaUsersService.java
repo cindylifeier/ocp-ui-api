@@ -15,6 +15,8 @@ public interface UaaUsersService {
 
     public void createUser(UserDto userDto);
 
+    public void deleteUser(String userId);
+
     public Object getAllUsersByOrganizationId(String organizationId, String resource);
 
     public Object getUserByFhirResouce(String resourceId, String resource);
