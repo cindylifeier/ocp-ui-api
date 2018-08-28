@@ -429,8 +429,8 @@ public interface FisClient {
                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
-    @RequestMapping(value = "/appointments/search-with-no-pagination", method = RequestMethod.GET)
-    List<AppointmentDto> getAppointmentsWithNoPagination(@RequestParam(value = "statusList", required = false) List<String> statusList,
+    @RequestMapping(value = "/appointments/not-declined-and-not-paginated", method = RequestMethod.GET)
+    List<AppointmentDto> getNonDeclinedAppointmentsWithNoPagination(@RequestParam(value = "statusList", required = false) List<String> statusList,
                                                          @RequestParam(value = "patientId", required = false) String patientId,
                                                          @RequestParam(value = "practitionerId", required = false) String practitionerId,
                                                          @RequestParam(value = "searchKey", required = false) String searchKey,
