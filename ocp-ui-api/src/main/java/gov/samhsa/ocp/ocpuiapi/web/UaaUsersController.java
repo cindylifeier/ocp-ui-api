@@ -80,9 +80,14 @@ public class UaaUsersController {
             fhirUaaUserDto.setLogicalId(fp.getLogicalId());
             fhirUaaUserDto.setUserId(Optional.of("N/A"));
             fhirUaaUserDto.setUserName(Optional.of("N/A"));
-            uaaPractitionerInOrganization(organizationId, resource, fp.getLogicalId()).ifPresent(user->{
+            fhirUaaUserDto.setUserRoleDisplayName(Optional.of("N/A"));
+            fhirUaaUserDto.setUserRoleDescription(Optional.of("N/A"));
+
+            uaaPractitionerInOrganization(organizationId, resource, fp.getLogicalId()).ifPresent(user -> {
                 fhirUaaUserDto.setUserName(Optional.ofNullable(user.getUsername()));
                 fhirUaaUserDto.setUserId(Optional.ofNullable(user.getId()));
+                fhirUaaUserDto.setUserRoleDisplayName(Optional.ofNullable(user.getDisplayName()));
+                fhirUaaUserDto.setUserRoleDescription(Optional.ofNullable(user.getDescription()));
             });
             fp.getName().stream().findAny().ifPresent(n -> {
                 fhirUaaUserDto.setFamilyName(n.getLastName());
@@ -104,23 +109,23 @@ public class UaaUsersController {
     }
 
     private String practitionerUaaRoleInOrganizationDescription(String organizationId, String resource, String practitionerId) {
-            return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource).stream()
-                    .filter(user -> {
-                        String id = user.getId();
-                        return uaaUsersService.getUserByFhirResouce(practitionerId,resource)
-                                .stream()
-                                .map(u -> u.getId())
-                                .distinct()
-                                .collect(Collectors.toList())
-                                .contains(id);
-                    }).map(user -> user.getDescription()).findAny().orElse("N/A");
-    }
-
-    private String practitionerUaaRoleInOrganizationDisplayName(String organizationId, String resource, String practitionerId){
         return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource).stream()
                 .filter(user -> {
                     String id = user.getId();
-                    return uaaUsersService.getUserByFhirResouce(practitionerId,resource)
+                    return uaaUsersService.getUserByFhirResouce(practitionerId, resource)
+                            .stream()
+                            .map(u -> u.getId())
+                            .distinct()
+                            .collect(Collectors.toList())
+                            .contains(id);
+                }).map(user -> user.getDescription()).findAny().orElse("N/A");
+    }
+
+    private String practitionerUaaRoleInOrganizationDisplayName(String organizationId, String resource, String practitionerId) {
+        return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource).stream()
+                .filter(user -> {
+                    String id = user.getId();
+                    return uaaUsersService.getUserByFhirResouce(practitionerId, resource)
                             .stream()
                             .map(u -> u.getId())
                             .distinct()
@@ -129,11 +134,11 @@ public class UaaUsersController {
                 }).map(user -> user.getDisplayName()).findAny().orElse("N/A");
     }
 
-    private Optional<ManageUserDto> uaaPractitionerInOrganization(String organizationId, String resource, String practitionerId){
+    private Optional<ManageUserDto> uaaPractitionerInOrganization(String organizationId, String resource, String practitionerId) {
         return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource).stream()
                 .filter(user -> {
                     String id = user.getId();
-                    return uaaUsersService.getUserByFhirResouce(practitionerId,resource)
+                    return uaaUsersService.getUserByFhirResouce(practitionerId, resource)
                             .stream()
                             .map(u -> u.getId())
                             .distinct()

@@ -25,6 +25,10 @@ public class FHIRUaaUserDto {
 
      private Optional<String> userName;
 
+     private Optional<String> userRoleDisplayName;
+
+     private Optional<String> userRoleDescription;
+
      private String givenName;
 
      private String familyName;
