@@ -78,6 +78,12 @@ public class UaaUsersController {
         return practitioners.stream().map(fp -> {
             FHIRUaaUserDto fhirUaaUserDto = new FHIRUaaUserDto();
             fhirUaaUserDto.setLogicalId(fp.getLogicalId());
+            fhirUaaUserDto.setUserId(Optional.of("N/A"));
+            fhirUaaUserDto.setUserName(Optional.of("N/A"));
+            uaaPractitionerInOrganization(organizationId, resource, fp.getLogicalId()).ifPresent(user->{
+                fhirUaaUserDto.setUserName(Optional.ofNullable(user.getUsername()));
+                fhirUaaUserDto.setUserId(Optional.ofNullable(user.getId()));
+            });
             fp.getName().stream().findAny().ifPresent(n -> {
                 fhirUaaUserDto.setFamilyName(n.getLastName());
                 fhirUaaUserDto.setGivenName(n.getFirstName());
@@ -87,15 +93,53 @@ public class UaaUsersController {
             fhirUaaUserDto.setActive(fp.isActive());
             fhirUaaUserDto.setTelecomDtos(fp.getTelecoms());
             List<PractitionerRoleDto> roles = fp.getPractitionerRoles().stream().map(f -> {
-                if (getUsers(f.getOrganization().getReference().split("/")[1], resource, fp.getLogicalId()).isEmpty()) {
-                    return f;
-                } else {
-                    f.setUaaRole(Optional.of(getUsers(f.getOrganization().getReference().split("/")[1], resource, fp.getLogicalId()).stream().findFirst().get().getDescription()));
-                    return f;
-                }
-            }).collect(Collectors.toList());
+                        f.setUaaRoleDescription(Optional.ofNullable(practitionerUaaRoleInOrganizationDescription(f.getOrganization().getReference().split("/")[1], resource, f.getPractitioner().getReference().split("/")[1])));
+                        f.setUaaRoleDisplayName(Optional.ofNullable(practitionerUaaRoleInOrganizationDisplayName(f.getOrganization().getReference().split("/")[1], resource, f.getPractitioner().getReference().split("/")[1])));
+                        return f;
+                    }
+            ).collect(Collectors.toList());
             fhirUaaUserDto.setPractitionerRoles(roles);
             return fhirUaaUserDto;
         }).collect(Collectors.toList());
     }
+
+    private String practitionerUaaRoleInOrganizationDescription(String organizationId, String resource, String practitionerId) {
+            return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource).stream()
+                    .filter(user -> {
+                        String id = user.getId();
+                        return uaaUsersService.getUserByFhirResouce(practitionerId,resource)
+                                .stream()
+                                .map(u -> u.getId())
+                                .distinct()
+                                .collect(Collectors.toList())
+                                .contains(id);
+                    }).map(user -> user.getDescription()).findAny().orElse("N/A");
+    }
+
+    private String practitionerUaaRoleInOrganizationDisplayName(String organizationId, String resource, String practitionerId){
+        return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource).stream()
+                .filter(user -> {
+                    String id = user.getId();
+                    return uaaUsersService.getUserByFhirResouce(practitionerId,resource)
+                            .stream()
+                            .map(u -> u.getId())
+                            .distinct()
+                            .collect(Collectors.toList())
+                            .contains(id);
+                }).map(user -> user.getDisplayName()).findAny().orElse("N/A");
+    }
+
+    private Optional<ManageUserDto> uaaPractitionerInOrganization(String organizationId, String resource, String practitionerId){
+        return uaaUsersService.getAllUsersByOrganizationId(organizationId, resource).stream()
+                .filter(user -> {
+                    String id = user.getId();
+                    return uaaUsersService.getUserByFhirResouce(practitionerId,resource)
+                            .stream()
+                            .map(u -> u.getId())
+                            .distinct()
+                            .collect(Collectors.toList())
+                            .contains(id);
+                }).findAny();
+    }
+
 }

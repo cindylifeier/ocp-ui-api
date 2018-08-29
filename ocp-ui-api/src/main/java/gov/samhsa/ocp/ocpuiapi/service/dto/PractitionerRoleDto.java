@@ -27,5 +27,7 @@ public class PractitionerRoleDto {
 
     private List<ValueSetDto> code;
 
-    private Optional<String> uaaRole;
+    private Optional<String> uaaRoleDescription;
+
+    private Optional<String> uaaRoleDisplayName;
 }

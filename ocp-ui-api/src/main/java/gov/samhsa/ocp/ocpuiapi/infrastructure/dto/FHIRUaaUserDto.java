@@ -21,6 +21,10 @@ import java.util.Optional;
 public class FHIRUaaUserDto {
      private String logicalId;
 
+     private Optional<String> userId;
+
+     private Optional<String> userName;
+
      private String givenName;
 
      private String familyName;
