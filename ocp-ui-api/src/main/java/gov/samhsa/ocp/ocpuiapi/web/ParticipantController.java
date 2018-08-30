@@ -2,6 +2,8 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2RestClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.ManageUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @Slf4j
@@ -21,10 +26,12 @@ import java.util.List;
 public class ParticipantController {
 
     private final FisClient fisClient;
+    private final OAuth2RestClient uaaClient;
 
     @Autowired
-    public ParticipantController(FisClient fisClient) {
+    public ParticipantController(FisClient fisClient, OAuth2RestClient uaaClient) {
         this.fisClient = fisClient;
+        this.uaaClient = uaaClient;
     }
 
     @GetMapping("/search")
@@ -38,9 +45,14 @@ public class ParticipantController {
                                                             @RequestParam(value = "size", required = false) Integer size,
                                                             @RequestParam(value = "showAll", required = false) Boolean showAll) {
         try {
-            return fisClient.getAllParticipants(patientId, member, value, organization, forCareTeam, showInActive, page, size, showAll);
-        }
-        catch (FeignException fe) {
+            PageDto<ParticipantSearchDto> fhirParticipantPageDtos = fisClient.getAllParticipants(patientId, member, value, organization, forCareTeam, showInActive, page, size, showAll);
+
+            if(member != null && member.equals("practitioner") && fhirParticipantPageDtos != null) {
+                fhirParticipantPageDtos = updatePractitionersWithFhirRoles(fhirParticipantPageDtos);
+            }
+
+            return fhirParticipantPageDtos;
+        } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no participants were found for the given parameters");
             return null;
         }
@@ -59,5 +71,38 @@ public class ParticipantController {
             return null;
         }
     }
+
+    private PageDto<ParticipantSearchDto> updatePractitionersWithFhirRoles(PageDto<ParticipantSearchDto> fhirParticipantPageDtos) {
+
+        List<ParticipantSearchDto> fhirParticipantList = fhirParticipantPageDtos.getElements();
+
+        List<String> fhirIds = fhirParticipantList.stream().map(dto -> {
+            return dto.getMember().getId();
+        }).collect(toList());
+
+        if (fhirIds != null && fhirIds.size() > 0) {
+            Map<String, ManageUserDto> map = uaaClient.getUserRoles(fhirIds);
+
+            if (map != null && !map.isEmpty()) {
+                List<ParticipantSearchDto> updatedFhirParticipantList = fhirParticipantList.stream().map(dto -> {
+                    ManageUserDto manageUserDto = map.get(dto.getMember().getId());
+
+                    if (manageUserDto != null) {
+                        dto.setUaaRole(manageUserDto.getDisplayName());
+                        return dto;
+                    }
+
+                    return dto;
+                }).collect(toList());
+
+                fhirParticipantPageDtos.setElements(updatedFhirParticipantList);
+
+                return fhirParticipantPageDtos;
+            }
+        }
+
+        return fhirParticipantPageDtos;
+    }
+
 }
 

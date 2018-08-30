@@ -1,7 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.service;
 
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2RestClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupRequestDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.uaa.group.GroupWithScopesDto;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class UaaGroupServiceImpl implements UaaGroupService {
 
     @Autowired
-    OAuth2GroupRestClient oAuth2GroupRestClient;
+    OAuth2RestClient oAuth2GroupRestClient;
 
     @Autowired
     FisClient fisClient;

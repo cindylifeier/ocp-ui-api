@@ -3,7 +3,7 @@ package gov.samhsa.ocp.ocpuiapi.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2RestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.UaaUserTokenRestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.EmailDto;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.ManageUserDto;
@@ -46,11 +46,11 @@ public class UaaUsersServiceImpl implements UaaUsersService {
     private static final String PATIENT = "Patient";
     private final JwtTokenExtractor jwtTokenExtractor;
     private final UaaUserTokenRestClient uaaUserTokenRestClient;
-    private final OAuth2GroupRestClient oAuth2GroupRestClient;
+    private final OAuth2RestClient oAuth2GroupRestClient;
     private final FisClient fisClient;
 
     @Autowired
-    public UaaUsersServiceImpl(JwtTokenExtractor jwtTokenExtractor, UaaUserTokenRestClient uaaUserTokenRestClient, OAuth2GroupRestClient oAuth2GroupRestClient, FisClient fisClient) {
+    public UaaUsersServiceImpl(JwtTokenExtractor jwtTokenExtractor, UaaUserTokenRestClient uaaUserTokenRestClient, OAuth2RestClient oAuth2GroupRestClient, FisClient fisClient) {
         this.jwtTokenExtractor = jwtTokenExtractor;
         this.uaaUserTokenRestClient = uaaUserTokenRestClient;
         this.oAuth2GroupRestClient = oAuth2GroupRestClient;
