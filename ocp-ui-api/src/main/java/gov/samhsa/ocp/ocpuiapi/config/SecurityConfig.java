@@ -122,6 +122,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.POST, "/groups").access("#oauth2.hasScopeMatching('ocpUiApi.group_create')")
                         .antMatchers(HttpMethod.PUT, "/groups/**").access("#oauth2.hasScopeMatching('ocpUiApi.group_update')")
 
+                        .antMatchers(HttpMethod.GET, "/manage-users").access("#oauth2.hasScopeMatching('ocpUiApi.user_read')")
                         .antMatchers(HttpMethod.GET, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_read')")
                         .antMatchers(HttpMethod.POST, "/users").access("#oauth2.hasScopeMatching('ocpUiApi.user_create')")
                         .antMatchers(HttpMethod.PUT, "/users/**").access("#oauth2.hasScopeMatching('ocpUiApi.user_update')")
