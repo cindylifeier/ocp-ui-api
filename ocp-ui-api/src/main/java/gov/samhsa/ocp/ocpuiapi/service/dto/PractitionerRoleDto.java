@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -25,4 +26,8 @@ public class PractitionerRoleDto {
     private List<ValueSetDto> specialty;
 
     private List<ValueSetDto> code;
+
+    private Optional<String> uaaRoleDescription;
+
+    private Optional<String> uaaRoleDisplayName;
 }

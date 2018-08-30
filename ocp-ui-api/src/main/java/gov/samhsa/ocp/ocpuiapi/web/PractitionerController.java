@@ -2,6 +2,9 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.FHIRUaaUserDto;
+import gov.samhsa.ocp.ocpuiapi.service.PractitionerService;
+import gov.samhsa.ocp.ocpuiapi.service.PractitionerServiceImpl;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2RestClient;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
@@ -38,12 +42,15 @@ public class PractitionerController {
     public static final String UAA_CAREMANAGER = "careManager";
     public static final String UAA_CARECOORDINATOR = "careCoordinator";
     private final FisClient fisClient;
+    private final PractitionerService practitionerService;
     private final OAuth2RestClient oAuth2GroupRestClient;
 
     @Autowired
-    public PractitionerController(FisClient fisClient, OAuth2RestClient oAuth2GroupRestClient) {
+
+    public PractitionerController(FisClient fisClient, OAuth2RestClient oAuth2GroupRestClient, PractitionerService practitionerService) {
         this.fisClient = fisClient;
         this.oAuth2GroupRestClient = oAuth2GroupRestClient;
+        this.practitionerService = practitionerService;
     }
 
     public enum SearchType {
@@ -54,18 +61,17 @@ public class PractitionerController {
     UserContextService userContextService;
 
     @GetMapping("/practitioners/search")
-    public PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
-                                                        @RequestParam(value = "searchValue", required = false) String searchValue,
-                                                        @RequestParam(value = "organization", required = false) String organization,
-                                                        @RequestParam(value = "showInactive", required = false) Boolean showInactive,
-                                                        @RequestParam(value = "page", required = false) Integer page,
-                                                        @RequestParam(value = "size", required = false) Integer size,
-                                                        @RequestParam(value = "showAll", required = false) Boolean showAll) {
+    public PageDto<FHIRUaaUserDto> searchPractitioners(@RequestParam(value = "searchType", required = false) SearchType searchType,
+                                                       @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                       @RequestParam(value = "organization", required = false) String organization,
+                                                       @RequestParam(value = "showInactive", required = false) Boolean showInactive,
+                                                       @RequestParam(value = "page", required = false) Integer page,
+                                                       @RequestParam(value = "size", required = false) Integer size,
+                                                       @RequestParam(value = "showAll", required = false) Boolean showAll,
+                                                       @RequestParam(value = "showUser") Optional<Boolean> showUser) {
         log.info("Searching practitioners from FHIR server");
         try {
-            PageDto<PractitionerDto> practitioners = fisClient.searchPractitioners(searchType, searchValue, organization, showInactive, page, size, showAll);
-            log.info("Got response from FHIR server for practitioner search");
-            return practitioners;
+            return practitionerService.searchPractitioners(searchType, searchValue, organization, showInactive, page, size, showAll, showUser);
         } catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that no practitioners were found in the configured FHIR server for the given searchType and searchValue");
             return null;
@@ -105,17 +111,17 @@ public class PractitionerController {
         }
     }
 
-    @GetMapping(value="practitioners/find")
-    public PractitionerDto findPractitioner(@RequestParam(value="organization", required = false) String organization,
-                                            @RequestParam(value="firstName") String firstName,
-                                            @RequestParam(value="middleName",required = false)String middleName,
-                                            @RequestParam(value="lastName") String lastName,
-                                            @RequestParam(value="identifierType") String identifierType,
-                                            @RequestParam(value="identifier") String identifier){
-        try{
-            return fisClient.findPractitioner(organization,firstName,middleName,lastName,identifierType,identifier);
-        }catch (FeignException fe){
-            ExceptionUtil.handleFeignException(fe,"practitioner was not found");
+    @GetMapping(value = "practitioners/find")
+    public PractitionerDto findPractitioner(@RequestParam(value = "organization", required = false) String organization,
+                                            @RequestParam(value = "firstName") String firstName,
+                                            @RequestParam(value = "middleName", required = false) String middleName,
+                                            @RequestParam(value = "lastName") String lastName,
+                                            @RequestParam(value = "identifierType") String identifierType,
+                                            @RequestParam(value = "identifier") String identifier) {
+        try {
+            return fisClient.findPractitioner(organization, firstName, middleName, lastName, identifierType, identifier);
+        } catch (FeignException fe) {
+            ExceptionUtil.handleFeignException(fe, "practitioner was not found");
             return null;
         }
     }
@@ -126,7 +132,7 @@ public class PractitionerController {
                                                                              @RequestParam(value = "location", required = false) String location,
                                                                              @RequestParam(value = "role", required = false) String role) {
         try {
-            List<ReferenceDto> fhirPractitioners = fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization,location, role);
+            List<ReferenceDto> fhirPractitioners = fisClient.getPractitionersInOrganizationByPractitionerId(practitioner, organization, location, role);
             List<ReferenceDto> filteredPractitioners = fhirPractitioners;
 
             if (practitioner == null && organization != null && role != null) {
