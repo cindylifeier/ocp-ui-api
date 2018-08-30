@@ -51,4 +51,8 @@ public class AppointmentDto {
     private boolean canDecline;
     private boolean canTentativelyAccept;
     private String requesterParticipationStatusCode;
+
+    //Patient Demographics only
+    PatientDto patient;
+    LocationDto location;
 }
