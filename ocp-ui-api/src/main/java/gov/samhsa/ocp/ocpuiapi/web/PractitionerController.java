@@ -2,10 +2,10 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
-import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2GroupRestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.FHIRUaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.PractitionerService;
 import gov.samhsa.ocp.ocpuiapi.service.PractitionerServiceImpl;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2RestClient;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerDto;
@@ -42,11 +42,12 @@ public class PractitionerController {
     public static final String UAA_CAREMANAGER = "careManager";
     public static final String UAA_CARECOORDINATOR = "careCoordinator";
     private final FisClient fisClient;
-    private final OAuth2GroupRestClient oAuth2GroupRestClient;
     private final PractitionerService practitionerService;
+    private final OAuth2RestClient oAuth2GroupRestClient;
 
     @Autowired
-    public PractitionerController(FisClient fisClient, OAuth2GroupRestClient oAuth2GroupRestClient, PractitionerServiceImpl practitionerService) {
+
+    public PractitionerController(FisClient fisClient, OAuth2RestClient oAuth2GroupRestClient, PractitionerService practitionerService) {
         this.fisClient = fisClient;
         this.oAuth2GroupRestClient = oAuth2GroupRestClient;
         this.practitionerService = practitionerService;
@@ -83,7 +84,8 @@ public class PractitionerController {
         try {
 
             fisClient.createPractitioner(practitionerDto, userContextService.getUserFhirId());
-        } catch (FeignException fe) {
+        }
+        catch (FeignException fe) {
             ExceptionUtil.handleFeignException(fe, "that the practitioner was not created");
         }
     }
@@ -193,6 +195,4 @@ public class PractitionerController {
             ExceptionUtil.handleFeignException(fe, "that the location was not unassigned");
         }
     }
-
-
 }

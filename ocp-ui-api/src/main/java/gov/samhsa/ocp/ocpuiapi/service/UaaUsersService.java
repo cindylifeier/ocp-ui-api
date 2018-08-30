@@ -18,6 +18,8 @@ public interface UaaUsersService {
 
     public void createUser(UserDto userDto);
 
+    public void deleteUser(String userId);
+
     public List<ManageUserDto> getAllUsersByOrganizationId(String organizationId, String resource);
 
     public List<ManageUserDto> getUserByFhirResouce(String resourceId, String resource);
