@@ -2,6 +2,7 @@ package gov.samhsa.ocp.ocpuiapi.web;
 
 import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2RestClient;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
@@ -21,10 +22,12 @@ import java.util.List;
 public class ParticipantController {
 
     private final FisClient fisClient;
+    private final OAuth2RestClient uaaClient;
 
     @Autowired
-    public ParticipantController(FisClient fisClient) {
+    public ParticipantController(FisClient fisClient, OAuth2RestClient uaaClient) {
         this.fisClient = fisClient;
+        this.uaaClient = uaaClient;
     }
 
     @GetMapping("/search")

@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(name = "oauth2GroupRestClient", url = "${ocp.ocp-ui-api.oauth2.authorization-server-endpoint}", configuration = OAuth2FeignClientCredentialsConfig.class)
-public interface OAuth2GroupRestClient {
+public interface OAuth2RestClient {
 
     @RequestMapping(value = "/Groups/ocp-groups", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     List<GroupDto> getAllGroups();
