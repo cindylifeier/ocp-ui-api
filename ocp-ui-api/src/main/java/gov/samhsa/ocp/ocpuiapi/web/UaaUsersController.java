@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,13 +91,12 @@ public class UaaUsersController {
                 fhirUaaUserDto.setUserRoleDescription(Optional.ofNullable(user.getDescription()));
             });
             fp.getName().stream().findAny().ifPresent(n -> {
-                fhirUaaUserDto.setFamilyName(n.getLastName());
-                fhirUaaUserDto.setGivenName(n.getFirstName());
+                fhirUaaUserDto.setName(Arrays.asList(n));
             });
             fhirUaaUserDto.setAddresses(fp.getAddresses());
             fhirUaaUserDto.setIdentifiers(fp.getIdentifiers());
             fhirUaaUserDto.setActive(fp.isActive());
-            fhirUaaUserDto.setTelecomDtos(fp.getTelecoms());
+            fhirUaaUserDto.setTelecoms(fp.getTelecoms());
             List<PractitionerRoleDto> roles = fp.getPractitionerRoles().stream().map(f -> {
                         f.setUaaRoleDescription(Optional.ofNullable(practitionerUaaRoleInOrganizationDescription(f.getOrganization().getReference().split("/")[1], resource, f.getPractitioner().getReference().split("/")[1])));
                         f.setUaaRoleDisplayName(Optional.ofNullable(practitionerUaaRoleInOrganizationDisplayName(f.getOrganization().getReference().split("/")[1], resource, f.getPractitioner().getReference().split("/")[1])));

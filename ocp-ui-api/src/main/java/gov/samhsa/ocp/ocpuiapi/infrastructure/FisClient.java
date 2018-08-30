@@ -1,6 +1,7 @@
 package gov.samhsa.ocp.ocpuiapi.infrastructure;
 
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.CredentialDto;
+import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.FHIRUaaUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.DateRangeEnum;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityDefinitionDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ActivityReferenceDto;
@@ -81,12 +82,12 @@ public interface FisClient {
     //Practitioner
     @RequestMapping(value = "/practitioners/search", method = RequestMethod.GET)
     PageDto<PractitionerDto> searchPractitioners(@RequestParam(value = "searchType", required = false) PractitionerController.SearchType searchType,
-                                                 @RequestParam(value = "searchValue", required = false) String searchValue,
-                                                 @RequestParam(value = "organization", required = false) String organization,
-                                                 @RequestParam(value = "showInactive", required = false) boolean showInactive,
-                                                 @RequestParam(value = "page", required = false) Integer page,
-                                                 @RequestParam(value = "size", required = false) Integer size,
-                                                 @RequestParam(value = "showAll", required = false) Boolean showAll);
+                                                    @RequestParam(value = "searchValue", required = false) String searchValue,
+                                                    @RequestParam(value = "organization", required = false) String organization,
+                                                    @RequestParam(value = "showInactive", required = false) boolean showInactive,
+                                                    @RequestParam(value = "page", required = false) Integer page,
+                                                    @RequestParam(value = "size", required = false) Integer size,
+                                                    @RequestParam(value = "showAll", required = false) Boolean showAll);
 
     @RequestMapping(value = "/practitioners", method = RequestMethod.POST)
     void createPractitioner(@Valid @RequestBody PractitionerDto practitionerDto, @RequestParam(value = "loggedInUser", required = false) String loggedInUser);
