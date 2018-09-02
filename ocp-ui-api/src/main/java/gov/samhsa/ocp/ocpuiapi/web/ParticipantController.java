@@ -91,7 +91,6 @@ public class ParticipantController {
                     List<ManageUserDto> manageUserDtos = map.get(dto.getMember().getId());
 
                     if (manageUserDtos != null) {
-                        //dto.setUaaRole(manageUserDto.getDisplayName());
 
                         List<PractitionerRoleDto> practitionerRoleDtos = dto.getPractitionerRoles();
                         if(practitionerRoleDtos != null) {
