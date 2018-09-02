@@ -40,7 +40,7 @@ public interface OAuth2RestClient {
     List<ManageUserDto> getUsers(@RequestParam(value = "organizationId") String organizationId, @RequestParam(value = "resource", required = true) String resource, @RequestParam(value = "resourceId") String resourceId);
 
     @RequestMapping(value = "/user-roles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    Map<String, ManageUserDto> getUserRoles(@RequestParam(value = "fhirIds") List<String> fhirIds);
+    Map<String, List<ManageUserDto>> getUserRoles(@RequestParam(value = "fhirIds") List<String> fhirIds);
 
     @RequestMapping(value = "/Groups/ocp", method = RequestMethod.POST)
     void createGroup(@Valid @RequestBody GroupRequestDto groupDto);

@@ -7,6 +7,7 @@ import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.ManageUserDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.PractitionerRoleDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -81,17 +84,32 @@ public class ParticipantController {
         }).collect(toList());
 
         if (fhirIds != null && fhirIds.size() > 0) {
-            Map<String, ManageUserDto> map = uaaClient.getUserRoles(fhirIds);
+            Map<String, List<ManageUserDto>> map = uaaClient.getUserRoles(fhirIds);
 
             if (map != null && !map.isEmpty()) {
                 List<ParticipantSearchDto> updatedFhirParticipantList = fhirParticipantList.stream().map(dto -> {
-                    ManageUserDto manageUserDto = map.get(dto.getMember().getId());
+                    List<ManageUserDto> manageUserDtos = map.get(dto.getMember().getId());
 
-                    if (manageUserDto != null) {
-                        dto.setUaaRole(manageUserDto.getDisplayName());
+                    if (manageUserDtos != null) {
+                        //dto.setUaaRole(manageUserDto.getDisplayName());
+
+                        List<PractitionerRoleDto> practitionerRoleDtos = dto.getPractitionerRoles();
+                        if(practitionerRoleDtos != null) {
+
+                            for(PractitionerRoleDto practitionerRoleDto : practitionerRoleDtos) {
+
+                                for(ManageUserDto managerUserDto : manageUserDtos) {
+
+                                    if(managerUserDto.getInfo().contains("\"orgId\":[\"" + practitionerRoleDto.getOrganization().getReference().replace("Organization/", ""))) {
+                                        practitionerRoleDto.setUaaRoleDisplayName(Optional.of(managerUserDto.getDisplayName()));
+                                        practitionerRoleDto.setUaaRoleDescription(Optional.of(managerUserDto.getDescription()));
+                                    }
+                                }
+
+                            }
+                        }
                         return dto;
                     }
-
                     return dto;
                 }).collect(toList());
 
