@@ -70,4 +70,6 @@ public class PatientDto {
     Optional<List<String>> activityTypes;
 
     Optional<Boolean> canViewPatientDetail;
+
+    private String uaaId;
 }
