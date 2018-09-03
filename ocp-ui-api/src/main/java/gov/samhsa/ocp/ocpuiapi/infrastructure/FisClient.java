@@ -166,7 +166,7 @@ public interface FisClient {
                        @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @RequestMapping(value = "/patients/search", method = RequestMethod.GET)
-    Object getPatientsByValue(@RequestParam(value = "type", required = false) String key,
+    PageDto<PatientDto> getPatientsByValue(@RequestParam(value = "type", required = false) String key,
                               @RequestParam(value = "value", required = false) String value,
                               @RequestParam(value = "filterBy", required = false) String filterBy,
                               @RequestParam(value = "organization", required = false) String organization,
