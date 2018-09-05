@@ -36,3 +36,11 @@ ocp:
 # updates configuration for docker environment
 spring.profiles: docker
 ribbon.listOfServers: http://ocp-fis.ocp.com:8444
+security:
+  oauth2:
+    client:
+      access-token-uri: http://uaa.ocp.com:8080/uaa/oauth/token
+ocp:
+  ocp-ui-api:
+    oauth2:
+      authorization-server-endpoint: http://uaa.ocp.com:8080/uaa
