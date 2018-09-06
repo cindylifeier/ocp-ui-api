@@ -5,6 +5,7 @@ import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.service.UserContextService;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.AppointmentParticipantReferenceDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.OutsideParticipant;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.util.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +29,13 @@ import java.util.List;
 @Slf4j
 public class AppointmentController {
     private final FisClient fisClient;
+    private final UserContextService userContextService;
 
     @Autowired
-    public AppointmentController(FisClient fisClient) {
+    public AppointmentController(FisClient fisClient, UserContextService userContextService) {
         this.fisClient = fisClient;
+        this.userContextService = userContextService;
     }
-
-    @Autowired
-    UserContextService userContextService;
 
     @PostMapping("/appointments")
     @ResponseStatus(HttpStatus.CREATED)
@@ -242,6 +242,17 @@ public class AppointmentController {
             ExceptionUtil.handleFeignException(fe, "That no practitioners were found");
             return null;
         }
+    }
+
+    @GetMapping("/appointments/outside-organization-participants/search")
+    public List<OutsideParticipant> searchOutsideParticipants(@RequestParam(value = "patient", required = false) String patient,
+                                                              @RequestParam(value = "participantType") String participantType,
+                                                              @RequestParam(value = "name") String name,
+                                                              @RequestParam(value = "organization", required = false) String organization,
+                                                              @RequestParam(value = "page", required = false) Integer page,
+                                                              @RequestParam(value = "size", required = false) Integer size,
+                                                              @RequestParam(value = "showAll", required = false) Boolean showAll) {
+        return fisClient.searchOutsideParticipants(patient, participantType, name, organization, page, size, showAll);
     }
 }
 
