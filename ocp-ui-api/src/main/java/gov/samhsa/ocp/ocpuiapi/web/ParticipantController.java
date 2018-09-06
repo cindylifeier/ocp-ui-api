@@ -4,6 +4,7 @@ import feign.FeignException;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.FisClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.OAuth2RestClient;
 import gov.samhsa.ocp.ocpuiapi.infrastructure.dto.ManageUserDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.OutsideParticipant;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantSearchDto;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -59,6 +59,18 @@ public class ParticipantController {
             ExceptionUtil.handleFeignException(fe, "that no participants were found for the given parameters");
             return null;
         }
+    }
+
+    @GetMapping("/outside-organization-participants")
+    public List<OutsideParticipant> retrieveOutsideParticipants(@RequestParam(value="patient", required = false) String patient,
+                                                                @RequestParam(value = "participantType") String participantType,
+                                                                @RequestParam(value = "name") String name,
+                                                                @RequestParam(value = "organization") String organization,
+                                                                @RequestParam(value = "page", required = false) Integer page,
+                                                                @RequestParam(value = "size", required = false) Integer size,
+                                                                @RequestParam(value = "showAll", required = false) Boolean showAll) {
+
+        return fisClient.retrieveOutsideParticipants(patient, participantType, name, organization, page, size, showAll);
     }
 
     @GetMapping

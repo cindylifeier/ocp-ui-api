@@ -13,6 +13,7 @@ import gov.samhsa.ocp.ocpuiapi.service.dto.HealthcareServiceDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.LocationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OrganizationDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.OutlookCalendarDto;
+import gov.samhsa.ocp.ocpuiapi.service.dto.OutsideParticipant;
 import gov.samhsa.ocp.ocpuiapi.service.dto.PageDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantDto;
 import gov.samhsa.ocp.ocpuiapi.service.dto.ParticipantReferenceDto;
@@ -528,4 +529,13 @@ public interface FisClient {
     Object getCoverages(@PathVariable("patientId") String patientId,
                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                         @RequestParam(value = "pageSize", required = false) Integer pageSize);
+
+    @RequestMapping(value = "/participants/outside-organization-participants", method = RequestMethod.GET)
+    List<OutsideParticipant> retrieveOutsideParticipants(@RequestParam(value = "patient") String patient,
+                                                         @RequestParam(value = "participantType") String participantType,
+                                                         @RequestParam(value = "name") String name,
+                                                         @RequestParam(value = "organization") String organization,
+                                                         @RequestParam(value = "page", required = false) Integer page,
+                                                         @RequestParam(value = "size", required = false) Integer size,
+                                                         @RequestParam(value = "showAll", required = false) Boolean showAll);
 }
